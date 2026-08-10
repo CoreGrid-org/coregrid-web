@@ -5,7 +5,7 @@ sidebar_position: 1
 # System Architecture
 
 CoreGrid follows a layered, service-oriented architecture with a single authoritative backend. The structure
-is deliberately conventional — the value of the system is in its domain model, its configurability and its
+is deliberately conventional - the value of the system is in its domain model, its configurability and its
 controlled use of AI agents, not in architectural novelty.
 
 ## Architectural principles
@@ -46,7 +46,7 @@ controlled use of AI agents, not in architectural novelty.
   └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Dependencies point inward — the domain layer references nothing outside itself. The application layer
+Dependencies point inward - the domain layer references nothing outside itself. The application layer
 declares interfaces for anything external (notifications, the AI gateway, QR generation, the identity
 directory) and the infrastructure layer supplies the implementation, which keeps every external dependency
 replaceable and mockable in tests.
@@ -73,7 +73,7 @@ field operations tool. Both consume the same API, the same identity and the same
 | Dashboard | Full analytics and KPIs | Task-focused summary |
 | User and role administration | Yes | No |
 | Configuration (departments, categories, asset types, attributes) | Yes | No |
-| Asset creation and amendment | Full | Limited — condition and location only |
+| Asset creation and amendment | Full | Limited - condition and location only |
 | QR label generation | Yes | No |
 | QR scanning | No | Yes |
 | Physical verification | Review and manage results | Perform |
@@ -87,7 +87,7 @@ field operations tool. Both consume the same API, the same identity and the same
 ## The configurable platform model
 
 CoreGrid is built as a platform, not a single-domain application. Different customers hold entirely
-different asset attributes, but they all perform the same lifecycle operations — register, identify,
+different asset attributes, but they all perform the same lifecycle operations - register, identify,
 maintain, transfer, verify, condemn, dispose. The lifecycle engine is fixed in code; the domain is expressed
 in configuration.
 
@@ -110,7 +110,7 @@ in configuration.
                     One deployment serves:
         Transport (Bus · Truck · Workshop equipment)
         Healthcare (MRI · Ventilator · Ambulance)
-        Any domain with physical assets — through configuration, without a new build
+        Any domain with physical assets - through configuration, without a new build
 ```
 
 Three levels of change, each with a different owner:
@@ -118,11 +118,11 @@ Three levels of change, each with a different owner:
 | Level | What changes | Who changes it | How |
 |---|---|---|---|
 | Platform | Identity integration, API contract, database relationships, lifecycle state machines, the AI workflow graph, security architecture. | CoreGrid engineering only. | Source code, review, migration, release. |
-| Organisation | Departments, locations, asset categories, asset types, custom attribute definitions, policy thresholds, role assignment. | The customer's Administrator. | In-app configuration screens — see the [User Manual](../user-manual/organization-setup.md). |
+| Organisation | Departments, locations, asset categories, asset types, custom attribute definitions, policy thresholds, role assignment. | The customer's Administrator. | In-app configuration screens - see the [User Manual](../user-manual/organization-setup.md). |
 | Operational | Assets, maintenance records, transfers, disposals, verifications, AI workflow runs. | Inventory Officers, Staff, Auditors, within their permissions. | Day-to-day use of the web and mobile apps. |
 
 An administrator can configure departments, asset types and policies, but cannot redefine authentication,
-the API contract, the lifecycle engine or the security model — that boundary is what keeps the platform's
+the API contract, the lifecycle engine or the security model - that boundary is what keeps the platform's
 guarantees reasoned-about and consistent across every customer.
 
 ## Deployment topology

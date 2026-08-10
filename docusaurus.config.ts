@@ -13,10 +13,10 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  url: 'https://coregrid.example.com',
-  baseUrl: '/',
+  url: 'https://coregrid-org.github.io',
+  baseUrl: '/coregrid-web/',
 
-  organizationName: 'coregrid',
+  organizationName: 'CoreGrid-org',
   projectName: 'coregrid-web',
 
   onBrokenLinks: 'throw',

@@ -5,14 +5,14 @@ sidebar_position: 2
 # Identity and Access
 
 CoreGrid delegates authentication and the user directory to a standards-based identity provider (OpenID
-Connect / OAuth 2.0), and keeps authorisation — what a signed-in user is allowed to do — inside its own API.
+Connect / OAuth 2.0), and keeps authorisation - what a signed-in user is allowed to do - inside its own API.
 
 ## Why authentication is delegated
 
 - **No credential risk.** CoreGrid stores no passwords and no password hashes. The most damaging class of
-  breach for a system of record — credential disclosure — is structurally impossible, because credentials
+  breach for a system of record - credential disclosure - is structurally impossible, because credentials
   never enter the application boundary.
-- **Isolation by deployment, not by database row.** Each customer runs their own instance — their own API,
+- **Isolation by deployment, not by database row.** Each customer runs their own instance - their own API,
   their own database, their own identity provider. There is no cross-customer boundary to get wrong, because
   no two customers ever share infrastructure.
 - **Standards, not proprietary integration.** The API validates tokens against a published key set. Claim
@@ -27,7 +27,7 @@ Each deployment holds exactly one organisation record. A customer's Administrato
 users into it.
 
 ```
-   ONE DEPLOYMENT — self-hosted per customer: its own API,
+   ONE DEPLOYMENT - self-hosted per customer: its own API,
    its own PostgreSQL, its own identity-provider instance.
 
    IDENTITY PROVIDER (this customer only)
@@ -36,7 +36,7 @@ users into it.
          Role assignments: Administrator · Inventory Officer · Auditor · Staff
 
    COREGRID DATABASE
-   Organization  (exactly one row — this customer)
+   Organization  (exactly one row - this customer)
         │
         ├──1:N── Departments ──1:N── Locations      (planned)
         └──1:N── Users   (mirrors the identity provider's user)
@@ -44,7 +44,7 @@ users into it.
                    └── Role  (Administrator · Inventory Officer · Auditor · Staff)
 ```
 
-A second customer is a second, independent deployment of this same diagram — not a second row inside this
+A second customer is a second, independent deployment of this same diagram - not a second row inside this
 one.
 
 | Concept | Owned by | Reason |
@@ -68,7 +68,7 @@ Every authenticated request runs through the same sequence:
   5  Read OrganizationId from that local user record.
   6  Project the roles claim into permission checks.
   7  Evaluate the endpoint's authorisation policy.
-  8  Every database query is scoped to OrganizationId automatically —
+  8  Every database query is scoped to OrganizationId automatically -
      isolation is enforced by the data layer, not left to each query.
 ```
 
@@ -112,7 +112,7 @@ experiences day to day.
 
 - Access tokens are short-lived, so a revoked or changed permission takes effect quickly.
 - Refresh tokens rotate on use; a replayed refresh token invalidates the whole token family.
-- The web app holds its access token in memory only — never in browser storage.
+- The web app holds its access token in memory only - never in browser storage.
 - The mobile app holds its refresh token in platform-secure storage (Android Keystore).
 - Signing out revokes the refresh token and terminates the identity-provider session, so the next sign-in
   genuinely re-authenticates.

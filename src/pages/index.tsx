@@ -40,7 +40,7 @@ const services: {icon: IconName; title: string; summary: string}[] = [
   {icon: 'Wrench', title: 'Maintenance Management', summary: 'Preventive scheduling, work orders, and downtime reduction.'},
   {icon: 'ArrowLeftRight', title: 'Transfers & Disposals', summary: 'Controlled inter-department transfers with full audit trails.'},
   {icon: 'ShieldCheck', title: 'Audit & Compliance', summary: 'Verification campaigns, audit logs, and policy enforcement.'},
-  {icon: 'Sparkles', title: 'AI Decision Support', summary: 'Four agents recommend repair, transfer or disposal — you decide.'},
+  {icon: 'Sparkles', title: 'AI Decision Support', summary: 'Four agents recommend repair, transfer or disposal - you decide.'},
   {icon: 'BarChart3', title: 'Analytics & Reporting', summary: 'Real-time dashboards and exportable reports.'},
 ];
 
@@ -63,7 +63,7 @@ const getStartedCards: GetStartedCard[] = [
   {
     icon: MessageCircle,
     title: 'Talk to our team',
-    desc: 'Tell us about your organisation and how you manage assets today — we’ll show you how CoreGrid fits.',
+    desc: 'Tell us about your organisation and how you manage assets today - we’ll show you how CoreGrid fits.',
     linkLabel: 'Contact us',
     linkTo: '/contact',
   },
@@ -77,7 +77,7 @@ const getStartedCards: GetStartedCard[] = [
   {
     icon: Sparkles,
     title: 'See the AI workflow',
-    desc: 'Four specialised agents analyse every asset decision — and a person always makes the final call.',
+    desc: 'Four specialised agents analyse every asset decision - and a person always makes the final call.',
     linkLabel: 'AI Decision Support',
     linkTo: '/ai-decision-support',
   },
@@ -89,11 +89,11 @@ export default function Home(): React.ReactElement {
   return (
     <Layout
       title="CoreGrid"
-      description="CoreGrid centralises every asset across every department — from registration to disposal — with AI-assisted decision support and full audit compliance.">
+      description="CoreGrid centralises every asset across every department - from registration to disposal - with AI-assisted decision support and full audit compliance.">
       <SeoHead
         path="/"
         title="Unified Asset Management Platform"
-        description="CoreGrid centralises every asset across every department — from registration to disposal — with AI-assisted decision support and full audit compliance."
+        description="CoreGrid centralises every asset across every department - from registration to disposal - with AI-assisted decision support and full audit compliance."
       />
 
       <header className={styles.hero}>
@@ -103,7 +103,7 @@ export default function Home(): React.ReactElement {
               <span className="cg-eyebrow">Asset Lifecycle Management</span>
               <h1 className={`cg-heading ${styles.heroTitle}`}>The unified platform for asset management</h1>
               <p className={`cg-lead ${styles.heroLead}`}>
-                CoreGrid centralises every asset across every department — from registration to disposal —
+                CoreGrid centralises every asset across every department - from registration to disposal -
                 with AI-assisted decision support and full audit compliance.
               </p>
               <div className={styles.heroActions}>
@@ -146,7 +146,7 @@ export default function Home(): React.ReactElement {
                 <span className="cg-eyebrow">How It Works</span>
                 <h2 className={`cg-heading ${styles.howTitle}`}>One lifecycle, from registration to disposal</h2>
                 <p className={styles.howText}>
-                  Every asset moves through the same four stages, whichever department it belongs to — so the
+                  Every asset moves through the same four stages, whichever department it belongs to - so the
                   register stays consistent and every decision stays traceable.
                 </p>
                 <Link className="cg-btn cg-btn--primary" to="/docs/architecture/overview">
@@ -177,7 +177,7 @@ export default function Home(): React.ReactElement {
               <div className={styles.servicesIntroGrid}>
                 <h2 className={`cg-heading ${styles.servicesTitle}`}>The integrated asset suite</h2>
                 <p className={styles.servicesDesc}>
-                  Every module shares one data model — nothing is duplicated between registry, maintenance,
+                  Every module shares one data model - nothing is duplicated between registry, maintenance,
                   compliance and analytics.
                 </p>
               </div>
@@ -229,7 +229,7 @@ export default function Home(): React.ReactElement {
                 <h2 className={`cg-heading ${styles.aboutTitle}`}>A platform, not a single-domain application</h2>
                 <p className={styles.aboutText}>
                   A transport department and a hospital hold entirely different asset attributes, but they
-                  perform the same lifecycle operations — register, identify, maintain, transfer, verify,
+                  perform the same lifecycle operations - register, identify, maintain, transfer, verify,
                   condemn, dispose. CoreGrid fixes the lifecycle engine in code and expresses the domain in
                   configuration, so one deployment adapts to your organisation without a new build.
                 </p>

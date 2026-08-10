@@ -5,7 +5,7 @@ sidebar_position: 3
 # Transfers and Disposals
 
 :::info Status
-Planned — see [Planned Features](../../planned-features.md).
+Planned - see [Planned Features](../../planned-features.md).
 :::
 
 The two ways an asset leaves its current custody: it moves to a different department, or it leaves the
@@ -26,18 +26,18 @@ but not confirmed within a configurable number of days is flagged on the Adminis
 Disposal is CoreGrid's only irreversible action, and the only one the [AI workflow](./ai-decision-support.md)
 pauses on for approval.
 
-1. **Condemn** — an Inventory Officer condemns an asset with a reason and evidence. This requires a recorded
+1. **Condemn** - an Inventory Officer condemns an asset with a reason and evidence. This requires a recorded
    condition of Poor or Unserviceable.
-2. **Request** — the officer raises a disposal request against the condemned asset, choosing a method
+2. **Request** - the officer raises a disposal request against the condemned asset, choosing a method
    (transfer to another entity, auction or destruction) and attaching evidence.
-3. **Approve** — an Administrator approves, rejects, or sends the request back for revision. Approval is
+3. **Approve** - an Administrator approves, rejects, or sends the request back for revision. Approval is
    only possible once every precondition is met: the asset is condemned, a valuation is recorded, its
    minimum service life has elapsed, and no maintenance record is open against it.
 
-Once approved, the asset moves to *Disposed* — a terminal state. Nothing can move it out again, and it can
+Once approved, the asset moves to *Disposed* - a terminal state. Nothing can move it out again, and it can
 never be deleted.
 
 ## History
 
-Every transfer and disposal is retained in full — origin, destination, requester, approver, receiver, and
-every timestamp — as part of the asset's permanent history.
+Every transfer and disposal is retained in full - origin, destination, requester, approver, receiver, and
+every timestamp - as part of the asset's permanent history.

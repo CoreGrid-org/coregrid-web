@@ -1,11 +1,11 @@
 # CoreGrid Web
 
-The public CoreGrid website — the marketing pages (Home, About, Features, AI Decision Support, Contact) and
+The public CoreGrid website - the marketing pages (Home, About, Features, AI Decision Support, Contact) and
 the product documentation (Architecture, Project Structure, User Manual, Planned Features), built with
 [Docusaurus](https://docusaurus.io/).
 
 This is a public, informational site, not the authenticated management application described in the product
-SRS — there is no sign-in, no personal data and no asset data here.
+SRS - there is no sign-in, no personal data and no asset data here.
 
 ## Structure
 
