@@ -124,11 +124,11 @@ export default function Features(): React.ReactElement {
   return (
     <Layout
       title="Features"
-      description="Ten modules, one asset management platform — from registration and maintenance through AI-assisted decisions and full lifecycle accountability.">
+      description="Ten modules, one asset management platform - from registration and maintenance through AI-assisted decisions and full lifecycle accountability.">
       <SeoHead
         path="/features"
         title="Features"
-        description="Ten modules, one asset management platform — from registration and maintenance through AI-assisted decisions and full lifecycle accountability."
+        description="Ten modules, one asset management platform - from registration and maintenance through AI-assisted decisions and full lifecycle accountability."
       />
 
       <header className="cg-page-header">
@@ -137,7 +137,7 @@ export default function Features(): React.ReactElement {
             <span className="cg-eyebrow">Capabilities</span>
             <h1 className={`cg-heading ${styles.title}`}>Ten modules. One asset management platform.</h1>
             <p className={`cg-lead ${styles.lead}`}>
-              Every aspect of asset lifecycle management in one integrated platform — from registration and
+              Every aspect of asset lifecycle management in one integrated platform - from registration and
               maintenance through AI-assisted decisions, reporting and full lifecycle accountability.
             </p>
           </div>

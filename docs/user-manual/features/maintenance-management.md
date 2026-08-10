@@ -5,10 +5,10 @@ sidebar_position: 2
 # Maintenance Management
 
 :::info Status
-Planned — see [Planned Features](../../planned-features.md).
+Planned - see [Planned Features](../../planned-features.md).
 :::
 
-Maintenance turns a fault observed in the field into tracked, costed, closed work — and builds the history
+Maintenance turns a fault observed in the field into tracked, costed, closed work - and builds the history
 the AI decision-support agents later reason over.
 
 ## Reporting a fault
@@ -31,11 +31,11 @@ requests until it's finished. The assigned officer updates progress from either 
 
 ## Completing a record
 
-Completion records the actual cost, the work performed, the completion date and the resulting condition —
+Completion records the actual cost, the work performed, the completion date and the resulting condition -
 and returns the asset to *Active*. If the resulting condition is Unserviceable, the asset moves to
 *Condemned* instead, opening the [disposal path](./transfers-disposals.md).
 
-CoreGrid tracks cumulative maintenance cost, repair count and the last repair date per asset automatically —
+CoreGrid tracks cumulative maintenance cost, repair count and the last repair date per asset automatically -
 this feeds the Assessment Agent described in [AI Decision Support](./ai-decision-support.md).
 
 ## Finding records

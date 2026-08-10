@@ -5,7 +5,7 @@ sidebar_position: 1
 # CoreGrid Overview
 
 CoreGrid is an asset lifecycle management platform for organisations that manage large numbers of physical
-assets — vehicles, equipment, machinery — across multiple departments and locations. It replaces spreadsheets
+assets - vehicles, equipment, machinery - across multiple departments and locations. It replaces spreadsheets
 and paper records with one connected system covering registration, maintenance, transfers, disposal, audit
 and AI-assisted decision support.
 
@@ -16,8 +16,8 @@ their own identity provider. Nothing is shared between organisations.
 
 | Part | Role |
 |---|---|
-| Web application (React) | The management and control centre — administration, configuration, reporting, approvals. |
-| Mobile application (Flutter) | The field operations app — QR scanning, verification, fault reporting, task execution. |
+| Web application (React) | The management and control centre - administration, configuration, reporting, approvals. |
+| Mobile application (Flutter) | The field operations app - QR scanning, verification, fault reporting, task execution. |
 | API (ASP.NET Core) | The single authoritative backend. Every business rule, permission check and audit record lives here. |
 | Database (PostgreSQL) | Durable storage for configuration, assets, workflow state and audit history. |
 | AI decision-support service | An internal agent workflow that analyses assets and proposes recommendations for a human officer to approve. |

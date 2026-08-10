@@ -19,7 +19,7 @@ const agents = [
     title: 'Recommendation Agent',
     role: 'Decision optimiser',
     description:
-      'Calculates the total cost of ownership for repair, transfer or disposal, and recommends the option that maximises value — with a confidence level.',
+      'Calculates the total cost of ownership for repair, transfer or disposal, and recommends the option that maximises value - with a confidence level.',
   },
   {
     n: '03',
@@ -46,7 +46,7 @@ const principles = [
   {
     title: 'Explainable by design',
     description:
-      'Every recommendation carries its full evidence trail — condition scores, cost calculations, compliance checks — so officers understand exactly why.',
+      'Every recommendation carries its full evidence trail - condition scores, cost calculations, compliance checks - so officers understand exactly why.',
   },
   {
     title: 'Continuously improving',
@@ -63,11 +63,11 @@ export default function AIDecisionSupport(): React.ReactElement {
   return (
     <Layout
       title="AI Decision Support"
-      description="Four specialised AI agents analyse every critical asset decision — then put the final choice in the hands of a qualified officer.">
+      description="Four specialised AI agents analyse every critical asset decision - then put the final choice in the hands of a qualified officer.">
       <SeoHead
         path="/ai-decision-support"
         title="AI Decision Support"
-        description="Four specialised AI agents analyse every critical asset decision — then put the final choice in the hands of a qualified officer."
+        description="Four specialised AI agents analyse every critical asset decision - then put the final choice in the hands of a qualified officer."
       />
 
       <header className="cg-page-header">
@@ -77,7 +77,7 @@ export default function AIDecisionSupport(): React.ReactElement {
             <h1 className={`cg-heading ${styles.title}`}>Four AI agents. One human decision.</h1>
             <p className={`cg-lead ${styles.lead}`}>
               CoreGrid's decision-support engine analyses every critical asset decision from multiple angles
-              — then puts the final choice firmly in the hands of a qualified officer.
+              - then puts the final choice firmly in the hands of a qualified officer.
             </p>
             <div className={styles.actions}>
               <Link className="cg-btn cg-btn--primary" to="/contact">
@@ -121,7 +121,7 @@ export default function AIDecisionSupport(): React.ReactElement {
               AI that assists, never replaces, judgement
             </h2>
             <p style={{maxWidth: 640, marginBottom: '2rem'}}>
-              CoreGrid's AI is designed to support the people who are accountable for the decision — not to
+              CoreGrid's AI is designed to support the people who are accountable for the decision - not to
               make it for them.
             </p>
             <div className="cg-grid cg-grid--4">

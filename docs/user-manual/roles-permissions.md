@@ -8,7 +8,7 @@ CoreGrid recognises four user roles. Every user has exactly one.
 
 ## Staff
 
-Ordinary employees who use assets day to day. Infrequent system use, minimal training assumed — typically
+Ordinary employees who use assets day to day. Infrequent system use, minimal training assumed - typically
 reporting a problem in the moment they encounter it, from the mobile app.
 
 - View the assets assigned to their department (read-only).
@@ -30,7 +30,7 @@ stores, workshops and offices during the day.
 ## Auditor
 
 An independent reviewer who confirms the register reflects physical reality. Cannot alter the records they
-audit — that separation is what makes an audit finding independent evidence.
+audit - that separation is what makes an audit finding independent evidence.
 
 - Create and run verification campaigns.
 - Record and classify discrepancies found during verification.

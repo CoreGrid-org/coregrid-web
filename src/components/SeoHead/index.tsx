@@ -15,7 +15,7 @@ export default function SeoHead({path, title, description, image}: Props): React
   const metaTitle = title ? `${title} | CoreGrid` : 'CoreGrid - Unified Asset Management Platform';
   const metaDescription =
     description ||
-    'CoreGrid centralises every asset across every department — from registration to disposal — with AI-assisted decision support and full audit compliance.';
+    'CoreGrid centralises every asset across every department - from registration to disposal - with AI-assisted decision support and full audit compliance.';
   const metaImage = image ? `${SITE_URL}${image}` : `${SITE_URL}/img/coregrid-logo.png`;
 
   return (

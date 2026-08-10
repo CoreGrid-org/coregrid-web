@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import {Check} from 'lucide-react';
 import Reveal from '@site/src/components/Reveal';
@@ -83,7 +84,7 @@ export default function About(): React.ReactElement {
                 Managing large numbers of physical assets becomes difficult when information is spread
                 across spreadsheets, paper records and separate departmental processes. CoreGrid takes a
                 unified approach: assets are registered, identified, maintained, transferred, verified,
-                audited and eventually disposed of through one controlled lifecycle — with AI-assisted
+                audited and eventually disposed of through one controlled lifecycle - with AI-assisted
                 analysis that keeps important decisions under human control.
               </p>
             </div>
@@ -103,7 +104,7 @@ export default function About(): React.ReactElement {
                 <h3 className={styles.principleTitle}>Our mission</h3>
                 <p className={styles.principleDesc}>
                   To provide an integrated asset management platform that improves visibility,
-                  accountability and lifecycle coordination — demonstrating how modern web, mobile and AI
+                  accountability and lifecycle coordination - demonstrating how modern web, mobile and AI
                   technologies can support asset operations at scale.
                 </p>
               </div>
@@ -188,8 +189,8 @@ export default function About(): React.ReactElement {
               </table>
             </div>
             <p className={styles.docsLink}>
-              See the full <a href="/docs/architecture/technology-stack">technology stack</a> and{' '}
-              <a href="/docs/architecture/overview">system architecture</a> in the documentation.
+              See the full <Link to="/docs/architecture/technology-stack">technology stack</Link> and{' '}
+              <Link to="/docs/architecture/overview">system architecture</Link> in the documentation.
             </p>
           </Reveal>
         </div>

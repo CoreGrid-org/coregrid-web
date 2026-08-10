@@ -9,7 +9,7 @@ sidebar_position: 2
 Two entities and one enumeration currently exist in the backend, forming the identity foundation everything
 else builds on.
 
-**`Organization`** — the customer record for a deployment. Exactly one row exists per deployment; the
+**`Organization`** - the customer record for a deployment. Exactly one row exists per deployment; the
 [Setup](../user-manual/organization-setup.md) flow creates it once and refuses to create a second.
 
 | Field | Type | Notes |
@@ -19,7 +19,7 @@ else builds on.
 | `CreatedAt` | DateTimeOffset | |
 | `Users` | collection | The organisation's users |
 
-**`User`** — a local mirror of an identity-provider account. Holds no credentials; exists for referential
+**`User`** - a local mirror of an identity-provider account. Holds no credentials; exists for referential
 integrity (every asset, maintenance record and audit entry will reference a user), query performance, and
 historical accuracy (a past audit record still shows who acted even after that person leaves).
 
@@ -33,21 +33,21 @@ historical accuracy (a past audit record still shows who acted even after that p
 | `IsActive` | bool | Deactivated users are retained, never hard-deleted |
 | `CreatedAt` | DateTimeOffset | |
 
-**`CoreGridRole`** — an enumeration of the four application roles: `Staff`, `InventoryOfficer`, `Auditor`,
+**`CoreGridRole`** - an enumeration of the four application roles: `Staff`, `InventoryOfficer`, `Auditor`,
 `Administrator`. See [Roles and Permissions](../user-manual/roles-permissions.md) for what each can do.
 
 ## Planned entities
 
-These are specified but not yet implemented. They follow the same pattern — plain EF Core entities scoped to
-`OrganizationId` — as the codebase grows into the feature set described in [Planned Features](../planned-features.md).
+These are specified but not yet implemented. They follow the same pattern - plain EF Core entities scoped to
+`OrganizationId` - as the codebase grows into the feature set described in [Planned Features](../planned-features.md).
 
 | Entity | Purpose |
 |---|---|
 | `Department` | A business unit that owns assets and holds budgets; referenced by transfer and approval rules. |
-| `Location` | A place within a department — store, workshop, office, ward. |
+| `Location` | A place within a department - store, workshop, office, ward. |
 | `AssetCategory` | Top-level grouping of asset types, for reporting. |
 | `AssetType` | A configurable asset definition: name, code, default useful life, default maintenance interval. |
-| `AttributeDefinition` | A custom field on an asset type — name, data type, required flag, validation rule, display order. |
+| `AttributeDefinition` | A custom field on an asset type - name, data type, required flag, validation rule, display order. |
 | `Asset` | The asset master record: identity, status, condition, location, custom attribute values, computed residual value. |
 | `MaintenanceRecord` | A fault report or scheduled maintenance item, tracked from request through completion. |
 | `TransferRequest` | A request to move an asset between departments, with approval and physical-receipt confirmation. |
@@ -57,7 +57,7 @@ These are specified but not yet implemented. They follow the same pattern — pl
 
 ## Asset lifecycle (planned)
 
-Once the asset entity lands, every asset moves through a guarded state machine — no transition happens
+Once the asset entity lands, every asset moves through a guarded state machine - no transition happens
 silently, and an invalid one is rejected rather than ignored.
 
 ```
@@ -84,6 +84,6 @@ silently, and an invalid one is rejected rather than ignored.
                       ACTIVE    approve│          │reject
                                        ▼          └────▶ back to CONDEMNED
                                 ┌──────────────┐
-                                │   DISPOSED   │   terminal — no further
+                                │   DISPOSED   │   terminal - no further
                                 └──────────────┘   transition permitted
 ```

@@ -8,17 +8,17 @@ The authoritative, generated contract is published as OpenAPI/Swagger by the run
 readable summary of the planned surface, organised by area. All list endpoints accept the standard paging,
 sorting, search and filter parameters.
 
-**Implemented today:** the Setup endpoints below. Everything else is the specified target surface — see
+**Implemented today:** the Setup endpoints below. Everything else is the specified target surface - see
 [Planned Features](../planned-features.md) for build status by area.
 
-## Setup — *implemented*
+## Setup - *implemented*
 
 | Method and route | Purpose | Auth |
 |---|---|---|
-| `GET /api/setup/status` | Reports whether this deployment still needs its first organisation and admin. | None — the only unauthenticated endpoints in the API, and only while zero organisations exist. |
+| `GET /api/setup/status` | Reports whether this deployment still needs its first organisation and admin. | None - the only unauthenticated endpoints in the API, and only while zero organisations exist. |
 | `POST /api/setup/complete` | Creates the deployment's one `Organization` row and its first `Administrator`. Refuses if an organisation already exists. | None |
 
-## Identity, configuration and users — *planned*
+## Identity, configuration and users - *planned*
 
 | Method and route | Purpose | Permission |
 |---|---|---|
@@ -30,7 +30,7 @@ sorting, search and filter parameters.
 | `GET/PUT /api/policies` | Read and set organisation policy thresholds. | manage configuration |
 | `GET /api/users`, `POST /api/users/invite`, `PUT /api/users/{id}`, `POST /api/users/{id}/deactivate` | List, invite, amend and deactivate users. | manage users |
 
-## Assets — *planned*
+## Assets - *planned*
 
 | Method and route | Purpose | Permission |
 |---|---|---|
@@ -42,7 +42,7 @@ sorting, search and filter parameters.
 | `POST /api/assets/{id}/verify` | Record a physical verification and reconcile against the register. | verify assets |
 | `POST /api/assets/{id}/condition` | Record a condition change. | update assets |
 
-## Maintenance — *planned*
+## Maintenance - *planned*
 
 | Method and route | Purpose | Permission |
 |---|---|---|
@@ -51,7 +51,7 @@ sorting, search and filter parameters.
 | `PUT /api/maintenance/{id}`, `/assign`, `/start`, `/complete`, `/cancel` | Amend, assign, start, complete or cancel a record. | manage maintenance |
 | `POST /api/maintenance/{id}/attachments` | Upload photographic evidence. | request maintenance |
 
-## Transfers and disposals — *planned*
+## Transfers and disposals - *planned*
 
 | Method and route | Purpose | Permission |
 |---|---|---|
@@ -62,7 +62,7 @@ sorting, search and filter parameters.
 | `GET/POST /api/disposals`, `GET /api/disposals/{id}` | List, raise and read disposal requests. | read: scoped; create: request disposal |
 | `POST /api/disposals/{id}/approve` / `/reject` / `/request-revision` | Decide a disposal request. | approve disposal |
 
-## Audit, compliance and reporting — *planned*
+## Audit, compliance and reporting - *planned*
 
 | Method and route | Purpose | Permission |
 |---|---|---|
@@ -74,7 +74,7 @@ sorting, search and filter parameters.
 | `GET /api/reports/{type}`, `/export` | Generate and export reports. | generate reports |
 | `GET /api/dashboard` | Role-appropriate indicators and chart series. | authenticated (scoped) |
 
-## AI workflow and system — *planned*
+## AI workflow and system - *planned*
 
 | Method and route | Purpose | Permission |
 |---|---|---|
