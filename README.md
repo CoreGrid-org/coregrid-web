@@ -1,37 +1,32 @@
-# CoreGrid Frontend
+# CoreGrid Web
 
-A public, informational site introducing the CoreGrid platform — architecture, user roles, the agentic AI
-workflow and the mandated technology stack, drawn from the [SRS](../doc/SRS/00-front-matter.md).
+The public CoreGrid website — the marketing pages (Home, About, Features, AI Decision Support, Contact) and
+the product documentation (Architecture, Project Structure, User Manual, Planned Features), built with
+[Docusaurus](https://docusaurus.io/).
 
-React + TypeScript + Vite, with client-side routing (React Router). This is a public overview site, not the
-authenticated React management application described in the SRS (Section 2.2, F1–F9) — there is no sign-in,
-no personal data and no asset data here.
+This is a public, informational site, not the authenticated management application described in the product
+SRS — there is no sign-in, no personal data and no asset data here.
 
-## Pages
+## Structure
 
-| Route | Content |
+| Path | Content |
 |---|---|
-| `/` | Hero, the three platform commitments, quick links |
-| `/platform` | System architecture, the nine function groups, the tech stack |
-| `/roles` | The four user classes and their permissions |
-| `/agentic-ai` | The four-agent, human-approved decision workflow |
-| `/about` | Project scope, team roster, data/access notice |
+| `src/pages/` | Marketing pages: `/`, `/about`, `/features`, `/ai-decision-support`, `/contact` |
+| `docs/` | Product documentation, served at `/docs/*` |
+| `static/img/` | Logo and other static assets |
+| `docusaurus.config.ts` | Site config: navbar, footer, theme |
+| `sidebars.ts` | Documentation sidebar structure |
 
 ## Develop
 
 ```bash
 npm install
-npm run dev
+npm start
 ```
 
 ## Build
 
 ```bash
-npm run build   # runs tsc -b, then vite build
-npm run preview
+npm run build
+npm run serve   # preview the production build locally
 ```
-
-## Assets
-
-- `public/CoreGrid.png` — official logo (full colour, hexagon skyline mark).
-- `public/assets/w-coregrid.webp` — pure white, transparent-background version of the logo, used on dark surfaces and in the root README.

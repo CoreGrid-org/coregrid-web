@@ -1,0 +1,95 @@
+.introInner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  margin: 1.1rem 0 1.1rem;
+}
+
+.lead {
+  max-width: 640px;
+}
+
+.actions {
+  margin-top: 1.5rem;
+}
+
+.agentCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.agentNumber {
+  font-family: var(--cg-font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--cg-accent);
+  margin-bottom: var(--cg-s-2);
+  display: block;
+}
+
+.agentTitle {
+  font-family: var(--cg-font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.agentRole {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--cg-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.agentDesc {
+  color: var(--cg-text-muted);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.principleCard {
+  background: var(--cg-bg);
+}
+
+.principleTitle {
+  font-family: var(--cg-font-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.principleDesc {
+  color: var(--cg-text-muted);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.ctaBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 3rem;
+  flex-wrap: wrap;
+}
+
+.ctaText {
+  color: var(--cg-text-muted);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .ctaBanner {
+    justify-content: center;
+    text-align: center;
+  }
+}
