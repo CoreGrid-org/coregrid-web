@@ -1,81 +1,98 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg: #FFFFFF;
-    --bg-subtle: #F7F8FA;
-    --surface: #FFFFFF;
-    --border: #E4E7EC;
-    --text-primary: #10131A;
-    --text-secondary: #5B6472;
-    --text-muted: #8A93A3;
+@theme {
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
 
-    --accent: #1F3864;
-    --accent-hover: #16294D;
-    --accent-soft: #EAF0FB;
+  --color-navy-950: #060d1c;
+  --color-navy-900: #0b1223;
+  --color-navy-800: #111d35;
+  --color-navy-700: #1a2744;
+  --color-navy-600: #243358;
 
-    --success: #12805C;
-    --warning: #B7791F;
-    --critical: #B4232C;
+  --color-orange-500: #e8601c;
+  --color-orange-400: #f07030;
+  --color-orange-300: #f5894a;
+  --color-orange-100: #fde8d8;
 
-    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-slate-50: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-navy-900);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+/* ==========================================
+   GOVERNMENT DEPARTMENT LOGO MARQUEE
+========================================== */
+
+.department-logo-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+
+  animation: department-scroll-right 30s linear infinite;
+}
+
+/* Move LEFT → RIGHT */
+@keyframes department-scroll-right {
+  from {
+    transform: translateX(-50%);
   }
 
-  .dark {
-    --bg: #0A0C10;
-    --bg-subtle: #101318;
-    --surface: #14171D;
-    --border: #22262E;
-    --text-primary: #F2F4F7;
-    --text-secondary: #9AA3B2;
-    --text-muted: #6B7280;
-
-    --accent: #3A69B5;
-    --accent-hover: #4D7CC9;
-    --accent-soft: #16233D;
-
-    --success: #10B981;
-    --warning: #F59E0B;
-    --critical: #EF4444;
-  }
-
-  body {
-    background-color: var(--bg);
-    color: var(--text-primary);
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  code, kbd, samp, pre {
-    font-family: 'IBM Plex Mono', monospace;
+  to {
+    transform: translateX(0);
   }
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Pause when hovering */
+.department-logo-track:hover {
+  animation-play-state: paused;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg);
+@keyframes technologyScroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
+.technology-track {
+  display: flex;
+  width: max-content;
+  animation: technologyScroll 25s linear infinite;
+  will-change: transform;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
-/* Restrained selection styling */
-::selection {
-  background: var(--accent-soft);
-  color: var(--text-primary);
+.technology-track:hover {
+  animation-play-state: paused;
 }

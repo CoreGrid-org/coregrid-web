@@ -1,27 +1,26 @@
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Home from "./pages/Home";
-import Architecture from "./pages/Architecture";
-import AgenticAIPage from "./pages/AgenticAIPage";
-import Platform from "./pages/Platform";
-import Security from "./pages/Security";
-import Docs from "./pages/Docs";
-import Team from "./pages/Team";
-import Roadmap from "./pages/Roadmap";
+import About from "./pages/About";
+
+import Modules from "./pages/modules";
+import AIDecisionSupport from "./pages/AIDecisionSupport";
+
+import Features from "./pages/Features";
+import Contact from "./pages/Contact";
+
 
 export default function App() {
   return (
     <Routes>
-      <Route element={<Layout />}>
+
+      <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="architecture" element={<Architecture />} />
-        <Route path="agentic-ai" element={<AgenticAIPage />} />
-        <Route path="platform" element={<Platform />} />
-        <Route path="security" element={<Security />} />
-        <Route path="docs" element={<Docs />} />
-        <Route path="team" element={<Team />} />
-        <Route path="roadmap" element={<Roadmap />} />
-        <Route path="*" element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="modules" element={<Modules/>} />
+        <Route path="ai-decision-support" element={<AIDecisionSupport />} />
+        <Route path="features" element={<Features />} />
+        <Route path="contact" element={<Contact />} />
       </Route>
     </Routes>
   );
