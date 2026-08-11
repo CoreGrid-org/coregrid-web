@@ -1,29 +1,15 @@
 import React from 'react';
-
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
-
-import {
-  ArrowRight,
-  Check,
-} from 'lucide-react';
-
+import {ArrowRight, Check} from 'lucide-react';
 import Reveal from '@site/src/components/Reveal';
-
-import DynamicIcon, {
-  type IconName,
-} from '@site/src/components/DynamicIcon';
-
+import PageHeader from '@site/src/components/PageHeader';
+import IconCard from '@site/src/components/IconCard';
+import {type IconName} from '@site/src/components/DynamicIcon';
 import SeoHead from '@site/src/components/SeoHead';
-
 import styles from './features.module.css';
 
-
-const modules: {
-  icon: IconName;
-  title: string;
-  items: string[];
-}[] = [
+const modules: {icon: IconName; title: string; items: string[]}[] = [
   {
     icon: 'QrCode',
     title: 'Asset Registry',
@@ -35,7 +21,6 @@ const modules: {
       'Department and officer assignment',
     ],
   },
-
   {
     icon: 'Wrench',
     title: 'Maintenance Management',
@@ -47,7 +32,6 @@ const modules: {
       'Complete maintenance history per asset',
     ],
   },
-
   {
     icon: 'ArrowLeftRight',
     title: 'Transfers & Disposals',
@@ -59,7 +43,6 @@ const modules: {
       'Structured disposal workflow',
     ],
   },
-
   {
     icon: 'ShieldCheck',
     title: 'Audit & Compliance',
@@ -71,7 +54,6 @@ const modules: {
       'Reporting support for compliance review',
     ],
   },
-
   {
     icon: 'Map',
     title: 'GIS Mapping',
@@ -83,7 +65,6 @@ const modules: {
       'Location-based verification support',
     ],
   },
-
   {
     icon: 'Sparkles',
     title: 'AI Decision Support',
@@ -95,7 +76,6 @@ const modules: {
       'Human approval before high-impact actions',
     ],
   },
-
   {
     icon: 'KeyRound',
     title: 'User & Access Management',
@@ -107,7 +87,6 @@ const modules: {
       'User activity and access tracking',
     ],
   },
-
   {
     icon: 'BarChart3',
     title: 'Analytics & Reporting',
@@ -119,7 +98,6 @@ const modules: {
       'Exportable operational reports',
     ],
   },
-
   {
     icon: 'Smartphone',
     title: 'Mobile App',
@@ -131,7 +109,6 @@ const modules: {
       'Maintenance and verification on the go',
     ],
   },
-
   {
     icon: 'Bell',
     title: 'Notifications & Alerts',
@@ -145,160 +122,61 @@ const modules: {
   },
 ];
 
-
 export default function Features(): React.ReactElement {
   return (
     <Layout
       title="Features"
-      description="Ten modules, one asset management platform - from registration and maintenance through AI-assisted decisions and full lifecycle accountability."
-    >
+      description="Ten modules, one asset management platform - from registration and maintenance through AI-assisted decisions and full lifecycle accountability.">
       <SeoHead
         path="/features"
         title="Features"
         description="Ten modules, one asset management platform - from registration and maintenance through AI-assisted decisions and full lifecycle accountability."
       />
 
-
-      {/* =====================================================
-          HERO SECTION
-      ===================================================== */}
-
-      <header className={styles.heroSection}>
-        <div className={styles.pageContainer}>
-          <div className={styles.introInner}>
-
-            <span className="cg-eyebrow">
-              Capabilities
-            </span>
-
-            <h1 className={`cg-heading ${styles.title}`}>
-              Ten modules. One{' '}
-              <span className={styles.highlight}>
-                asset management platform.
-              </span>
-            </h1>
-
-            <p className={`cg-lead ${styles.lead}`}>
-              Every aspect of asset lifecycle management in one integrated
-              platform - from registration and maintenance through AI-assisted
-              decisions, reporting and full lifecycle accountability.
-            </p>
-
-          </div>
-        </div>
-      </header>
-
-
-      {/* =====================================================
-          FEATURES GRID
-      ===================================================== */}
+      <PageHeader
+        eyebrow="Capabilities"
+        title="Ten modules. One asset management platform."
+        lead="Every aspect of asset lifecycle management in one integrated platform - from registration and
+              maintenance through AI-assisted decisions, reporting and full lifecycle accountability."
+      />
 
       <section className="cg-section cg-section--tight">
-        <div className={styles.pageContainer}>
-
+        <div className="cg-container">
           <Reveal>
-
-            <div className={styles.featureGrid}>
-
+            <div className="cg-grid cg-grid--3">
               {modules.map((module) => (
-
-                <div
-                  key={module.title}
-                  className={`cg-card ${styles.featureCard}`}
-                >
-
-                  {/* ICON */}
-                  <div className={styles.featureIcon}>
-                    <DynamicIcon
-                      name={module.icon}
-                      size={22}
-                      strokeWidth={1.75}
-                    />
-                  </div>
-
-
-                  {/* TITLE */}
-                  <h3 className={styles.featureTitle}>
-                    {module.title}
-                  </h3>
-
-
-                  {/* FEATURE LIST */}
+                <IconCard key={module.title} icon={module.icon} title={module.title}>
                   <ul className={styles.featureList}>
-
                     {module.items.map((item) => (
-
                       <li key={item}>
-
-                        <Check
-                          className={styles.checkMark}
-                          size={15}
-                          strokeWidth={2.5}
-                        />
-
-                        <span>
-                          {item}
-                        </span>
-
+                        <Check className={styles.checkMark} size={15} strokeWidth={2.5} />
+                        <span>{item}</span>
                       </li>
-
                     ))}
-
                   </ul>
-
-                </div>
-
+                </IconCard>
               ))}
-
             </div>
-
           </Reveal>
-
         </div>
       </section>
-
-
-      {/* =====================================================
-          CTA SECTION
-      ===================================================== */}
 
       <section className="cg-section">
-
-        <div className={styles.pageContainer}>
-
+        <div className="cg-container">
           <div className={`cg-panel ${styles.ctaBanner}`}>
-
-            <div className={styles.ctaContent}>
-
-              <h2 className={`cg-heading ${styles.ctaTitle}`}>
+            <div>
+              <h2 className="cg-heading" style={{marginBottom: '0.5rem'}}>
                 Want the full technical picture?
               </h2>
-
-              <p className={styles.ctaText}>
-                Architecture, data model and build status for every module.
-              </p>
-
+              <p className={styles.ctaText}>See how every module fits together on the Modules page.</p>
             </div>
-
-
-            <Link
-              className="cg-btn cg-btn--primary"
-              to="/docs/intro"
-            >
-              Read the docs
-
-              <ArrowRight
-                size={17}
-                strokeWidth={2.25}
-              />
+            <Link className="cg-btn cg-btn--primary" to="/modules">
+              View modules
+              <ArrowRight size={17} strokeWidth={2.25} />
             </Link>
-
           </div>
-
         </div>
-
       </section>
-
     </Layout>
   );
 }

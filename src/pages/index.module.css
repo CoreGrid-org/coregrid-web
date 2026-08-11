@@ -132,11 +132,10 @@
   max-width: 760px;
 }
 
-.heroEyebrow,
-.eyebrow {
+.heroEyebrow {
   display: inline-block;
 
-  color: #e8601c;
+  color: var(--cg-accent);
 
   font-size: 0.8rem;
   font-weight: 700;
@@ -161,7 +160,7 @@
 }
 
 .highlight {
-  color: #e8601c;
+  color: var(--cg-accent);
 }
 
 .heroLead {
@@ -221,7 +220,7 @@
 }
 
 .primaryButton {
-  background: #e8601c;
+  background: var(--cg-accent);
 
   color: #ffffff !important;
 
@@ -291,7 +290,7 @@
   align-items: center;
   justify-content: center;
 
-  border: 2px solid #e8601c;
+  border: 2px solid var(--cg-accent);
 
   border-radius: 50%;
 }
@@ -302,7 +301,7 @@
 
   display: block;
 
-  background: #e8601c;
+  background: var(--cg-accent);
 
   border-radius: 50%;
 }
@@ -496,98 +495,45 @@
   background: #ffffff;
 }
 
-.modulesSection,
-.departmentsSection,
-.knowledgeSection {
-  padding: 6rem 0;
-
-  background: #f7f9fc;
-}
-
-.sectionHeader {
-  max-width: 900px;
-
-  margin: 0 auto 4rem;
-
-  text-align: center;
-}
-
-.sectionTitle {
-  margin: 1rem 0;
-
-  color: #0b1223;
-
-  font-size: clamp(2rem, 3.8vw, 3rem);
-
-  font-weight: 700;
-
-  line-height: 1.12;
-
-  letter-spacing: -0.03em;
-}
-
-.sectionDescription {
-  max-width: 760px;
-
-  margin: 0 auto;
-
-  color: rgba(11, 18, 35, 0.6);
-
-  font-size: 1.05rem;
-
-  line-height: 1.75;
-}
-
 
 /* =========================================================
    OVERVIEW
 ========================================================= */
 
-.overviewGrid {
+.howGrid {
   display: grid;
 
   grid-template-columns:
     minmax(0, 0.85fr)
     minmax(0, 1.15fr);
 
-  align-items: center;
+  align-items: start;
 
   gap: 6rem;
 }
 
-.overviewVisual {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-}
-
-.overviewImage {
-  display: block;
+.howCopy {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 2rem);
 
   width: 100%;
-  max-width: 580px;
+  max-width: 420px;
+}
 
-  height: auto;
+.howTitle {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  margin: 1rem 0 1rem;
+}
 
-  object-fit: contain;
-
-  mix-blend-mode: multiply;
-
-  filter:
-    drop-shadow(
-      0 20px 30px rgba(15, 23, 42, 0.1)
-    );
+.howText {
+  color: var(--cg-text-muted);
+  line-height: 1.7;
+  margin: 0 0 1.75rem;
 }
 
 .overviewContent {
   width: 100%;
   max-width: 760px;
-}
-
-.overviewContent .sectionDescription {
-  margin-left: 0;
-  margin-right: 0;
 }
 
 .overviewFeatureList {
@@ -621,7 +567,7 @@
 
   background: rgba(232, 96, 28, 0.1);
 
-  color: #e8601c;
+  color: var(--cg-accent);
 
   border-radius: 12px;
 }
@@ -646,171 +592,6 @@
 
 
 /* =========================================================
-   MODULE GRID
-========================================================= */
-
-.moduleGrid {
-  display: grid;
-
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-
-  gap: 2rem;
-}
-
-.moduleCard {
-  position: relative;
-
-  min-height: 330px;
-
-  overflow: hidden;
-
-  padding: 2.5rem 2.25rem;
-
-  background: #ffffff;
-
-  border: 1px solid rgba(226, 232, 240, 0.9);
-
-  border-radius: 24px;
-
-  box-shadow:
-    0 10px 35px rgba(15, 23, 42, 0.06);
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
-}
-
-.moduleCard:hover {
-  transform: translateY(-8px);
-
-  border-color: rgba(232, 96, 28, 0.3);
-
-  box-shadow:
-    0 24px 55px rgba(15, 23, 42, 0.12);
-}
-
-.cardGlow {
-  position: absolute;
-
-  top: -80px;
-  right: -80px;
-
-  width: 210px;
-  height: 210px;
-
-  background: rgba(232, 96, 28, 0.06);
-
-  border-radius: 50%;
-
-  filter: blur(25px);
-}
-
-.moduleNumber {
-  position: absolute;
-
-  top: 2rem;
-  right: 2rem;
-
-  color: #f1f5f9;
-
-  font-size: 2.7rem;
-  font-weight: 700;
-}
-
-.moduleIcon {
-  position: relative;
-
-  z-index: 2;
-
-  width: 64px;
-  height: 64px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 2rem;
-
-  background: #fff7ed;
-
-  color: #e8601c;
-
-  border: 1px solid #ffedd5;
-
-  border-radius: 16px;
-
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
-}
-
-.moduleCard:hover .moduleIcon {
-  background: #e8601c;
-
-  color: #ffffff;
-
-  transform: scale(1.08);
-}
-
-.moduleCard h3 {
-  position: relative;
-
-  z-index: 2;
-
-  margin: 0 0 1rem;
-
-  color: #0b1223;
-
-  font-size: 1.35rem;
-
-  transition: color 0.3s ease;
-}
-
-.moduleCard:hover h3 {
-  color: #e8601c;
-}
-
-.moduleCard p {
-  position: relative;
-
-  z-index: 2;
-
-  margin: 0;
-
-  color: rgba(11, 18, 35, 0.6);
-
-  line-height: 1.8;
-}
-
-
-/* =========================================================
-   BOTTOM CARD ACCENT
-========================================================= */
-
-.bottomAccent {
-  position: absolute;
-
-  left: 0;
-  bottom: 0;
-
-  width: 0;
-  height: 4px;
-
-  background: #e8601c;
-
-  transition: width 0.5s ease;
-}
-
-.moduleCard:hover .bottomAccent,
-.departmentCard:hover .bottomAccent {
-  width: 100%;
-}
-
-
-/* =========================================================
    DEPARTMENTS
 ========================================================= */
 
@@ -819,231 +600,37 @@
 
   grid-template-columns: repeat(4, minmax(0, 1fr));
 
-  gap: 1.75rem;
-}
-
-.departmentCard {
-  position: relative;
-
-  min-height: 250px;
-
-  overflow: hidden;
-
-  padding: 2rem;
-
-  background: #ffffff;
-
-  border: 1px solid rgba(226, 232, 240, 0.9);
-
-  border-radius: 24px;
-
-  box-shadow:
-    0 10px 35px rgba(15, 23, 42, 0.06);
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
-}
-
-.departmentCard:hover {
-  transform: translateY(-8px);
-
-  border-color: rgba(232, 96, 28, 0.3);
-
-  box-shadow:
-    0 24px 55px rgba(15, 23, 42, 0.12);
-}
-
-.departmentNumber {
-  position: absolute;
-
-  top: 1.75rem;
-  right: 1.75rem;
-
-  color: #f1f5f9;
-
-  font-size: 2.3rem;
-  font-weight: 700;
-}
-
-.departmentIcon {
-  width: 64px;
-  height: 64px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 2.5rem;
-
-  background: #fff7ed;
-
-  color: #e8601c;
-
-  border-radius: 16px;
-
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
-}
-
-.departmentCard:hover .departmentIcon {
-  background: #e8601c;
-
-  color: #ffffff;
-
-  transform: scale(1.08);
-}
-
-.departmentCard h3 {
-  margin: 0;
-
-  color: #0b1223;
-
-  font-size: 1.2rem;
-
-  line-height: 1.35;
-
-  transition: color 0.3s ease;
-}
-
-.departmentCard:hover h3 {
-  color: #e8601c;
-}
-
-.departmentLine {
-  width: 40px;
-  height: 3px;
-
-  margin-top: 1.25rem;
-
-  background: rgba(232, 96, 28, 0.3);
-
-  border-radius: 999px;
-
-  transition:
-    width 0.3s ease,
-    background 0.3s ease;
-}
-
-.departmentCard:hover .departmentLine {
-  width: 80px;
-
-  background: #e8601c;
+  gap: 1.5rem;
 }
 
 
 /* =========================================================
-   KNOWLEDGE HUB
+   DOCUMENTATION
 ========================================================= */
 
-.knowledgeGrid {
+.docsGrid {
   display: grid;
 
   grid-template-columns: repeat(3, minmax(0, 1fr));
 
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
-.knowledgeCard {
-  overflow: hidden;
-
-  background: #ffffff;
-
-  border: 1px solid rgba(226, 232, 240, 0.9);
-
-  border-radius: 24px;
-
-  box-shadow:
-    0 10px 35px rgba(15, 23, 42, 0.06);
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+.docsCardLink {
+  display: block;
+  text-decoration: none !important;
 }
 
-.knowledgeCard:hover {
-  transform: translateY(-8px);
-
-  box-shadow:
-    0 24px 55px rgba(15, 23, 42, 0.12);
-}
-
-.knowledgeImageWrapper {
-  height: 260px;
-
-  margin: 1.5rem 1.5rem 0;
-
-  overflow: hidden;
-
-  border-radius: 16px;
-}
-
-.knowledgeImage {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transition: transform 0.5s ease;
-}
-
-.knowledgeCard:hover .knowledgeImage {
-  transform: scale(1.05);
-}
-
-.knowledgeContent {
-  padding: 1.75rem 2rem 2.25rem;
-
-  text-align: center;
-}
-
-.knowledgeContent h3 {
-  margin: 0 0 0.75rem;
-
-  color: #0b1223;
-
-  font-size: 1.5rem;
-}
-
-.knowledgeContent p {
-  margin: 0 0 1.75rem;
-
-  color: rgba(11, 18, 35, 0.6);
-
-  font-size: 0.94rem;
-
-  line-height: 1.7;
-}
-
-.knowledgeButton {
+.docsLinkLabel {
   display: inline-flex;
 
   align-items: center;
-  justify-content: center;
+  gap: 0.4rem;
 
-  padding: 0.8rem 1.75rem;
+  color: var(--cg-accent);
 
-  background: #e8601c;
-
-  color: #ffffff !important;
-
-  border-radius: 12px;
-
+  font-size: 0.88rem;
   font-weight: 600;
-
-  text-decoration: none !important;
-
-  transition: background 0.2s ease;
-}
-
-.knowledgeButton:hover {
-  background: #f07030;
-
-  color: #ffffff !important;
 }
 
 
@@ -1052,9 +639,9 @@
 ========================================================= */
 
 .ctaSection {
-  padding: 4rem 0;
-
-  background: #e8601c;
+  padding: clamp(2.5rem, 5vw, 3.5rem);
+  border-radius: var(--cg-radius-lg);
+  background: var(--cg-accent);
 }
 
 .ctaContent {
@@ -1063,19 +650,22 @@
   align-items: center;
   justify-content: space-between;
 
-  gap: 3rem;
+  gap: 2.5rem;
 }
 
-.ctaContent h2 {
+.ctaTitle {
   margin: 0 0 0.6rem;
 
+  font-family: var(--cg-font-display);
+  font-weight: 700;
   color: #ffffff;
 
-  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+  letter-spacing: -0.02em;
 }
 
-.ctaContent p {
-  max-width: 700px;
+.ctaText {
+  max-width: 620px;
 
   margin: 0;
 
@@ -1091,7 +681,7 @@
 
   flex-wrap: wrap;
 
-  gap: 1rem;
+  gap: 0.85rem;
 
   flex-shrink: 0;
 }
@@ -1102,32 +692,57 @@
 
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
 
-  min-height: 50px;
+  padding: 0.7rem 1.4rem;
 
-  padding: 0.8rem 1.75rem;
+  border-radius: var(--cg-radius-btn);
 
-  border-radius: 10px;
-
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 0.95rem;
 
   text-decoration: none !important;
+
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .ctaPrimary {
   background: #ffffff;
 
-  color: #e8601c !important;
+  color: var(--cg-accent) !important;
+}
+
+.ctaPrimary:hover {
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .ctaSecondary {
-  border: 2px solid #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 
   color: #ffffff !important;
 }
 
 .ctaSecondary:hover {
   background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .ctaContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .ctaButtons {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+  }
 }
 
 
@@ -1177,7 +792,7 @@
   }
 
   .heroGrid,
-  .overviewGrid {
+  .howGrid {
     grid-template-columns: 1fr;
   }
 
@@ -1193,19 +808,20 @@
     max-width: 700px;
   }
 
-  .overviewGrid {
-    gap: 4rem;
+  .howGrid {
+    gap: 3rem;
   }
 
-  .moduleGrid {
-    grid-template-columns: repeat(2, 1fr);
+  .howCopy {
+    position: static;
+    max-width: none;
   }
 
   .departmentGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .knowledgeGrid {
+  .docsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -1276,48 +892,13 @@
     width: 55px;
   }
 
-  .overviewSection,
-  .modulesSection,
-  .departmentsSection,
-  .knowledgeSection {
+  .overviewSection {
     padding: 4rem 0;
   }
 
-  .moduleGrid,
   .departmentGrid,
-  .knowledgeGrid {
+  .docsGrid {
     grid-template-columns: 1fr;
-  }
-
-  .moduleCard {
-    min-height: auto;
-
-    padding: 2rem;
-  }
-
-  .departmentCard {
-    min-height: 220px;
-  }
-
-  .knowledgeImageWrapper {
-    height: 220px;
-  }
-
-  .ctaContent {
-    align-items: center;
-
-    text-align: center;
-  }
-
-  .ctaButtons {
-    width: 100%;
-
-    flex-direction: column;
-  }
-
-  .ctaPrimary,
-  .ctaSecondary {
-    width: 100%;
   }
 }
 
@@ -1329,13 +910,6 @@
 @media (prefers-reduced-motion: reduce) {
   .logoTrack {
     animation: none;
-  }
-
-  .moduleCard,
-  .departmentCard,
-  .knowledgeCard,
-  .heroVisualImg {
-    transition: none;
   }
 }
 

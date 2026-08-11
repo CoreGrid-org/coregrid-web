@@ -1,111 +1,4 @@
 /* =========================================================
-   PAGE CONTAINER
-   Equivalent to:
-   w-full max-w-[2000px] mx-auto px-6 lg:px-10 xl:px-12
-   ========================================================= */
-
-.pageContainer {
-  width: 100%;
-  max-width: 2000px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-
-/* =========================================================
-   HERO SECTION
-   ========================================================= */
-
-.heroSection {
-  position: relative;
-  overflow: hidden;
-
-  min-height: 535px;
-
-  display: flex;
-  align-items: center;
-
-  background: #0b1223;
-  border-bottom: 1px solid #111827;
-}
-.introInner {
-  width: 100%;
-  max-width: 900px;
-
-  margin: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  text-align: left;
-}
-
-.title {
-  max-width: 900px;
-
-  margin: 1.25rem 0 1.5rem;
-
-  font-size: clamp(2.5rem, 4.4vw, 4rem);
-  line-height: 1.05;
-
-  letter-spacing: -0.035em;
-
-  color: #ffffff !important;
-}
-
-.highlight {
-  color: #e8601c !important;
-}
-
-.lead {
-  width: 100%;
-  max-width: 850px;
-
-  margin: 0;
-
-  font-size: 1.05rem;
-  line-height: 1.8;
-}
-
-
-/* =========================================================
-   STACK INTRO
-   ========================================================= */
-
-.stackIntro {
-  width: 100%;
-  max-width: 720px;
-
-  margin: 0 auto;
-
-  text-align: center;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stackTitle {
-  font-size: clamp(1.8rem, 3vw, 2.3rem);
-
-  margin-top: 1rem;
-  margin-bottom: 0.85rem;
-}
-
-.stackIntro p {
-  max-width: 650px;
-
-  margin: 0;
-
-  font-size: 1.02rem;
-  line-height: 1.75;
-}
-
-
-/* =========================================================
    LAYER HEADER
    ========================================================= */
 
@@ -244,83 +137,6 @@
 
 
 /* =========================================================
-   MODULE CARD
-   ========================================================= */
-
-.moduleCard {
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-
-  min-height: 260px;
-
-  padding: 1.75rem;
-}
-
-.moduleNumber {
-  position: absolute;
-
-  top: 1.25rem;
-  right: 1.4rem;
-
-  font-family: var(--cg-font-display);
-
-  font-size: 1.8rem;
-  font-weight: 800;
-
-  line-height: 1;
-
-  opacity: 0.35;
-
-  color: var(--cg-text-muted);
-}
-
-.moduleIcon {
-  width: 46px;
-  height: 46px;
-
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  margin-bottom: 1.15rem;
-
-  border-radius: 12px;
-
-  background: var(--cg-accent-soft);
-
-  color: var(--cg-accent);
-}
-
-.moduleTitle {
-  margin: 0 0 0.65rem;
-
-  padding-right: 2rem;
-
-  font-family: var(--cg-font-display);
-
-  font-size: 1.1rem;
-  font-weight: 700;
-
-  line-height: 1.35;
-}
-
-.moduleDesc {
-  margin: 0;
-
-  color: var(--cg-text-muted);
-
-  font-size: 0.92rem;
-
-  line-height: 1.65;
-}
-
-
-/* =========================================================
    CONNECTOR
    ========================================================= */
 
@@ -395,48 +211,13 @@
    LARGE SCREENS
    ========================================================= */
 
-@media (min-width: 1024px) {
-  .pageContainer {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  .pageContainer {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-
-
-/* =========================================================
-   EXTRA LARGE SCREEN
-   ========================================================= */
-
 @media (min-width: 1600px) {
-  .heroSection {
-    min-height: 560px;
-  }
-
-  .introInner {
-    max-width: 950px;
-  }
-
-  .title {
-    max-width: 950px;
-  }
-
   .layerHeader {
     gap: 7rem;
   }
 
   .moduleGrid {
     gap: 1.75rem;
-  }
-
-  .moduleCard {
-    padding: 2rem;
   }
 }
 
@@ -446,10 +227,6 @@
    ========================================================= */
 
 @media (max-width: 996px) {
-  .heroSection {
-    min-height: 470px;
-  }
-
   .layerHeader {
     grid-template-columns: 1fr;
 
@@ -471,35 +248,9 @@
    ========================================================= */
 
 @media (max-width: 640px) {
-  .pageContainer {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
-
-  .heroSection {
-    min-height: 440px;
-  }
-
-  .title {
-    font-size: clamp(2.2rem, 11vw, 3rem);
-
-    margin-top: 1rem;
-  }
-
-  .lead {
-    font-size: 0.96rem;
-    line-height: 1.7;
-  }
-
   .moduleGridThree,
   .moduleGridTwo {
     grid-template-columns: 1fr;
-  }
-
-  .moduleCard {
-    min-height: auto;
-
-    padding: 1.5rem;
   }
 
   .ctaBanner {

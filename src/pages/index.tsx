@@ -10,14 +10,22 @@ import {
   BarChart3,
   Layers,
   Cpu,
-  Building2,
+  BookOpen,
+  ClipboardList,
+  Milestone,
+  Truck,
+  HeartPulse,
+  Factory,
+  GraduationCap,
+  Zap,
+  Warehouse,
+  UtensilsCrossed,
+  Wheat,
 } from 'lucide-react';
 
 import Reveal from '@site/src/components/Reveal';
-
-import DynamicIcon, {
-  type IconName,
-} from '@site/src/components/DynamicIcon';
+import SectionHeader from '@site/src/components/SectionHeader';
+import IconCard from '@site/src/components/IconCard';
 
 import SeoHead from '@site/src/components/SeoHead';
 
@@ -25,83 +33,14 @@ import styles from './index.module.css';
 
 
 /* =========================================================
-   DEPARTMENT LOGOS
+   CUSTOMER LOGO STRIP
+
+   Disabled: not yet populated with confirmed, real customers.
+   Add a `customerLogos` array here (name + image under
+   static/img/customers/) and the matching JSX below once we
+   have real logos to show - showing named organisations without
+   confirmed customer status would be a false endorsement claim.
 ========================================================= */
-
-const departmentLogos = [
-  {
-    name: 'Department of Industry Analyst',
-    image: 'img/departments/Analyst.jpg',
-  },
-  {
-    name: 'Ministry of Education',
-    image: 'img/departments/edu.jpg',
-  },
-  {
-    name: 'Excise Department of Sri Lanka',
-    image: 'img/departments/excise-department-of-sri-lanka.jpg',
-  },
-  {
-    name: 'Ministry of Health',
-    image: 'img/departments/Health__Mass_Media.jpg',
-  },
-  {
-    name: 'Industry News',
-    image: 'img/departments/News.jpeg',
-  },
-  {
-    name: 'Industry Printing Department',
-    image: 'img/departments/SriLankaPrinting.jpg',
-  },
-];
-
-
-/* =========================================================
-   PLATFORM MODULES
-========================================================= */
-
-const modules: {
-  icon: IconName;
-  title: string;
-  desc: string;
-}[] = [
-  {
-    icon: 'QrCode',
-    title: 'Asset Registry',
-    desc:
-      'Centralised asset registration with QR identification, geolocation tagging and full lifecycle records for every asset.',
-  },
-  {
-    icon: 'Wrench',
-    title: 'Maintenance Management',
-    desc:
-      'Schedule preventive maintenance, track work orders and manage asset maintenance activity from one platform.',
-  },
-  {
-    icon: 'ArrowLeftRight',
-    title: 'Transfers & Disposals',
-    desc:
-      'Manage controlled inter-department transfers and disposal workflows with approvals and complete audit trails.',
-  },
-  {
-    icon: 'ShieldCheck',
-    title: 'Audit & Compliance',
-    desc:
-      'Maintain traceable audit records, asset verification workflows and role-based approval controls.',
-  },
-  {
-    icon: 'Map',
-    title: 'GIS Mapping',
-    desc:
-      'Visualise assets by geographic location and connect every physical asset with its registered location.',
-  },
-  {
-    icon: 'BarChart3',
-    title: 'Analytics & Reporting',
-    desc:
-      'Operational dashboards and exportable reports provide a complete view across the asset portfolio.',
-  },
-];
 
 
 /* =========================================================
@@ -109,14 +48,14 @@ const modules: {
 ========================================================= */
 
 const departments = [
-  'Finance Ministry',
-  'Provincial Councils',
-  'Municipal Authorities',
-  'Health Sector',
-  'Education Sector',
-  'Defense Assets',
-  'Transportation',
-  'Agriculture',
+  {name: 'Transportation & Fleet', icon: Truck},
+  {name: 'Healthcare', icon: HeartPulse},
+  {name: 'Manufacturing', icon: Factory},
+  {name: 'Education', icon: GraduationCap},
+  {name: 'Utilities & Facilities', icon: Zap},
+  {name: 'Logistics & Warehousing', icon: Warehouse},
+  {name: 'Hospitality', icon: UtensilsCrossed},
+  {name: 'Agriculture', icon: Wheat},
 ];
 
 
@@ -153,30 +92,27 @@ const overviewFeatures = [
 
 
 /* =========================================================
-   KNOWLEDGE HUB
+   DOCUMENTATION
 ========================================================= */
 
-const knowledgeCards = [
+const docsLinks = [
   {
-    image: 'img/Knowledge_Hub/webinars.jpg',
-    title: 'Webinars',
-    description:
-      'Explore informative sessions covering modern asset management, compliance, technology and digital transformation.',
-    button: 'View Webinars',
+    icon: BookOpen,
+    title: 'Getting Started',
+    desc: "How CoreGrid is provisioned for your organisation and what your Administrator sets up first.",
+    href: '/docs/intro',
   },
   {
-    image: 'img/Knowledge_Hub/thought-leadership.jpg',
-    title: 'Thought Leadership',
-    description:
-      'Discover perspectives on asset strategy, lifecycle planning, governance and responsible digital innovation.',
-    button: 'View Resources',
+    icon: ClipboardList,
+    title: 'User Manual',
+    desc: 'Day-to-day guidance for organisation setup, roles and permissions, and every platform module.',
+    href: '/docs/user-manual/organization-setup',
   },
   {
-    image: 'img/Knowledge_Hub/articles.jpg',
-    title: 'Articles',
-    description:
-      'Read practical information about asset registration, maintenance, auditing, reporting and AI decision support.',
-    button: 'View Articles',
+    icon: Milestone,
+    title: 'Planned Features',
+    desc: "What's live today versus what's coming next, tracked against the full platform roadmap.",
+    href: '/docs/planned-features',
   },
 ];
 
@@ -193,9 +129,6 @@ export default function Home(): React.ReactElement {
 
   const dashboardSrc =
     `${baseUrl}img/View.png`;
-
-  const circleViewSrc =
-    `${baseUrl}img/circle-view.png`;
 
   return (
     <Layout
@@ -347,47 +280,11 @@ export default function Home(): React.ReactElement {
 
 
       {/* =====================================================
-          DEPARTMENT LOGO SLIDER
+          CUSTOMER LOGO STRIP
+
+          Disabled - see the CUSTOMER LOGO STRIP comment near the
+          top of this file for how to bring this section back.
       ===================================================== */}
-
-      <section className={styles.logoSection}>
-
-        <div className={styles.logoSectionHeading}>
-          Trusted Across Sri Lanka&apos;s Industries
-        </div>
-
-
-        <div className={styles.logoSlider}>
-
-          <div className={styles.logoFadeLeft} />
-          <div className={styles.logoFadeRight} />
-
-
-          <div className={styles.logoTrack}>
-
-            {[...departmentLogos, ...departmentLogos].map(
-              (department, index) => (
-
-                <div
-                  key={`${department.name}-${index}`}
-                  className={styles.logoItem}
-                >
-
-                  <img
-                    src={`${baseUrl}${department.image}`}
-                    alt={department.name}
-                  />
-
-                </div>
-
-              ),
-            )}
-
-          </div>
-
-        </div>
-
-      </section>
 
 
       {/* =====================================================
@@ -416,20 +313,12 @@ export default function Home(): React.ReactElement {
               {/* RIGHT */}
               <div className={styles.overviewContent}>
 
-                <span className={styles.eyebrow}>
-                  Unified Platform
-                </span>
-
-                <h2 className={styles.sectionTitle}>
-                  Asset Management Software That Integrates
-                </h2>
-
-
-                <p className={styles.sectionDescription}>
-                  One platform connecting every department, every asset and
-                  every decision — designed around the complete asset lifecycle.
-                </p>
-
+                <SectionHeader
+                  align="left"
+                  eyebrow="Unified Platform"
+                  title="Asset Management Software That Integrates"
+                  description="One platform connecting every department, every asset and every decision - designed around the complete asset lifecycle."
+                />
 
                 <div className={styles.overviewFeatureList}>
 
@@ -480,149 +369,30 @@ export default function Home(): React.ReactElement {
 
 
       {/* =====================================================
-          PLATFORM MODULES
-      ===================================================== */}
-
-      <section className={styles.modulesSection}>
-
-        <div className={styles.pageContainer}>
-
-          <Reveal>
-
-            <div className={styles.sectionHeader}>
-
-              <span className={styles.eyebrow}>
-                Platform Capabilities
-              </span>
-
-              <h2 className={styles.sectionTitle}>
-                Integrated Asset Management Suite
-              </h2>
-
-              <p className={styles.sectionDescription}>
-                Every module is interconnected. Data flows between registry,
-                maintenance, compliance and analytics without unnecessary
-                duplication.
-              </p>
-
-            </div>
-
-
-            <div className={styles.moduleGrid}>
-
-              {modules.map((module, index) => (
-
-                <div
-                  key={module.title}
-                  className={styles.moduleCard}
-                >
-
-                  <div className={styles.cardGlow} />
-
-
-                  <span className={styles.moduleNumber}>
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-
-
-                  <div className={styles.moduleIcon}>
-
-                    <DynamicIcon
-                      name={module.icon}
-                      size={28}
-                      strokeWidth={1.8}
-                    />
-
-                  </div>
-
-
-                  <h3>
-                    {module.title}
-                  </h3>
-
-
-                  <p>
-                    {module.desc}
-                  </p>
-
-
-                  <div className={styles.bottomAccent} />
-
-                </div>
-
-              ))}
-
-            </div>
-
-          </Reveal>
-
-        </div>
-
-      </section>
-
-
-      {/* =====================================================
           DEPARTMENTS
       ===================================================== */}
 
-      <section className={styles.departmentsSection}>
+      <section className="cg-section cg-section--alt">
 
-        <div className={styles.pageContainer}>
+        <div className="cg-container">
 
           <Reveal>
 
-            <div className={styles.sectionHeader}>
-
-              <span className={styles.eyebrow}>
-                Departments & Sectors
-              </span>
-
-              <h2 className={styles.sectionTitle}>
-                Supporting Different Asset Environments
-              </h2>
-
-              <p className={styles.sectionDescription}>
-                CoreGrid is designed around configurable asset records and
-                reusable lifecycle workflows that can support different
-                organisational environments.
-              </p>
-
-            </div>
-
+            <SectionHeader
+              eyebrow="Departments & Sectors"
+              title="Supporting Different Asset Environments"
+              description="CoreGrid is designed around configurable asset records and reusable lifecycle workflows that can support different organisational environments."
+            />
 
             <div className={styles.departmentGrid}>
 
-              {departments.map((name, index) => (
-
-                <div
-                  key={name}
-                  className={styles.departmentCard}
-                >
-
-                  <span className={styles.departmentNumber}>
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-
-
-                  <div className={styles.departmentIcon}>
-                    <Building2
-                      size={28}
-                      strokeWidth={1.8}
-                    />
-                  </div>
-
-
-                  <h3>
-                    {name}
-                  </h3>
-
-
-                  <div className={styles.departmentLine} />
-
-                  <div className={styles.bottomAccent} />
-
-                </div>
-
+              {departments.map((department, index) => (
+                <IconCard
+                  key={department.name}
+                  icon={department.icon}
+                  number={String(index + 1).padStart(2, '0')}
+                  title={department.name}
+                />
               ))}
 
             </div>
@@ -635,74 +405,32 @@ export default function Home(): React.ReactElement {
 
 
       {/* =====================================================
-          KNOWLEDGE HUB
+          DOCUMENTATION
       ===================================================== */}
 
-      <section className={styles.knowledgeSection}>
+      <section className="cg-section">
 
-        <div className={styles.pageContainer}>
+        <div className="cg-container">
 
           <Reveal>
 
-            <div className={styles.sectionHeader}>
+            <SectionHeader
+              eyebrow="Documentation"
+              title="Everything You Need to Get Started"
+              description="Product documentation covering setup, day-to-day use and what's on the roadmap."
+            />
 
-              <span className={styles.eyebrow}>
-                Resources & Insights
-              </span>
+            <div className={styles.docsGrid}>
 
-              <h2 className={styles.sectionTitle}>
-                Knowledge Hub
-              </h2>
-
-              <p className={styles.sectionDescription}>
-                Explore resources and practical information related to asset
-                management, lifecycle governance and digital transformation.
-              </p>
-
-            </div>
-
-
-            <div className={styles.knowledgeGrid}>
-
-              {knowledgeCards.map((card) => (
-
-                <div
-                  key={card.title}
-                  className={styles.knowledgeCard}
-                >
-
-                  <div className={styles.knowledgeImageWrapper}>
-
-                    <img
-                      src={`${baseUrl}${card.image}`}
-                      alt={card.title}
-                      className={styles.knowledgeImage}
-                    />
-
-                  </div>
-
-
-                  <div className={styles.knowledgeContent}>
-
-                    <h3>
-                      {card.title}
-                    </h3>
-
-                    <p>
-                      {card.description}
-                    </p>
-
-                    <Link
-                      to="/docs/intro"
-                      className={styles.knowledgeButton}
-                    >
-                      {card.button}
-                    </Link>
-
-                  </div>
-
-                </div>
-
+              {docsLinks.map((item) => (
+                <Link key={item.title} to={item.href} className={styles.docsCardLink}>
+                  <IconCard icon={item.icon} title={item.title} description={item.desc}>
+                    <span className={styles.docsLinkLabel}>
+                      Read more
+                      <ArrowRight size={15} strokeWidth={2.25} />
+                    </span>
+                  </IconCard>
+                </Link>
               ))}
 
             </div>
@@ -718,44 +446,49 @@ export default function Home(): React.ReactElement {
           CTA
       ===================================================== */}
 
-      <section className={styles.ctaSection}>
+      <section className="cg-section">
 
-        <div className={styles.pageContainer}>
+        <div className="cg-container">
 
           <Reveal>
 
-            <div className={styles.ctaContent}>
+            <div className={styles.ctaSection}>
 
-              <div>
+              <div className={styles.ctaContent}>
 
-                <h2>
-                  Ready to Explore CoreGrid?
-                </h2>
+                <div>
 
-                <p>
-                  Discover how the complete asset lifecycle can be managed
-                  through one connected and accountable platform.
-                </p>
+                  <h2 className={styles.ctaTitle}>
+                    Ready to Explore CoreGrid?
+                  </h2>
 
-              </div>
+                  <p className={styles.ctaText}>
+                    Discover how the complete asset lifecycle can be managed
+                    through one connected and accountable platform.
+                  </p>
 
-
-              <div className={styles.ctaButtons}>
-
-                <Link
-                  to="/contact"
-                  className={styles.ctaPrimary}
-                >
-                  Contact Us
-                </Link>
+                </div>
 
 
-                <Link
-                  to="/docs/intro"
-                  className={styles.ctaSecondary}
-                >
-                  Read the Docs
-                </Link>
+                <div className={styles.ctaButtons}>
+
+                  <Link
+                    to="/contact"
+                    className={styles.ctaPrimary}
+                  >
+                    Contact Us
+                  </Link>
+
+
+                  <Link
+                    to="/docs/intro"
+                    className={styles.ctaSecondary}
+                  >
+                    Read the Docs
+                    <ArrowRight size={16} strokeWidth={2.25} />
+                  </Link>
+
+                </div>
 
               </div>
 

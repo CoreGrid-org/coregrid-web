@@ -1,0 +1,17 @@
+.inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  margin: 1.1rem 0 1.1rem;
+}
+
+.lead {
+  max-width: 640px;
+}

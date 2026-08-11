@@ -14,11 +14,9 @@ const config: Config = {
     faster: false,
   },
 
-  url: 'https://coregrid-org.github.io',
-  baseUrl: '/coregrid-web/',
-  
-  organizationName: 'CoreGrid-org',
-  projectName: 'coregrid-web',
+  // TODO: replace with the real production domain once hosting is decided.
+  url: 'https://coregrid.example.com',
+  baseUrl: '/',
 
   onBrokenLinks: 'throw',
 
@@ -51,51 +49,22 @@ const config: Config = {
       respectPrefersColorScheme: false,
     },
     navbar: {
-  items: [
-    {
-      to: '/',
-      label: 'Home',
-      position: 'left',
-      activeBaseRegex: '^/$',
+      title: 'CoreGrid',
+      logo: {
+        alt: 'CoreGrid Logo',
+        src: 'img/coregrid-logo.png',
+      },
+      items: [
+        {to: '/', label: 'Home', position: 'left', activeBaseRegex: '^/$'},
+        {to: '/about', label: 'About', position: 'left'},
+        {to: '/features', label: 'Features', position: 'left'},
+        {to: '/modules', label: 'Modules', position: 'left'},
+        {to: '/ai-decision-support', label: 'AI Decision Support', position: 'left'},
+        {to: '/pricing', label: 'Pricing', position: 'left'},
+        {to: '/docs/intro', label: 'Docs', position: 'left'},
+        {to: '/contact', label: 'Contact', position: 'right', className: 'navbar-cta-button'},
+      ],
     },
-    {
-      to: '/about',
-      label: 'About',
-      position: 'left',
-    },
-    {
-      to: '/features',
-      label: 'Features',
-      position: 'left',
-    },
-    {
-      to: '/modules',
-      label: 'Modules',
-      position: 'left',
-    },
-    {
-      to: '/ai-decision-support',
-      label: 'AI Decision Support',
-      position: 'left',
-    },
-    {
-      to: '/docs/intro',
-      label: 'Docs',
-      position: 'left',
-    },
-    {
-      to: '/pricing',
-      label: 'Pricing',
-      position: 'left',
-    },
-    {
-      to: '/login',
-      label: 'Login',
-      position: 'right',
-      className: 'coregrid-login-button',
-    },
-  ],
-},
     footer: {
       style: 'dark',
       logo: {
@@ -118,6 +87,7 @@ const config: Config = {
           items: [
             {label: 'Getting Started', to: '/docs/intro'},
             {label: 'User Manual', to: '/docs/user-manual/organization-setup'},
+            {label: 'Roles & Permissions', to: '/docs/user-manual/roles-permissions'},
             {label: 'Planned Features', to: '/docs/planned-features'},
           ],
         },
@@ -127,17 +97,8 @@ const config: Config = {
             {label: 'About Us', to: '/about'},
             {label: 'Features', to: '/features'},
             {label: 'Modules', to: '/modules'},
+            {label: 'Pricing', to: '/pricing'},
             {label: 'Contact Us', to: '/contact'},
-          ],
-        },
-        {
-          title: 'Docs',
-          items: [
-            {label: 'Getting Started', to: '/docs/intro'},
-            {label: 'Architecture Overview', to: '/docs/architecture/overview'},
-            {label: 'Technology Stack', to: '/docs/architecture/technology-stack'},
-            {label: 'Project Structure', to: '/docs/project-structure/repository-layout'},
-            {label: 'Roles & Permissions', to: '/docs/user-manual/roles-permissions'},
           ],
         },
       ],

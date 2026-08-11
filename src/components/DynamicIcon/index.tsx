@@ -15,6 +15,9 @@ import {
   RefreshCw,
   MapPin,
   BrainCircuit,
+  Server,
+  Layers,
+  Headphones,
   type LucideProps,
 } from 'lucide-react';
 
@@ -34,6 +37,9 @@ const registry = {
   RefreshCw,
   MapPin,
   BrainCircuit,
+  Server,
+  Layers,
+  Headphones,
 };
 
 export type IconName = keyof typeof registry;

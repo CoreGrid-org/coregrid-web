@@ -13,7 +13,6 @@ import {
   ClipboardCheck,
   BrainCircuit,
   Layers3,
-  Users,
 } from 'lucide-react';
 
 import Reveal from '@site/src/components/Reveal';
@@ -129,12 +128,12 @@ export default function About(): React.ReactElement {
   return (
     <Layout
       title="About"
-      description="Learn about CoreGrid, an intelligent asset lifecycle management platform designed for secure, accountable and integrated public asset management."
+      description="Learn about CoreGrid, an intelligent asset lifecycle management platform built for secure, accountable and integrated asset management."
     >
       <SeoHead
         path="/about"
         title="About CoreGrid"
-        description="Learn about CoreGrid, an intelligent asset lifecycle management platform designed for secure, accountable and integrated public asset management."
+        description="Learn about CoreGrid, an intelligent asset lifecycle management platform built for secure, accountable and integrated asset management."
       />
 
 
@@ -142,33 +141,20 @@ export default function About(): React.ReactElement {
           HERO
       ===================================================== */}
 
-      <header className={styles.heroSection}>
-        <div className={styles.heroGlow} />
+      <header className="cg-page-header">
+        <div className="cg-container">
+          <div className={styles.heroContent}>
+            <span className="cg-eyebrow">About CoreGrid</span>
 
-        <div className={styles.pageContainer}>
-          <Reveal>
-            <div className={styles.heroContent}>
+            <h1 className={`cg-heading ${styles.heroTitle}`}>A Smarter Approach to Asset Management</h1>
 
-              <span className={styles.eyebrow}>
-                About CoreGrid
-              </span>
-
-              <h1 className={styles.heroTitle}>
-                A Smarter Approach to{' '}
-                <span className={styles.highlight}>
-                  Public Asset Management.
-                </span>
-              </h1>
-
-              <p className={styles.heroLead}>
-                CoreGrid is a student-developed intelligent asset lifecycle
-                management platform designed to explore how public-sector
-                organisations can manage physical assets through one secure,
-                configurable and accountable digital system.
-              </p>
-
-            </div>
-          </Reveal>
+            <p className={`cg-lead ${styles.heroLead}`}>
+              CoreGrid is an intelligent asset lifecycle management platform
+              built for organisations that manage large numbers of physical
+              assets through one secure, configurable and accountable
+              digital system.
+            </p>
+          </div>
         </div>
       </header>
 
@@ -177,8 +163,8 @@ export default function About(): React.ReactElement {
           ABOUT PROJECT
       ===================================================== */}
 
-      <section className={styles.whiteSection}>
-        <div className={styles.pageContainer}>
+      <section className="cg-section">
+        <div className="cg-container">
 
           <Reveal>
             <div className={styles.projectGrid}>
@@ -186,11 +172,11 @@ export default function About(): React.ReactElement {
               {/* LEFT */}
               <div className={styles.projectLeft}>
 
-                <span className={styles.eyebrow}>
+                <span className="cg-eyebrow">
                   The Project
                 </span>
 
-                <h2 className={styles.sectionTitle}>
+                <h2 className={`cg-heading ${styles.sectionTitle}`}>
                   Why CoreGrid?
                 </h2>
 
@@ -208,7 +194,7 @@ export default function About(): React.ReactElement {
               {/* RIGHT */}
               <div className={styles.projectRight}>
 
-                <span className={styles.eyebrow}>
+                <span className="cg-eyebrow">
                   Unified Asset Management
                 </span>
 
@@ -223,11 +209,11 @@ export default function About(): React.ReactElement {
                 </p>
 
                 <p className={styles.projectText}>
-                  CoreGrid explores a unified digital approach where assets can
-                  be registered, identified, maintained, transferred, verified,
+                  CoreGrid takes a unified digital approach: assets are
+                  registered, identified, maintained, transferred, verified,
                   audited and eventually disposed of through a controlled
-                  lifecycle. The platform also introduces AI-assisted analysis
-                  while ensuring that important decisions remain under
+                  lifecycle. The platform also brings AI-assisted analysis
+                  to that lifecycle, while keeping important decisions under
                   authorised human control.
                 </p>
 
@@ -264,17 +250,17 @@ export default function About(): React.ReactElement {
           MISSION / VISION
       ===================================================== */}
 
-      <section className={styles.altSection}>
-        <div className={styles.pageContainer}>
+      <section className="cg-section cg-section--alt">
+        <div className="cg-container">
 
           <Reveal>
             <div className={styles.sectionHeader}>
 
-              <span className={styles.eyebrow}>
+              <span className="cg-eyebrow">
                 Our Direction
               </span>
 
-              <h2 className={styles.sectionTitle}>
+              <h2 className={`cg-heading ${styles.sectionTitle}`}>
                 Purpose Behind the Platform
               </h2>
 
@@ -285,7 +271,7 @@ export default function About(): React.ReactElement {
           <Reveal>
             <div className={styles.missionGrid}>
 
-              <div className={styles.directionCard}>
+              <div className={`cg-card ${styles.directionCard}`}>
 
                 <div className={styles.directionIcon}>
                   <Target size={25} />
@@ -294,16 +280,16 @@ export default function About(): React.ReactElement {
                 <h3>Our Mission</h3>
 
                 <p>
-                  To design an integrated asset management platform that
+                  To provide an integrated asset management platform that
                   improves visibility, accountability and lifecycle
-                  coordination while demonstrating how modern web, mobile and
-                  AI technologies can support public-sector asset operations.
+                  coordination, showing how modern web, mobile and AI
+                  technologies can support asset operations at scale.
                 </p>
 
               </div>
 
 
-              <div className={styles.directionCard}>
+              <div className={`cg-card ${styles.directionCard}`}>
 
                 <div className={styles.directionIcon}>
                   <Eye size={25} />
@@ -312,10 +298,9 @@ export default function About(): React.ReactElement {
                 <h3>Our Vision</h3>
 
                 <p>
-                  To demonstrate a future where physical assets can be managed
-                  through reliable digital records, transparent workflows,
-                  field-based verification and responsible AI-assisted decision
-                  support.
+                  A future where physical assets are managed through reliable
+                  digital records, transparent workflows, field-based
+                  verification and responsible AI-assisted decision support.
                 </p>
 
               </div>
@@ -331,25 +316,25 @@ export default function About(): React.ReactElement {
           CORE IDEA
       ===================================================== */}
 
-      <section className={styles.whiteSection}>
-        <div className={styles.pageContainer}>
+      <section className="cg-section">
+        <div className="cg-container">
 
           <Reveal>
             <div className={styles.sectionHeader}>
 
-              <span className={styles.eyebrow}>
+              <span className="cg-eyebrow">
                 The Core Idea
               </span>
 
-              <h2 className={styles.sectionTitle}>
+              <h2 className={`cg-heading ${styles.sectionTitle}`}>
                 Why CoreGrid Was Designed
               </h2>
 
               <p className={styles.sectionDescription}>
-                Public-sector asset management requires more than simply
-                storing asset information. CoreGrid explores how the complete
-                asset lifecycle can be managed through one connected,
-                transparent and accountable digital platform.
+                Asset management requires more than simply storing
+                information. CoreGrid manages the complete asset lifecycle
+                through one connected, transparent and accountable digital
+                platform.
               </p>
 
             </div>
@@ -361,7 +346,7 @@ export default function About(): React.ReactElement {
 
               {/* CHALLENGE */}
 
-              <div className={styles.challengeCard}>
+              <div className={`cg-card ${styles.challengeCard}`}>
 
                 <span className={styles.cardNumber}>
                   01
@@ -371,7 +356,7 @@ export default function About(): React.ReactElement {
                   <ClipboardCheck size={28} />
                 </div>
 
-                <span className={styles.eyebrow}>
+                <span className="cg-eyebrow">
                   The Challenge
                 </span>
 
@@ -412,7 +397,7 @@ export default function About(): React.ReactElement {
                   <Layers3 size={28} />
                 </div>
 
-                <span className={styles.eyebrow}>
+                <span className="cg-eyebrow">
                   Our Approach
                 </span>
 
@@ -453,17 +438,17 @@ export default function About(): React.ReactElement {
           CAPABILITIES
       ===================================================== */}
 
-      <section className={styles.altSection}>
-        <div className={styles.pageContainer}>
+      <section className="cg-section cg-section--alt">
+        <div className="cg-container">
 
           <Reveal>
             <div className={styles.sectionHeader}>
 
-              <span className={styles.eyebrow}>
+              <span className="cg-eyebrow">
                 Platform Capabilities
               </span>
 
-              <h2 className={styles.sectionTitle}>
+              <h2 className={`cg-heading ${styles.sectionTitle}`}>
                 Built Around the Complete Asset Lifecycle
               </h2>
 
@@ -479,7 +464,7 @@ export default function About(): React.ReactElement {
 
                 return (
                   <div
-                    className={styles.capabilityCard}
+                    className={`cg-card ${styles.capabilityCard}`}
                     key={capability.number}
                   >
 
@@ -514,18 +499,18 @@ export default function About(): React.ReactElement {
           TECHNOLOGY
       ===================================================== */}
 
-      <section className={styles.technologySection}>
+      <section className={`cg-section cg-section--alt ${styles.technologySection}`}>
 
-        <div className={styles.pageContainer}>
+        <div className="cg-container">
 
           <Reveal>
             <div className={styles.sectionHeader}>
 
-              <span className={styles.eyebrow}>
+              <span className="cg-eyebrow">
                 Technology
               </span>
 
-              <h2 className={styles.sectionTitle}>
+              <h2 className={`cg-heading ${styles.sectionTitle}`}>
                 Built as an Integrated System
               </h2>
 
@@ -558,7 +543,7 @@ export default function About(): React.ReactElement {
 
                   return (
                     <div
-                      className={styles.technologyCard}
+                      className={`cg-card ${styles.technologyCard}`}
                       key={`${technology.title}-${index}`}
                     >
 
