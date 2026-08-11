@@ -23,8 +23,8 @@ their own identity provider. Nothing is shared between organisations.
 | AI decision-support service | An internal agent workflow that analyses assets and proposes recommendations for a human officer to approve. |
 | Identity provider | Authenticates every user and issues the tokens the API validates. |
 
-See [Architecture](./architecture/overview.md) for how these fit together, and
-[Project Structure](./project-structure/repository-layout.md) for how the codebase is organised.
+See the [User Manual](./user-manual/organization-setup.md) for how an administrator configures and runs
+CoreGrid day to day.
 
 ## Function groups
 

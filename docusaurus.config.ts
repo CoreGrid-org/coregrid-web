@@ -116,7 +116,7 @@ const config: Config = {
         {
           title: 'Documentation',
           items: [
-            {label: 'Architecture', to: '/docs/architecture/overview'},
+            {label: 'Getting Started', to: '/docs/intro'},
             {label: 'User Manual', to: '/docs/user-manual/organization-setup'},
             {label: 'Planned Features', to: '/docs/planned-features'},
           ],

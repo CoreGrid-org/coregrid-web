@@ -399,18 +399,17 @@ export default function Home(): React.ReactElement {
         <div className={styles.pageContainer}>
 
           <Reveal>
-
-            <div className={styles.overviewGrid}>
-
-              {/* LEFT IMAGE */}
-              <div className={styles.overviewVisual}>
-
-                <img
-                  src={circleViewSrc}
-                  alt="CoreGrid asset lifecycle"
-                  className={styles.overviewImage}
-                />
-
+            <div className={styles.howGrid}>
+              <div className={styles.howCopy}>
+                <span className="cg-eyebrow">How It Works</span>
+                <h2 className={`cg-heading ${styles.howTitle}`}>One lifecycle, from registration to disposal</h2>
+                <p className={styles.howText}>
+                  Every asset moves through the same four stages, whichever department it belongs to - so the
+                  register stays consistent and every decision stays traceable.
+                </p>
+                <Link className="cg-btn cg-btn--primary" to="/docs/intro">
+                  Read the docs
+                </Link>
               </div>
 
 
