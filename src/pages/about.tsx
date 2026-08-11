@@ -189,8 +189,8 @@ export default function About(): React.ReactElement {
               </table>
             </div>
             <p className={styles.docsLink}>
-              See the full <Link to="/docs/architecture/technology-stack">technology stack</Link> and{' '}
-              <Link to="/docs/architecture/overview">system architecture</Link> in the documentation.
+              See the full <Link to="/features">feature set</Link> or read the{' '}
+              <Link to="/docs/intro">product documentation</Link>.
             </p>
           </Reveal>
         </div>

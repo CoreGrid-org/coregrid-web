@@ -10,7 +10,7 @@ set, grouped the same way as the [User Manual](./user-manual/organization-setup.
 | Area | Status | Detail |
 |---|---|---|
 | Setup - first organisation and Administrator | **Live** | Provisioned for you at purchase - see [Getting Started](./user-manual/organization-setup.md). |
-| Identity and access - sign-in, roles, sessions | **Live** | See [Identity and Access](./architecture/identity-and-access.md). |
+| Identity and access - sign-in, roles, sessions | **Live** | See [Roles and Permissions](./user-manual/roles-permissions.md). |
 | Organisation configuration - departments, locations, categories, asset types, attributes, policies, users | Planned | See [Organisation Setup](./user-manual/organization-setup.md) for the intended workflow. |
 | Asset registry - registration, QR identification, search, lifecycle status | Planned | See [Asset Registry](./user-manual/features/asset-registry.md). |
 | Maintenance management - fault reporting, work orders, cost tracking | Planned | See [Maintenance Management](./user-manual/features/maintenance-management.md). |

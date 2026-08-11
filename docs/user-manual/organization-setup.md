@@ -56,6 +56,5 @@ records intact but blocks their sign-in immediately.
 
 ## Where this fits
 
-These are *organisation-level* settings - the middle of the three levels of change described in
-[Architecture Overview](../architecture/overview.md). Only an Administrator can change them; the underlying
-lifecycle engine and permission model are fixed and the same for every customer.
+These are *organisation-level* settings. Only an Administrator can change them; the underlying lifecycle
+engine and permission model are fixed and the same for every customer.

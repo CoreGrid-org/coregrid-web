@@ -149,8 +149,8 @@ export default function Home(): React.ReactElement {
                   Every asset moves through the same four stages, whichever department it belongs to - so the
                   register stays consistent and every decision stays traceable.
                 </p>
-                <Link className="cg-btn cg-btn--primary" to="/docs/architecture/overview">
-                  Read the architecture
+                <Link className="cg-btn cg-btn--primary" to="/docs/intro">
+                  Read the docs
                 </Link>
               </div>
               <div className={styles.stepsList}>

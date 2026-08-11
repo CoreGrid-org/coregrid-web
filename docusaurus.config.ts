@@ -13,11 +13,9 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  url: 'https://coregrid-org.github.io',
-  baseUrl: '/coregrid-web/',
-
-  organizationName: 'CoreGrid-org',
-  projectName: 'coregrid-web',
+  // TODO: replace with the real production domain once hosting is decided.
+  url: 'https://coregrid.example.com',
+  baseUrl: '/',
 
   onBrokenLinks: 'throw',
 
@@ -60,6 +58,7 @@ const config: Config = {
         {to: '/about', label: 'About', position: 'left'},
         {to: '/features', label: 'Features', position: 'left'},
         {to: '/ai-decision-support', label: 'AI Decision Support', position: 'left'},
+        {to: '/pricing', label: 'Pricing', position: 'left'},
         {to: '/docs/intro', label: 'Docs', position: 'left'},
         {
           to: '/contact',
@@ -89,7 +88,7 @@ const config: Config = {
         {
           title: 'Documentation',
           items: [
-            {label: 'Architecture', to: '/docs/architecture/overview'},
+            {label: 'Getting Started', to: '/docs/intro'},
             {label: 'User Manual', to: '/docs/user-manual/organization-setup'},
             {label: 'Planned Features', to: '/docs/planned-features'},
           ],
@@ -99,6 +98,7 @@ const config: Config = {
           items: [
             {label: 'About Us', to: '/about'},
             {label: 'Features', to: '/features'},
+            {label: 'Pricing', to: '/pricing'},
             {label: 'Contact Us', to: '/contact'},
           ],
         },

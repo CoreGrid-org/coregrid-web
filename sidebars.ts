@@ -5,25 +5,6 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
-      label: 'Architecture',
-      collapsed: false,
-      items: [
-        'architecture/overview',
-        'architecture/identity-and-access',
-        'architecture/technology-stack',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Project Structure',
-      items: [
-        'project-structure/repository-layout',
-        'project-structure/domain-model',
-        'project-structure/api-reference',
-      ],
-    },
-    {
-      type: 'category',
       label: 'User Manual',
       collapsed: false,
       items: [
