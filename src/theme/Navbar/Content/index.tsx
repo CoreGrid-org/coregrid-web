@@ -1,34 +1,63 @@
 import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
+
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import {useThemeConfig, ErrorCauseBoundary, ThemeClassNames} from '@docusaurus/theme-common';
-import {splitNavbarItems, useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
-import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
+
+import {
+  useThemeConfig,
+  ErrorCauseBoundary,
+  ThemeClassNames,
+} from '@docusaurus/theme-common';
+
+import {
+  splitNavbarItems,
+  useNavbarMobileSidebar,
+} from '@docusaurus/theme-common/internal';
+
+import NavbarItem, {
+  type Props as NavbarItemConfig,
+} from '@theme/NavbarItem';
+
 import SearchBar from '@theme/SearchBar';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarSearch from '@theme/Navbar/Search';
 
+import styles from './styles.module.css';
+
+/* =========================================================
+   BRAND
+========================================================= */
+
 function NavbarBrand(): ReactNode {
-  const mark = useBaseUrl('img/coregrid-logo.png');
+  const logo = useBaseUrl('/img/coregrid-logo.png');
+
   return (
-    <Link to="/" className={clsx('navbar__brand', 'navbar-brand')}>
-      <span className="navbar-brand-mark">
-        <img src={mark} className="navbar-brand-mark-img" alt="CoreGrid" width={34} height={34} decoding="async" fetchPriority="high" />
-      </span>
-      <span className="navbar-brand-text">
-        <span className="navbar-brand-text-core">Core</span>
-        <span className="navbar-brand-text-grid">Grid</span>
-      </span>
+    <Link to="/" className={styles.brand}>
+      <img
+        src={logo}
+        className={styles.logo}
+        alt="CoreGrid Sri Lanka"
+        decoding="async"
+        fetchPriority="high"
+      />
     </Link>
   );
 }
+
+/* =========================================================
+   NAVBAR ITEMS
+========================================================= */
 
 function useNavbarItems() {
   return useThemeConfig().navbar.items as NavbarItemConfig[];
 }
 
-function NavbarItems({items}: {items: NavbarItemConfig[]}): ReactNode {
+function NavbarItems({
+  items,
+}: {
+  items: NavbarItemConfig[];
+}): ReactNode {
   return (
     <>
       {items.map((item, i) => (
@@ -37,11 +66,14 @@ function NavbarItems({items}: {items: NavbarItemConfig[]}): ReactNode {
           onError={(error) =>
             new Error(
               `A theme navbar item failed to render.
-Please double-check the following navbar item (themeConfig.navbar.items) of your Docusaurus config:
+
+Please double-check the following navbar item in themeConfig.navbar.items:
+
 ${JSON.stringify(item, null, 2)}`,
               {cause: error},
             )
-          }>
+          }
+        >
           <NavbarItem {...item} />
         </ErrorCauseBoundary>
       ))}
@@ -49,10 +81,10 @@ ${JSON.stringify(item, null, 2)}`,
   );
 }
 
-// Brand, links, and the right-hand controls each get their own `.navbar__items`
-// box so the links can be centered against the FULL width of the bar (see
-// .navbar__inner grid in custom.css) instead of only the leftover space next
-// to the right-hand group.
+/* =========================================================
+   NAVBAR LAYOUT
+========================================================= */
+
 function NavbarContentLayout({
   brand,
   links,
@@ -63,38 +95,72 @@ function NavbarContentLayout({
   right: ReactNode;
 }) {
   return (
-    <div className="navbar__inner">
-      <div className={clsx(ThemeClassNames.layout.navbar.containerLeft, 'navbar__items', 'navbar__items--brand')}>
+    <div className={styles.navbarInner}>
+      {/* LEFT — LOGO */}
+      <div
+        className={clsx(
+          ThemeClassNames.layout.navbar.containerLeft,
+          styles.brandArea,
+        )}
+      >
         {brand}
       </div>
-      <div className="navbar__items navbar__items--center">{links}</div>
-      <div className={clsx(ThemeClassNames.layout.navbar.containerRight, 'navbar__items navbar__items--right')}>
+
+      {/* CENTER — LINKS */}
+      <div className={styles.navLinks}>
+        {links}
+      </div>
+
+      {/* RIGHT — LOGIN / SEARCH */}
+      <div
+        className={clsx(
+          ThemeClassNames.layout.navbar.containerRight,
+          styles.rightArea,
+        )}
+      >
         {right}
       </div>
     </div>
   );
 }
 
+/* =========================================================
+   NAVBAR CONTENT
+========================================================= */
+
 export default function NavbarContent(): ReactNode {
   const mobileSidebar = useNavbarMobileSidebar();
 
   const items = useNavbarItems();
+
   const [leftItems, rightItems] = splitNavbarItems(items);
 
-  const searchBarItem = items.find((item) => item.type === 'search');
+  const searchBarItem = items.find(
+    (item) => item.type === 'search',
+  );
 
   return (
     <NavbarContentLayout
       brand={
-        <>
-          {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
+        <div className={styles.brandWrapper}>
+          {!mobileSidebar.disabled && (
+            <div className={styles.mobileToggle}>
+              <NavbarMobileSidebarToggle />
+            </div>
+          )}
+
           <NavbarBrand />
-        </>
+        </div>
       }
-      links={<NavbarItems items={leftItems} />}
+
+      links={
+        <NavbarItems items={leftItems} />
+       }
+
       right={
         <>
           <NavbarItems items={rightItems} />
+
           {!searchBarItem && (
             <NavbarSearch>
               <SearchBar />

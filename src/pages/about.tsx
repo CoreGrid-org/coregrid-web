@@ -1,12 +1,78 @@
 import React from 'react';
-import Link from '@docusaurus/Link';
+
 import Layout from '@theme/Layout';
-import {Check} from 'lucide-react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+import {
+  Target,
+  Eye,
+  ShieldCheck,
+  QrCode,
+  Wrench,
+  ArrowLeftRight,
+  ClipboardCheck,
+  BrainCircuit,
+  Layers3,
+  Users,
+} from 'lucide-react';
+
 import Reveal from '@site/src/components/Reveal';
 import SeoHead from '@site/src/components/SeoHead';
+
 import styles from './about.module.css';
 
-const challenge = [
+
+/* =========================================================
+   DATA
+========================================================= */
+
+const capabilities = [
+  {
+    icon: QrCode,
+    number: '01',
+    title: 'Asset Registry & Identification',
+    description:
+      'Maintain structured records for physical assets with configurable asset types, custom attributes and QR-based identification.',
+  },
+  {
+    icon: Wrench,
+    number: '02',
+    title: 'Maintenance Management',
+    description:
+      'Support fault reporting, maintenance records, assignments, progress tracking, cost capture and completion.',
+  },
+  {
+    icon: ArrowLeftRight,
+    number: '03',
+    title: 'Transfer & Disposal',
+    description:
+      'Manage controlled asset transfers and disposal workflows with approval, evidence and lifecycle tracking.',
+  },
+  {
+    icon: ClipboardCheck,
+    number: '04',
+    title: 'Audit & Verification',
+    description:
+      'Support physical verification campaigns, discrepancy management and traceable audit records.',
+  },
+  {
+    icon: BrainCircuit,
+    number: '05',
+    title: 'AI-Assisted Decisions',
+    description:
+      'Analyse lifecycle information and provide structured recommendations while keeping authorised officers in control.',
+  },
+  {
+    icon: ShieldCheck,
+    number: '06',
+    title: 'Controlled & Auditable',
+    description:
+      'Apply role-based access, deterministic validation and human approval before high-impact lifecycle decisions.',
+  },
+];
+
+
+const challengeItems = [
   'Asset information spread across different records',
   'Limited visibility of asset location and condition',
   'Manual maintenance and transfer processes',
@@ -14,7 +80,8 @@ const challenge = [
   'Limited information available for timely decisions',
 ];
 
-const approach = [
+
+const approachItems = [
   'Centralised and configurable asset records',
   'QR-based asset identification and verification',
   'Maintenance, transfer and disposal workflows',
@@ -22,198 +89,513 @@ const approach = [
   'AI-assisted insights with authorised human control',
 ];
 
-const principles = [
+
+const technologies = [
   {
-    title: 'One integrated platform',
-    description: 'Web, mobile, API, database and AI services work together around one consistent asset lifecycle.',
+    logo: '/img/tech/react.svg',
+    title: 'React',
+    label: 'Management Web Application',
   },
   {
-    title: 'Human in control',
-    description: 'AI supports decisions rather than replacing officers. High-impact actions require human approval.',
+    logo: '/img/tech/flutter.svg',
+    title: 'Flutter',
+    label: 'Field Operations Application',
   },
   {
-    title: 'Accountability by design',
-    description: 'Important actions and lifecycle changes are traceable and auditable by construction.',
+    logo: '/img/tech/dotnet.svg',
+    title: 'ASP.NET Core',
+    label: 'REST API & Business Layer',
   },
   {
-    title: 'Configurable by design',
-    description: 'Asset types, departments, locations and custom attributes adapt to different organisational needs.',
+    logo: '/img/tech/postgresql.svg',
+    title: 'PostgreSQL',
+    label: 'Central Data Platform',
+  },
+  {
+    logo: '/img/tech/langgraph.svg',
+    title: 'LangGraph',
+    label: 'Agentic AI Workflow',
   },
 ];
 
-const stack = [
-  {tech: 'React', role: 'Management web application'},
-  {tech: 'Flutter', role: 'Field operations application'},
-  {tech: 'ASP.NET Core', role: 'REST API and business layer'},
-  {tech: 'PostgreSQL', role: 'Central data platform'},
-  {tech: 'LangGraph', role: 'AI decision-support workflow'},
-];
+
+/* =========================================================
+   PAGE
+========================================================= */
 
 export default function About(): React.ReactElement {
+  const logo = useBaseUrl('/img/coregrid-logo.png');
+
   return (
     <Layout
       title="About"
-      description="A unified, accountable approach to asset lifecycle management.">
+      description="Learn about CoreGrid, an intelligent asset lifecycle management platform designed for secure, accountable and integrated public asset management."
+    >
       <SeoHead
         path="/about"
         title="About CoreGrid"
-        description="A unified, accountable approach to asset lifecycle management."
+        description="Learn about CoreGrid, an intelligent asset lifecycle management platform designed for secure, accountable and integrated public asset management."
       />
 
-      <header className="cg-page-header">
-        <div className="cg-container">
-          <div className={styles.introInner}>
-            <span className="cg-eyebrow">About CoreGrid</span>
-            <h1 className={`cg-heading ${styles.title}`}>A smarter approach to asset management</h1>
-            <p className={`cg-lead ${styles.lead}`}>
-              CoreGrid is an intelligent asset lifecycle platform designed for organisations that need one
-              secure, configurable and accountable system for managing physical assets.
-            </p>
-          </div>
+
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
+      <header className={styles.heroSection}>
+        <div className={styles.heroGlow} />
+
+        <div className={styles.pageContainer}>
+          <Reveal>
+            <div className={styles.heroContent}>
+
+              <span className={styles.eyebrow}>
+                About CoreGrid
+              </span>
+
+              <h1 className={styles.heroTitle}>
+                A Smarter Approach to{' '}
+                <span className={styles.highlight}>
+                  Public Asset Management.
+                </span>
+              </h1>
+
+              <p className={styles.heroLead}>
+                CoreGrid is a student-developed intelligent asset lifecycle
+                management platform designed to explore how public-sector
+                organisations can manage physical assets through one secure,
+                configurable and accountable digital system.
+              </p>
+
+            </div>
+          </Reveal>
         </div>
       </header>
 
-      <section className="cg-section cg-section--tight">
-        <div className="cg-container">
-          <Reveal>
-            <div className={styles.introBody}>
-              <span className="cg-eyebrow" style={{textAlign: 'center'}}>
-                Why CoreGrid
-              </span>
-              <p>
-                Managing large numbers of physical assets becomes difficult when information is spread
-                across spreadsheets, paper records and separate departmental processes. CoreGrid takes a
-                unified approach: assets are registered, identified, maintained, transferred, verified,
-                audited and eventually disposed of through one controlled lifecycle - with AI-assisted
-                analysis that keeps important decisions under human control.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
 
-      <section className="cg-section cg-section--alt">
-        <div className="cg-container">
-          <Reveal>
-            <span className="cg-eyebrow">Our Direction</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '2rem'}}>
-              Purpose behind the platform
-            </h2>
-            <div className={`cg-grid cg-grid--2`}>
-              <div className="cg-card">
-                <h3 className={styles.principleTitle}>Our mission</h3>
-                <p className={styles.principleDesc}>
-                  To provide an integrated asset management platform that improves visibility,
-                  accountability and lifecycle coordination - demonstrating how modern web, mobile and AI
-                  technologies can support asset operations at scale.
-                </p>
-              </div>
-              <div className="cg-card">
-                <h3 className={styles.principleTitle}>Our vision</h3>
-                <p className={styles.principleDesc}>
-                  A future where physical assets are managed through reliable digital records, transparent
-                  workflows, field-based verification and responsible AI-assisted decision support.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* =====================================================
+          ABOUT PROJECT
+      ===================================================== */}
 
-      <section className="cg-section">
-        <div className="cg-container">
-          <Reveal>
-            <span className="cg-eyebrow">The Core Idea</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '0.75rem'}}>
-              Why CoreGrid was designed this way
-            </h2>
-            <p style={{maxWidth: 720, marginBottom: '2rem'}}>
-              Asset management requires more than storing information. CoreGrid manages the complete asset
-              lifecycle through one connected, transparent and accountable digital platform.
-            </p>
-            <div className={styles.twoCol}>
-              <div className="cg-card">
-                <h3 className={styles.principleTitle}>The challenge</h3>
-                <ul className={styles.checklist}>
-                  {challenge.map((item) => (
-                    <li key={item}>
-                      <Check className={styles.checkMark} size={15} strokeWidth={2.5} />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="cg-card">
-                <h3 className={styles.principleTitle}>Our approach</h3>
-                <ul className={styles.checklist}>
-                  {approach.map((item) => (
-                    <li key={item}>
-                      <Check className={styles.checkMark} size={15} strokeWidth={2.5} />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <section className={styles.whiteSection}>
+        <div className={styles.pageContainer}>
 
-      <section className="cg-section cg-section--alt">
-        <div className="cg-container">
           <Reveal>
-            <span className="cg-eyebrow">Technology</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '0.75rem'}}>
-              Built as an integrated system
-            </h2>
-            <p style={{maxWidth: 720, marginBottom: '2rem'}}>
-              The platform combines web, mobile, backend, data and AI technologies within a single
-              architecture.
-            </p>
-            <div className={styles.techTableWrap}>
-              <table className={styles.techTable}>
-                <thead>
-                  <tr>
-                    <th>Technology</th>
-                    <th>Role</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stack.map((row) => (
-                    <tr key={row.tech}>
-                      <td>{row.tech}</td>
-                      <td>{row.role}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className={styles.docsLink}>
-              See the full <Link to="/features">feature set</Link> or read the{' '}
-              <Link to="/docs/intro">product documentation</Link>.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+            <div className={styles.projectGrid}>
 
-      <section className="cg-section">
-        <div className="cg-container">
-          <Reveal>
-            <span className="cg-eyebrow">Principles</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '2rem'}}>
-              What guides the platform
-            </h2>
-            <div className="cg-grid cg-grid--4">
-              {principles.map((item) => (
-                <div key={item.title} className={`cg-card ${styles.principleCard}`}>
-                  <h3 className={styles.principleTitle}>{item.title}</h3>
-                  <p className={styles.principleDesc}>{item.description}</p>
+              {/* LEFT */}
+              <div className={styles.projectLeft}>
+
+                <span className={styles.eyebrow}>
+                  The Project
+                </span>
+
+                <h2 className={styles.sectionTitle}>
+                  Why CoreGrid?
+                </h2>
+
+                <div className={styles.logoWrapper}>
+                  <img
+                    src={logo}
+                    alt="CoreGrid Sri Lanka"
+                    className={styles.projectLogo}
+                  />
                 </div>
-              ))}
+
+              </div>
+
+
+              {/* RIGHT */}
+              <div className={styles.projectRight}>
+
+                <span className={styles.eyebrow}>
+                  Unified Asset Management
+                </span>
+
+                <h3 className={styles.projectHeading}>
+                  Bringing the Complete Asset Lifecycle Into One Platform
+                </h3>
+
+                <p className={styles.projectText}>
+                  Managing large numbers of physical assets can become difficult
+                  when information is distributed across spreadsheets, paper
+                  records and separate departmental processes.
+                </p>
+
+                <p className={styles.projectText}>
+                  CoreGrid explores a unified digital approach where assets can
+                  be registered, identified, maintained, transferred, verified,
+                  audited and eventually disposed of through a controlled
+                  lifecycle. The platform also introduces AI-assisted analysis
+                  while ensuring that important decisions remain under
+                  authorised human control.
+                </p>
+
+
+                <div className={styles.highlights}>
+
+                  <div className={styles.highlightItem}>
+                    <h4>Centralised</h4>
+                    <p>One platform</p>
+                  </div>
+
+                  <div className={styles.highlightItem}>
+                    <h4>Accountable</h4>
+                    <p>Auditable actions</p>
+                  </div>
+
+                  <div className={styles.highlightItem}>
+                    <h4>Intelligent</h4>
+                    <p>AI-assisted</p>
+                  </div>
+
+                </div>
+
+              </div>
+
             </div>
           </Reveal>
+
         </div>
       </section>
+
+
+      {/* =====================================================
+          MISSION / VISION
+      ===================================================== */}
+
+      <section className={styles.altSection}>
+        <div className={styles.pageContainer}>
+
+          <Reveal>
+            <div className={styles.sectionHeader}>
+
+              <span className={styles.eyebrow}>
+                Our Direction
+              </span>
+
+              <h2 className={styles.sectionTitle}>
+                Purpose Behind the Platform
+              </h2>
+
+            </div>
+          </Reveal>
+
+
+          <Reveal>
+            <div className={styles.missionGrid}>
+
+              <div className={styles.directionCard}>
+
+                <div className={styles.directionIcon}>
+                  <Target size={25} />
+                </div>
+
+                <h3>Our Mission</h3>
+
+                <p>
+                  To design an integrated asset management platform that
+                  improves visibility, accountability and lifecycle
+                  coordination while demonstrating how modern web, mobile and
+                  AI technologies can support public-sector asset operations.
+                </p>
+
+              </div>
+
+
+              <div className={styles.directionCard}>
+
+                <div className={styles.directionIcon}>
+                  <Eye size={25} />
+                </div>
+
+                <h3>Our Vision</h3>
+
+                <p>
+                  To demonstrate a future where physical assets can be managed
+                  through reliable digital records, transparent workflows,
+                  field-based verification and responsible AI-assisted decision
+                  support.
+                </p>
+
+              </div>
+
+            </div>
+          </Reveal>
+
+        </div>
+      </section>
+
+
+      {/* =====================================================
+          CORE IDEA
+      ===================================================== */}
+
+      <section className={styles.whiteSection}>
+        <div className={styles.pageContainer}>
+
+          <Reveal>
+            <div className={styles.sectionHeader}>
+
+              <span className={styles.eyebrow}>
+                The Core Idea
+              </span>
+
+              <h2 className={styles.sectionTitle}>
+                Why CoreGrid Was Designed
+              </h2>
+
+              <p className={styles.sectionDescription}>
+                Public-sector asset management requires more than simply
+                storing asset information. CoreGrid explores how the complete
+                asset lifecycle can be managed through one connected,
+                transparent and accountable digital platform.
+              </p>
+
+            </div>
+          </Reveal>
+
+
+          <Reveal>
+            <div className={styles.approachGrid}>
+
+              {/* CHALLENGE */}
+
+              <div className={styles.challengeCard}>
+
+                <span className={styles.cardNumber}>
+                  01
+                </span>
+
+                <div className={styles.cardIcon}>
+                  <ClipboardCheck size={28} />
+                </div>
+
+                <span className={styles.eyebrow}>
+                  The Challenge
+                </span>
+
+                <h3>
+                  Managing Assets Across Separate Processes
+                </h3>
+
+
+                <div className={styles.itemList}>
+
+                  {challengeItems.map((item) => (
+                    <div
+                      className={styles.challengeItem}
+                      key={item}
+                    >
+                      <span className={styles.dot} />
+
+                      <p>{item}</p>
+                    </div>
+                  ))}
+
+                </div>
+
+              </div>
+
+
+              {/* APPROACH */}
+
+              <div className={styles.approachCard}>
+
+                <div className={styles.approachGlow} />
+
+                <span className={styles.darkCardNumber}>
+                  02
+                </span>
+
+                <div className={styles.approachIcon}>
+                  <Layers3 size={28} />
+                </div>
+
+                <span className={styles.eyebrow}>
+                  Our Approach
+                </span>
+
+                <h3>
+                  One Connected Asset Lifecycle
+                </h3>
+
+
+                <div className={styles.itemList}>
+
+                  {approachItems.map((item) => (
+                    <div
+                      className={styles.approachItem}
+                      key={item}
+                    >
+
+                      <div className={styles.checkIcon}>
+                        <ShieldCheck size={14} />
+                      </div>
+
+                      <p>{item}</p>
+
+                    </div>
+                  ))}
+
+                </div>
+
+              </div>
+
+            </div>
+          </Reveal>
+
+        </div>
+      </section>
+
+
+      {/* =====================================================
+          CAPABILITIES
+      ===================================================== */}
+
+      <section className={styles.altSection}>
+        <div className={styles.pageContainer}>
+
+          <Reveal>
+            <div className={styles.sectionHeader}>
+
+              <span className={styles.eyebrow}>
+                Platform Capabilities
+              </span>
+
+              <h2 className={styles.sectionTitle}>
+                Built Around the Complete Asset Lifecycle
+              </h2>
+
+            </div>
+          </Reveal>
+
+
+          <Reveal>
+            <div className={styles.capabilityGrid}>
+
+              {capabilities.map((capability) => {
+                const Icon = capability.icon;
+
+                return (
+                  <div
+                    className={styles.capabilityCard}
+                    key={capability.number}
+                  >
+
+                    <span className={styles.capabilityNumber}>
+                      {capability.number}
+                    </span>
+
+                    <div className={styles.capabilityIcon}>
+                      <Icon size={24} />
+                    </div>
+
+                    <h3>
+                      {capability.title}
+                    </h3>
+
+                    <p>
+                      {capability.description}
+                    </p>
+
+                  </div>
+                );
+              })}
+
+            </div>
+          </Reveal>
+
+        </div>
+      </section>
+
+
+      {/* =====================================================
+          TECHNOLOGY
+      ===================================================== */}
+
+      <section className={styles.technologySection}>
+
+        <div className={styles.pageContainer}>
+
+          <Reveal>
+            <div className={styles.sectionHeader}>
+
+              <span className={styles.eyebrow}>
+                Technology
+              </span>
+
+              <h2 className={styles.sectionTitle}>
+                Built as an Integrated System
+              </h2>
+
+              <p className={styles.sectionDescription}>
+                The project combines web, mobile, backend, data, identity and
+                AI technologies within a single architecture.
+              </p>
+
+            </div>
+          </Reveal>
+
+        </div>
+
+
+        <Reveal>
+          <div className={styles.technologyWindow}>
+
+            <div className={styles.leftFade} />
+            <div className={styles.rightFade} />
+
+
+            <div className={styles.technologyTrack}>
+
+              {[...technologies, ...technologies].map(
+                (technology, index) => {
+
+                  const technologyLogo = useBaseUrl(
+                    technology.logo,
+                  );
+
+                  return (
+                    <div
+                      className={styles.technologyCard}
+                      key={`${technology.title}-${index}`}
+                    >
+
+                      <div className={styles.technologyLogo}>
+
+                        <img
+                          src={technologyLogo}
+                          alt={`${technology.title} logo`}
+                        />
+
+                      </div>
+
+
+                      <div>
+
+                        <h3>
+                          {technology.title}
+                        </h3>
+
+                        <p>
+                          {technology.label}
+                        </p>
+
+                      </div>
+
+                    </div>
+                  );
+                },
+              )}
+
+            </div>
+
+          </div>
+        </Reveal>
+
+      </section>
+
     </Layout>
   );
 }

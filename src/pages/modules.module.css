@@ -1,0 +1,521 @@
+/* =========================================================
+   PAGE CONTAINER
+   Equivalent to:
+   w-full max-w-[2000px] mx-auto px-6 lg:px-10 xl:px-12
+   ========================================================= */
+
+.pageContainer {
+  width: 100%;
+  max-width: 2000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+
+/* =========================================================
+   HERO SECTION
+   ========================================================= */
+
+.heroSection {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 535px;
+
+  display: flex;
+  align-items: center;
+
+  background: #0b1223;
+  border-bottom: 1px solid #111827;
+}
+.introInner {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  text-align: left;
+}
+
+.title {
+  max-width: 900px;
+
+  margin: 1.25rem 0 1.5rem;
+
+  font-size: clamp(2.5rem, 4.4vw, 4rem);
+  line-height: 1.05;
+
+  letter-spacing: -0.035em;
+
+  color: #ffffff !important;
+}
+
+.highlight {
+  color: #e8601c !important;
+}
+
+.lead {
+  width: 100%;
+  max-width: 850px;
+
+  margin: 0;
+
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   STACK INTRO
+   ========================================================= */
+
+.stackIntro {
+  width: 100%;
+  max-width: 720px;
+
+  margin: 0 auto;
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stackTitle {
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
+
+  margin-top: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.stackIntro p {
+  max-width: 650px;
+
+  margin: 0;
+
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+
+/* =========================================================
+   LAYER HEADER
+   ========================================================= */
+
+.layerHeader {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(0, 1.1fr);
+
+  gap: 5rem;
+
+  align-items: start;
+
+  margin-bottom: 3rem;
+}
+
+.layerHeading {
+  width: 100%;
+}
+
+.layerBadgeRow {
+  display: flex;
+  align-items: center;
+
+  gap: 0.75rem;
+
+  margin-bottom: 1rem;
+}
+
+.layerBadge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  border-radius: var(--cg-radius-sm);
+
+  background: var(--cg-accent);
+  color: #ffffff;
+
+  font-family: var(--cg-font-display);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+.layerTag {
+  font-family: var(--cg-font-display);
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.1em;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  color: var(--cg-accent);
+}
+
+.layerTitle {
+  max-width: 650px;
+
+  margin: 0;
+
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+
+  line-height: 1.15;
+}
+
+.layerDesc {
+  width: 100%;
+
+  max-width: 760px;
+
+  padding-top: 0.2rem;
+}
+
+.layerDesc p {
+  margin: 0 0 1.1rem;
+
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.layerCount {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  padding: 0.45rem 0.95rem;
+
+  border-radius: 999px;
+
+  background: var(--cg-accent-soft);
+
+  color: var(--cg-accent);
+
+  border: 1px solid var(--cg-border);
+
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   MODULE GRID
+   ========================================================= */
+
+.moduleGrid {
+  width: 100%;
+
+  display: grid;
+
+  gap: 1.5rem;
+}
+
+.moduleGridThree {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.moduleGridTwo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   MODULE CARD
+   ========================================================= */
+
+.moduleCard {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 260px;
+
+  padding: 1.75rem;
+}
+
+.moduleNumber {
+  position: absolute;
+
+  top: 1.25rem;
+  right: 1.4rem;
+
+  font-family: var(--cg-font-display);
+
+  font-size: 1.8rem;
+  font-weight: 800;
+
+  line-height: 1;
+
+  opacity: 0.35;
+
+  color: var(--cg-text-muted);
+}
+
+.moduleIcon {
+  width: 46px;
+  height: 46px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  margin-bottom: 1.15rem;
+
+  border-radius: 12px;
+
+  background: var(--cg-accent-soft);
+
+  color: var(--cg-accent);
+}
+
+.moduleTitle {
+  margin: 0 0 0.65rem;
+
+  padding-right: 2rem;
+
+  font-family: var(--cg-font-display);
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  line-height: 1.35;
+}
+
+.moduleDesc {
+  margin: 0;
+
+  color: var(--cg-text-muted);
+
+  font-size: 0.92rem;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   CONNECTOR
+   ========================================================= */
+
+.connector {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  padding-top: 3rem;
+}
+
+.connectorLine {
+  width: 1px;
+  height: 30px;
+
+  background: var(--cg-border);
+}
+
+.connectorLabel {
+  color: var(--cg-text-muted);
+
+  font-size: 0.76rem;
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.ctaBanner {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 2rem;
+
+  padding: 3rem;
+}
+
+.ctaContent {
+  max-width: 850px;
+}
+
+.ctaTitle {
+  margin: 0 0 0.55rem;
+
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.ctaText {
+  margin: 0;
+
+  color: var(--cg-text-muted);
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   LARGE SCREENS
+   ========================================================= */
+
+@media (min-width: 1024px) {
+  .pageContainer {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .pageContainer {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+
+/* =========================================================
+   EXTRA LARGE SCREEN
+   ========================================================= */
+
+@media (min-width: 1600px) {
+  .heroSection {
+    min-height: 560px;
+  }
+
+  .introInner {
+    max-width: 950px;
+  }
+
+  .title {
+    max-width: 950px;
+  }
+
+  .layerHeader {
+    gap: 7rem;
+  }
+
+  .moduleGrid {
+    gap: 1.75rem;
+  }
+
+  .moduleCard {
+    padding: 2rem;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 996px) {
+  .heroSection {
+    min-height: 470px;
+  }
+
+  .layerHeader {
+    grid-template-columns: 1fr;
+
+    gap: 1.5rem;
+  }
+
+  .layerDesc {
+    max-width: 700px;
+  }
+
+  .moduleGridThree {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .pageContainer {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .heroSection {
+    min-height: 440px;
+  }
+
+  .title {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+
+    margin-top: 1rem;
+  }
+
+  .lead {
+    font-size: 0.96rem;
+    line-height: 1.7;
+  }
+
+  .moduleGridThree,
+  .moduleGridTwo {
+    grid-template-columns: 1fr;
+  }
+
+  .moduleCard {
+    min-height: auto;
+
+    padding: 1.5rem;
+  }
+
+  .ctaBanner {
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 2rem 1.5rem;
+
+    text-align: center;
+  }
+
+  .ctaContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -1,86 +1,401 @@
+/* =========================================================
+   PAGE CONTAINER
+========================================================= */
+
+.pageContainer {
+  width: 100%;
+  max-width: 2000px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+
+/* =========================================================
+   HERO SECTION
+========================================================= */
+
+.heroSection {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 535px;
+
+  display: flex;
+  align-items: center;
+
+  background: #0b1223;
+
+  border-bottom: 1px solid #111827;
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
 .introInner {
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+
+  text-align: left;
 }
+
+
+/* =========================================================
+   HERO TITLE
+========================================================= */
 
 .title {
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  margin: 1.1rem 0 1.1rem;
+  max-width: 900px;
+
+  margin: 1.25rem 0 1.5rem;
+
+  font-size: clamp(2.5rem, 4.4vw, 4rem);
+
+  line-height: 1.05;
+
+  letter-spacing: -0.035em;
+
+  color: #ffffff !important;
 }
+
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.highlight {
+  color: #e8601c !important;
+}
+
+
+/* =========================================================
+   HERO DESCRIPTION
+========================================================= */
 
 .lead {
-  max-width: 640px;
+  width: 100%;
+  max-width: 850px;
+
+  margin: 0;
+
+  font-size: 1.05rem;
+  line-height: 1.8;
+
+  color: rgba(255, 255, 255, 0.55) !important;
 }
+
+
+/* =========================================================
+   FEATURE GRID
+========================================================= */
+
+.featureGrid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 1.5rem;
+}
+
+
+/* =========================================================
+   FEATURE CARD
+========================================================= */
 
 .featureCard {
+  position: relative;
+
   display: flex;
   flex-direction: column;
+
+  min-height: 260px;
+
   padding: 1.75rem;
+
+  background: #ffffff;
+
+  border: 1px solid var(--cg-border);
+
+  border-radius: var(--cg-radius-lg);
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+.featureCard:hover {
+  border-color: var(--cg-accent);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(15, 23, 42, 0.06);
+}
+
+
+/* =========================================================
+   FEATURE ICON
+========================================================= */
 
 .featureIcon {
+  width: 46px;
+  height: 46px;
+
   display: inline-flex;
+
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+
+  flex-shrink: 0;
+
+  margin-bottom: 1.15rem;
+
   border-radius: 12px;
+
   background: var(--cg-accent-soft);
+
   color: var(--cg-accent);
-  margin-bottom: 1rem;
 }
 
+
+/* =========================================================
+   FEATURE TITLE
+========================================================= */
+
 .featureTitle {
+  margin: 0 0 0.85rem;
+
   font-family: var(--cg-font-display);
+
   font-size: 1.1rem;
-  margin-bottom: 0.9rem;
+  font-weight: 700;
+
+  line-height: 1.35;
+
+  color: var(--cg-text);
 }
+
+
+/* =========================================================
+   FEATURE LIST
+========================================================= */
 
 .featureList {
   list-style: none;
+
   margin: 0;
   padding: 0;
+
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+
+  gap: 0.65rem;
 }
 
 .featureList li {
   display: flex;
+
   align-items: flex-start;
-  gap: 0.55rem;
+
+  gap: 0.6rem;
+
   color: var(--cg-text-muted);
+
   font-size: 0.92rem;
-  line-height: 1.5;
+
+  line-height: 1.6;
 }
+
+
+/* =========================================================
+   CHECK MARK
+========================================================= */
 
 .checkMark {
   color: var(--cg-accent);
+
   flex-shrink: 0;
+
   margin-top: 0.2rem;
 }
 
+
+/* =========================================================
+   CTA
+========================================================= */
+
 .ctaBanner {
+  width: 100%;
+
   display: flex;
+
   align-items: center;
   justify-content: space-between;
+
   gap: 2rem;
+
   padding: 3rem;
+
   flex-wrap: wrap;
+
+  background: #ffffff;
+
+  border: 1px solid var(--cg-border);
+
+  border-radius: var(--cg-radius-lg);
+}
+
+.ctaContent {
+  max-width: 850px;
+}
+
+.ctaTitle {
+  margin: 0 0 0.55rem;
+
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
 }
 
 .ctaText {
-  color: var(--cg-text-muted);
   margin: 0;
+
+  color: var(--cg-text-muted);
+
+  line-height: 1.65;
 }
 
+
+/* =========================================================
+   LARGE SCREEN
+========================================================= */
+
+@media (min-width: 1024px) {
+  .pageContainer {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+
+/* =========================================================
+   EXTRA LARGE SCREEN
+========================================================= */
+
+@media (min-width: 1280px) {
+  .pageContainer {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .featureGrid {
+    gap: 1.75rem;
+  }
+}
+
+
+/* =========================================================
+   VERY LARGE SCREEN
+========================================================= */
+
+@media (min-width: 1600px) {
+  .heroSection {
+    min-height: 560px;
+  }
+
+  .introInner {
+    max-width: 950px;
+  }
+
+  .title {
+    max-width: 950px;
+  }
+
+  .featureCard {
+    padding: 2rem;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 996px) {
+  .heroSection {
+    min-height: 470px;
+  }
+
+  .featureGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
 @media (max-width: 640px) {
+  .pageContainer {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .heroSection {
+    min-height: 440px;
+  }
+
+  .title {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+
+    margin-top: 1rem;
+  }
+
+  .lead {
+    font-size: 0.96rem;
+
+    line-height: 1.7;
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .featureCard {
+    min-height: auto;
+
+    padding: 1.5rem;
+  }
+
   .ctaBanner {
+    flex-direction: column;
+
     justify-content: center;
+    align-items: center;
+
+    padding: 2rem 1.5rem;
+
     text-align: center;
+  }
+
+  .ctaContent {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
   }
 }

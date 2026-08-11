@@ -1,6 +1,6 @@
 .top {
   display: grid;
-  grid-template-columns: 1.6fr repeat(3, 1fr);
+  grid-template-columns: 1.6fr repeat(4, 1fr);
   gap: 2rem;
   padding: clamp(2.5rem, 5vw, 3.25rem) 0 clamp(1.75rem, 3vw, 2.25rem);
 }
