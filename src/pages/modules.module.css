@@ -1,0 +1,272 @@
+/* =========================================================
+   LAYER HEADER
+   ========================================================= */
+
+.layerHeader {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(0, 1.1fr);
+
+  gap: 5rem;
+
+  align-items: start;
+
+  margin-bottom: 3rem;
+}
+
+.layerHeading {
+  width: 100%;
+}
+
+.layerBadgeRow {
+  display: flex;
+  align-items: center;
+
+  gap: 0.75rem;
+
+  margin-bottom: 1rem;
+}
+
+.layerBadge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  border-radius: var(--cg-radius-sm);
+
+  background: var(--cg-accent);
+  color: #ffffff;
+
+  font-family: var(--cg-font-display);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+.layerTag {
+  font-family: var(--cg-font-display);
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.1em;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  color: var(--cg-accent);
+}
+
+.layerTitle {
+  max-width: 650px;
+
+  margin: 0;
+
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+
+  line-height: 1.15;
+}
+
+.layerDesc {
+  width: 100%;
+
+  max-width: 760px;
+
+  padding-top: 0.2rem;
+}
+
+.layerDesc p {
+  margin: 0 0 1.1rem;
+
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.layerCount {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 0.5rem;
+
+  padding: 0.45rem 0.95rem;
+
+  border-radius: 999px;
+
+  background: var(--cg-accent-soft);
+
+  color: var(--cg-accent);
+
+  border: 1px solid var(--cg-border);
+
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   MODULE GRID
+   ========================================================= */
+
+.moduleGrid {
+  width: 100%;
+
+  display: grid;
+
+  gap: 1.5rem;
+}
+
+.moduleGridThree {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.moduleGridTwo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   CONNECTOR
+   ========================================================= */
+
+.connector {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  padding-top: 3rem;
+}
+
+.connectorLine {
+  width: 1px;
+  height: 30px;
+
+  background: var(--cg-border);
+}
+
+.connectorLabel {
+  color: var(--cg-text-muted);
+
+  font-size: 0.76rem;
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.ctaBanner {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 2rem;
+
+  padding: 3rem;
+}
+
+.ctaContent {
+  max-width: 850px;
+}
+
+.ctaTitle {
+  margin: 0 0 0.55rem;
+
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.ctaText {
+  margin: 0;
+
+  color: var(--cg-text-muted);
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   LARGE SCREENS
+   ========================================================= */
+
+@media (min-width: 1600px) {
+  .layerHeader {
+    gap: 7rem;
+  }
+
+  .moduleGrid {
+    gap: 1.75rem;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 996px) {
+  .layerHeader {
+    grid-template-columns: 1fr;
+
+    gap: 1.5rem;
+  }
+
+  .layerDesc {
+    max-width: 700px;
+  }
+
+  .moduleGridThree {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .moduleGridThree,
+  .moduleGridTwo {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaBanner {
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 2rem 1.5rem;
+
+    text-align: center;
+  }
+
+  .ctaContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

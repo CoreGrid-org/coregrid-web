@@ -1,145 +1,300 @@
 import React from 'react';
+
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import {ArrowRight, MessageCircle, BookOpen, Sparkles} from 'lucide-react';
+
+import {
+  ArrowRight,
+  ShieldCheck,
+  BarChart3,
+  Layers,
+  Cpu,
+  BookOpen,
+  ClipboardList,
+  Milestone,
+  Truck,
+  HeartPulse,
+  Factory,
+  GraduationCap,
+  Zap,
+  Warehouse,
+  UtensilsCrossed,
+  Wheat,
+} from 'lucide-react';
+
 import Reveal from '@site/src/components/Reveal';
-import DynamicIcon, {type IconName} from '@site/src/components/DynamicIcon';
+import SectionHeader from '@site/src/components/SectionHeader';
+import IconCard from '@site/src/components/IconCard';
+
 import SeoHead from '@site/src/components/SeoHead';
-import TechLogos from '@site/src/components/TechLogos';
+
 import styles from './index.module.css';
 
-const stats = [
-  {value: '9', label: 'Function Groups'},
-  {value: '4', label: 'User Roles'},
-  {value: '10', label: 'Planned Modules'},
-  {value: '1', label: 'Unified Platform'},
+
+/* =========================================================
+   CUSTOMER LOGO STRIP
+
+   Disabled: not yet populated with confirmed, real customers.
+   Add a `customerLogos` array here (name + image under
+   static/img/customers/) and the matching JSX below once we
+   have real logos to show - showing named organisations without
+   confirmed customer status would be a false endorsement claim.
+========================================================= */
+
+
+/* =========================================================
+   DEPARTMENTS
+========================================================= */
+
+const departments = [
+  {name: 'Transportation & Fleet', icon: Truck},
+  {name: 'Healthcare', icon: HeartPulse},
+  {name: 'Manufacturing', icon: Factory},
+  {name: 'Education', icon: GraduationCap},
+  {name: 'Utilities & Facilities', icon: Zap},
+  {name: 'Logistics & Warehousing', icon: Warehouse},
+  {name: 'Hospitality', icon: UtensilsCrossed},
+  {name: 'Agriculture', icon: Wheat},
 ];
 
-const steps = [
+
+/* =========================================================
+   PLATFORM OVERVIEW FEATURES
+========================================================= */
+
+const overviewFeatures = [
   {
-    title: 'Register & identify',
-    text: 'Register assets with QR codes, serial numbers and geolocation, and assign them to a department.',
+    icon: Layers,
+    title: 'Purpose-Built Ecosystem',
+    desc:
+      'Scalable, secure and designed to share information seamlessly across every CoreGrid module.',
   },
   {
-    title: 'Monitor & maintain',
-    text: 'Track condition in real time, schedule preventive maintenance, and dispatch field teams.',
+    icon: ShieldCheck,
+    title: 'Reliable & Compliant',
+    desc:
+      'Replace fragmented paper and spreadsheet workflows with centralised records and traceable audit activity.',
   },
   {
-    title: 'Analyse & decide',
-    text: 'AI agents analyse condition data and surface repair, transfer or disposal recommendations.',
+    icon: BarChart3,
+    title: 'Scalable Growth',
+    desc:
+      'Designed to support asset management from a single organisation through to large multi-department deployments.',
   },
   {
-    title: 'Execute & audit',
-    text: 'Authorised officers approve every decision. Every action is logged and audit-ready.',
+    icon: Cpu,
+    title: 'Greater Flexibility',
+    desc:
+      'Web, mobile, API and AI components work together within one connected asset-management architecture.',
   },
 ];
 
-const services: {icon: IconName; title: string; summary: string}[] = [
-  {icon: 'QrCode', title: 'Asset Registry', summary: 'Registration, QR identification and lifecycle records for every asset.'},
-  {icon: 'Wrench', title: 'Maintenance Management', summary: 'Preventive scheduling, work orders, and downtime reduction.'},
-  {icon: 'ArrowLeftRight', title: 'Transfers & Disposals', summary: 'Controlled inter-department transfers with full audit trails.'},
-  {icon: 'ShieldCheck', title: 'Audit & Compliance', summary: 'Verification campaigns, audit logs, and policy enforcement.'},
-  {icon: 'Sparkles', title: 'AI Decision Support', summary: 'Four agents recommend repair, transfer or disposal - you decide.'},
-  {icon: 'BarChart3', title: 'Analytics & Reporting', summary: 'Real-time dashboards and exportable reports.'},
-];
 
-const facts = [
-  {value: 'One per customer', label: 'Self-hosted deployment model'},
-  {value: 'Four', label: 'Architecture layers, cleanly separated'},
-  {value: 'Configurable', label: 'Asset types and custom attributes'},
-  {value: 'Human-approved', label: 'Every AI recommendation, always'},
-];
+/* =========================================================
+   DOCUMENTATION
+========================================================= */
 
-type GetStartedCard = {
-  icon: React.ComponentType<{size?: number; strokeWidth?: number}>;
-  title: string;
-  desc: string;
-  linkLabel: string;
-  linkTo: string;
-};
-
-const getStartedCards: GetStartedCard[] = [
-  {
-    icon: MessageCircle,
-    title: 'Talk to our team',
-    desc: 'Tell us about your organisation and how you manage assets today - we’ll show you how CoreGrid fits.',
-    linkLabel: 'Contact us',
-    linkTo: '/contact',
-  },
+const docsLinks = [
   {
     icon: BookOpen,
-    title: 'Read the documentation',
-    desc: 'Architecture, project structure, and a full user manual covering every planned feature.',
-    linkLabel: 'Browse the docs',
-    linkTo: '/docs/intro',
+    title: 'Getting Started',
+    desc: "How CoreGrid is provisioned for your organisation and what your Administrator sets up first.",
+    href: '/docs/intro',
   },
   {
-    icon: Sparkles,
-    title: 'See the AI workflow',
-    desc: 'Four specialised agents analyse every asset decision - and a person always makes the final call.',
-    linkLabel: 'AI Decision Support',
-    linkTo: '/ai-decision-support',
+    icon: ClipboardList,
+    title: 'User Manual',
+    desc: 'Day-to-day guidance for organisation setup, roles and permissions, and every platform module.',
+    href: '/docs/user-manual/organization-setup',
+  },
+  {
+    icon: Milestone,
+    title: 'Planned Features',
+    desc: "What's live today versus what's coming next, tracked against the full platform roadmap.",
+    href: '/docs/planned-features',
   },
 ];
 
+
+/* =========================================================
+   HOME PAGE
+========================================================= */
+
 export default function Home(): React.ReactElement {
-  const circleViewSrc = useBaseUrl('img/circle-view.png');
+  const baseUrl = useBaseUrl('/');
+
+  const videoSrc =
+    `${baseUrl}videos/HomePageVide.mp4`;
+
+  const dashboardSrc =
+    `${baseUrl}img/View.png`;
 
   return (
     <Layout
       title="CoreGrid"
-      description="CoreGrid centralises every asset across every department - from registration to disposal - with AI-assisted decision support and full audit compliance.">
+      description="CoreGrid centralises every asset across every department - from registration to disposal - with AI-assisted decision support and full audit compliance."
+    >
       <SeoHead
         path="/"
         title="Unified Asset Management Platform"
         description="CoreGrid centralises every asset across every department - from registration to disposal - with AI-assisted decision support and full audit compliance."
       />
 
-      <header className={styles.hero}>
-        <div className="cg-container">
+
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
+      <section className={styles.hero}>
+
+        {/* VIDEO */}
+        <video
+          className={styles.heroVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source
+            src={videoSrc}
+            type="video/mp4"
+          />
+        </video>
+
+
+        {/* OVERLAYS */}
+        <div className={styles.heroOverlay} />
+        <div className={styles.heroLeftGradient} />
+        <div className={styles.heroBottomGradient} />
+
+
+        <div className={styles.heroContainer}>
+
           <div className={styles.heroGrid}>
+
+            {/* LEFT CONTENT */}
             <div className={styles.heroCopy}>
-              <span className="cg-eyebrow">Asset Lifecycle Management</span>
-              <h1 className={`cg-heading ${styles.heroTitle}`}>The unified platform for asset management</h1>
-              <p className={`cg-lead ${styles.heroLead}`}>
-                CoreGrid centralises every asset across every department - from registration to disposal -
-                with AI-assisted decision support and full audit compliance.
+
+              <span className={styles.heroEyebrow}>
+                Asset Lifecycle Management
+              </span>
+
+              <h1 className={styles.heroTitle}>
+                The Unified Platform
+                <br />
+
+                for{' '}
+
+                <span className={styles.highlight}>
+                  Asset
+                </span>
+
+                <br />
+
+                Management
+              </h1>
+
+
+              <p className={styles.heroLead}>
+                CoreGrid centralises every asset across all departments —
+                from registration to disposal — with AI-powered decision
+                support, real-time monitoring and full lifecycle
+                accountability.
               </p>
+
+
               <div className={styles.heroActions}>
-                <Link className="cg-btn cg-btn--primary" to="/contact">
-                  Get in touch
+
+                <Link
+                  className={styles.primaryButton}
+                  to="/contact"
+                >
+                  Get Started
+
+                  <ArrowRight
+                    size={18}
+                    strokeWidth={2.3}
+                  />
                 </Link>
-                <Link className="cg-btn cg-btn--ghost" to="/features">
-                  Explore the platform
+
+
+                <Link
+                  className={styles.secondaryButton}
+                  to="/features"
+                >
+                  Explore the Platform
                 </Link>
+
               </div>
+
+
+              <div className={styles.heroFeatures}>
+
+                {[
+                  'Secure & Auditable',
+                  'Human-Controlled AI',
+                  'Multi-Department Ready',
+                ].map((item) => (
+
+                  <div
+                    key={item}
+                    className={styles.heroFeatureItem}
+                  >
+
+                    <span className={styles.featureBullet}>
+                      <span />
+                    </span>
+
+                    {item}
+
+                  </div>
+
+                ))}
+
+              </div>
+
             </div>
 
+
+            {/* RIGHT DASHBOARD */}
             <div className={styles.heroVisual}>
+
+              <div className={styles.heroImageGlow} />
+
               <img
-                src={circleViewSrc}
-                alt="The CoreGrid asset lifecycle: register & identify, plan & schedule, execute & track, approve & verify"
+                src={dashboardSrc}
+                alt="CoreGrid platform dashboard"
                 className={styles.heroVisualImg}
                 decoding="async"
                 fetchPriority="high"
               />
+
             </div>
+
           </div>
 
-          <div className={styles.statBar}>
-            {stats.map((s) => (
-              <div key={s.label} className={styles.statItem}>
-                <div className={styles.statValue}>{s.value}</div>
-                <div className={styles.statLabel}>{s.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
-      </header>
 
-      <section className="cg-section cg-section--tight">
-        <div className="cg-container">
+      </section>
+
+
+      {/* =====================================================
+          CUSTOMER LOGO STRIP
+
+          Disabled - see the CUSTOMER LOGO STRIP comment near the
+          top of this file for how to bring this section back.
+      ===================================================== */}
+
+
+      {/* =====================================================
+          PLATFORM OVERVIEW
+      ===================================================== */}
+
+      <section className={styles.overviewSection}>
+
+        <div className={styles.pageContainer}>
+
           <Reveal>
             <div className={styles.howGrid}>
               <div className={styles.howCopy}>
@@ -153,124 +308,198 @@ export default function Home(): React.ReactElement {
                   Read the docs
                 </Link>
               </div>
-              <div className={styles.stepsList}>
-                {steps.map((step, i) => (
-                  <div key={step.title} className={styles.stepItem}>
-                    <span className={styles.stepNumber}>{String(i + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h3 className={styles.stepTitle}>{step.title}</h3>
-                      <p className={styles.stepText}>{step.text}</p>
-                    </div>
-                  </div>
-                ))}
+
+
+              {/* RIGHT */}
+              <div className={styles.overviewContent}>
+
+                <SectionHeader
+                  align="left"
+                  eyebrow="Unified Platform"
+                  title="Asset Management Software That Integrates"
+                  description="One platform connecting every department, every asset and every decision - designed around the complete asset lifecycle."
+                />
+
+                <div className={styles.overviewFeatureList}>
+
+                  {overviewFeatures.map(
+                    ({icon: Icon, title, desc}) => (
+
+                      <div
+                        key={title}
+                        className={styles.overviewFeature}
+                      >
+
+                        <div className={styles.overviewFeatureIcon}>
+                          <Icon
+                            size={20}
+                            strokeWidth={1.8}
+                          />
+                        </div>
+
+
+                        <div>
+
+                          <h3>
+                            {title}
+                          </h3>
+
+                          <p>
+                            {desc}
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    ),
+                  )}
+
+                </div>
+
               </div>
+
             </div>
+
           </Reveal>
+
         </div>
+
       </section>
+
+
+      {/* =====================================================
+          DEPARTMENTS
+      ===================================================== */}
 
       <section className="cg-section cg-section--alt">
-        <div className="cg-container">
-          <Reveal>
-            <div className={styles.servicesIntro}>
-              <span className="cg-eyebrow">Capabilities</span>
-              <div className={styles.servicesIntroGrid}>
-                <h2 className={`cg-heading ${styles.servicesTitle}`}>The integrated asset suite</h2>
-                <p className={styles.servicesDesc}>
-                  Every module shares one data model - nothing is duplicated between registry, maintenance,
-                  compliance and analytics.
-                </p>
-              </div>
-            </div>
 
-            <div className="cg-grid cg-grid--3">
-              {services.map((s, i) => (
-                <div key={s.title} className={`cg-card ${styles.serviceCard}`}>
-                  <span className={styles.serviceNumber}>{String(i + 1).padStart(2, '0')}</span>
-                  <div className={styles.serviceIcon}>
-                    <DynamicIcon name={s.icon} size={20} strokeWidth={1.75} />
-                  </div>
-                  <h3 className={styles.serviceTitle}>{s.title}</h3>
-                  <p className={styles.serviceDesc}>{s.summary}</p>
-                </div>
+        <div className="cg-container">
+
+          <Reveal>
+
+            <SectionHeader
+              eyebrow="Departments & Sectors"
+              title="Supporting Different Asset Environments"
+              description="CoreGrid is designed around configurable asset records and reusable lifecycle workflows that can support different organisational environments."
+            />
+
+            <div className={styles.departmentGrid}>
+
+              {departments.map((department, index) => (
+                <IconCard
+                  key={department.name}
+                  icon={department.icon}
+                  number={String(index + 1).padStart(2, '0')}
+                  title={department.name}
+                />
               ))}
+
             </div>
+
           </Reveal>
+
         </div>
+
       </section>
 
-      <section className="cg-section cg-section--tight">
-        <div className="cg-container">
-          <Reveal>
-            <div className={styles.techIntro}>
-              <span className="cg-eyebrow" style={{textAlign: 'center'}}>
-                Built On
-              </span>
-            </div>
-            <TechLogos />
-          </Reveal>
-        </div>
-      </section>
+
+      {/* =====================================================
+          DOCUMENTATION
+      ===================================================== */}
 
       <section className="cg-section">
+
         <div className="cg-container">
+
           <Reveal>
-            <div className={styles.aboutGrid}>
-              <div className={styles.factGrid}>
-                {facts.map((f) => (
-                  <div key={f.label} className={styles.factTile}>
-                    <div className={styles.factValue}>{f.value}</div>
-                    <div className={styles.factLabel}>{f.label}</div>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.aboutCopy}>
-                <span className="cg-eyebrow">About CoreGrid</span>
-                <h2 className={`cg-heading ${styles.aboutTitle}`}>A platform, not a single-domain application</h2>
-                <p className={styles.aboutText}>
-                  A transport department and a hospital hold entirely different asset attributes, but they
-                  perform the same lifecycle operations - register, identify, maintain, transfer, verify,
-                  condemn, dispose. CoreGrid fixes the lifecycle engine in code and expresses the domain in
-                  configuration, so one deployment adapts to your organisation without a new build.
-                </p>
-                <Link className={styles.aboutLink} to="/about">
-                  Learn more about CoreGrid
-                  <ArrowRight size={16} strokeWidth={2.25} />
+
+            <SectionHeader
+              eyebrow="Documentation"
+              title="Everything You Need to Get Started"
+              description="Product documentation covering setup, day-to-day use and what's on the roadmap."
+            />
+
+            <div className={styles.docsGrid}>
+
+              {docsLinks.map((item) => (
+                <Link key={item.title} to={item.href} className={styles.docsCardLink}>
+                  <IconCard icon={item.icon} title={item.title} description={item.desc}>
+                    <span className={styles.docsLinkLabel}>
+                      Read more
+                      <ArrowRight size={15} strokeWidth={2.25} />
+                    </span>
+                  </IconCard>
                 </Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="cg-section cg-section--alt">
-        <div className="cg-container">
-          <Reveal>
-            <div className={styles.getStartedIntro}>
-              <span className="cg-eyebrow">Get Started</span>
-              <h2 className={`cg-heading ${styles.getStartedTitle}`}>See it on your own data</h2>
-              <p className={styles.getStartedDesc}>
-                Whether you want the technical detail or a conversation first, here&apos;s where to start.
-              </p>
-            </div>
-
-            <div className="cg-grid cg-grid--3">
-              {getStartedCards.map((c) => (
-                <div key={c.title} className={`cg-card ${styles.getStartedCard}`}>
-                  <div className={styles.getStartedCardIcon}>
-                    <c.icon size={20} strokeWidth={1.75} />
-                  </div>
-                  <h3 className={styles.getStartedCardTitle}>{c.title}</h3>
-                  <p className={styles.getStartedCardDesc}>{c.desc}</p>
-                  <Link className={styles.getStartedCardLink} to={c.linkTo}>
-                    {c.linkLabel} <ArrowRight size={14} strokeWidth={2.25} />
-                  </Link>
-                </div>
               ))}
+
             </div>
+
           </Reveal>
+
         </div>
+
       </section>
+
+
+      {/* =====================================================
+          CTA
+      ===================================================== */}
+
+      <section className="cg-section">
+
+        <div className="cg-container">
+
+          <Reveal>
+
+            <div className={styles.ctaSection}>
+
+              <div className={styles.ctaContent}>
+
+                <div>
+
+                  <h2 className={styles.ctaTitle}>
+                    Ready to Explore CoreGrid?
+                  </h2>
+
+                  <p className={styles.ctaText}>
+                    Discover how the complete asset lifecycle can be managed
+                    through one connected and accountable platform.
+                  </p>
+
+                </div>
+
+
+                <div className={styles.ctaButtons}>
+
+                  <Link
+                    to="/contact"
+                    className={styles.ctaPrimary}
+                  >
+                    Contact Us
+                  </Link>
+
+
+                  <Link
+                    to="/docs/intro"
+                    className={styles.ctaSecondary}
+                  >
+                    Read the Docs
+                    <ArrowRight size={16} strokeWidth={2.25} />
+                  </Link>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </Reveal>
+
+        </div>
+
+      </section>
+
     </Layout>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import Reveal from '@site/src/components/Reveal';
+import PageHeader from '@site/src/components/PageHeader';
 import SeoHead from '@site/src/components/SeoHead';
 import styles from './contact.module.css';
 
@@ -22,18 +23,12 @@ export default function Contact(): React.ReactElement {
         description="Have a question about CoreGrid, the asset lifecycle, or a platform demonstration? Get in touch."
       />
 
-      <header className="cg-page-header">
-        <div className="cg-container">
-          <div className={styles.introInner}>
-            <span className="cg-eyebrow">Get In Touch</span>
-            <h1 className={`cg-heading ${styles.title}`}>Let&apos;s talk about asset management</h1>
-            <p className={`cg-lead ${styles.lead}`}>
-              Have a question about CoreGrid, the asset lifecycle, or a platform demonstration? Send us a
-              message and we&apos;ll get back to you.
-            </p>
-          </div>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Get In Touch"
+        title="Let's talk about asset management"
+        lead="Have a question about CoreGrid, the asset lifecycle, or a platform demonstration? Send us a
+              message and we'll get back to you."
+      />
 
       <section className="cg-section cg-section--tight">
         <div className="cg-container">

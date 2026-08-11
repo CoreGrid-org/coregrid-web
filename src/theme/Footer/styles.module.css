@@ -40,7 +40,7 @@
 }
 
 .brandTagline {
-  color: #9ca3af;
+  color: var(--cg-dark-text-muted);
   line-height: 1.6;
   font-size: 0.85rem;
   margin: 0;
@@ -64,7 +64,7 @@
 }
 
 .columnLink {
-  color: #9ca3af;
+  color: var(--cg-dark-text-muted);
   font-size: 0.85rem;
   text-decoration: none;
   transition: color 0.15s ease;
@@ -89,7 +89,7 @@
 }
 
 .copyright {
-  color: #9ca3af;
+  color: var(--cg-dark-text-muted);
   font-size: 0.82rem;
 }
 

@@ -3,7 +3,10 @@ import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import {ArrowRight, Check} from 'lucide-react';
 import Reveal from '@site/src/components/Reveal';
-import DynamicIcon, {type IconName} from '@site/src/components/DynamicIcon';
+import PageHeader from '@site/src/components/PageHeader';
+import SectionHeader from '@site/src/components/SectionHeader';
+import IconCard from '@site/src/components/IconCard';
+import {type IconName} from '@site/src/components/DynamicIcon';
 import SeoHead from '@site/src/components/SeoHead';
 import styles from './pricing.module.css';
 
@@ -72,35 +75,23 @@ export default function Pricing(): React.ReactElement {
         description="CoreGrid is deployed once per organisation, with every module included. Talk to us for a quote scoped to your departments, users and asset volume."
       />
 
-      <header className="cg-page-header">
-        <div className="cg-container">
-          <div className={styles.introInner}>
-            <span className="cg-eyebrow">Pricing</span>
-            <h1 className={`cg-heading ${styles.title}`}>Straightforward, per-organisation pricing</h1>
-            <p className={`cg-lead ${styles.lead}`}>
-              CoreGrid is deployed once per customer - your own instance, the full platform, no per-seat
-              pricing tricks. Talk to us and we&apos;ll put together a quote scoped to your organisation.
-            </p>
-            <Link className={`cg-btn cg-btn--primary ${styles.heroCta}`} to="/contact">
-              Get a quote
-              <ArrowRight size={17} strokeWidth={2.25} />
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Pricing"
+        title="Straightforward, per-organisation pricing"
+        lead="CoreGrid is deployed once per customer - your own instance, the full platform, no per-seat
+              pricing tricks. Talk to us and we'll put together a quote scoped to your organisation.">
+        <Link className={`cg-btn cg-btn--primary ${styles.heroCta}`} to="/contact">
+          Get a quote
+          <ArrowRight size={17} strokeWidth={2.25} />
+        </Link>
+      </PageHeader>
 
       <section className="cg-section cg-section--tight">
         <div className="cg-container">
           <Reveal>
             <div className="cg-grid cg-grid--4">
               {model.map((item) => (
-                <div key={item.title} className={`cg-card ${styles.modelCard}`}>
-                  <div className={styles.modelIcon}>
-                    <DynamicIcon name={item.icon} size={22} strokeWidth={1.75} />
-                  </div>
-                  <h3 className={styles.modelTitle}>{item.title}</h3>
-                  <p className={styles.modelDesc}>{item.description}</p>
-                </div>
+                <IconCard key={item.title} icon={item.icon} title={item.title} description={item.description} />
               ))}
             </div>
           </Reveal>
@@ -110,14 +101,12 @@ export default function Pricing(): React.ReactElement {
       <section className="cg-section cg-section--alt">
         <div className="cg-container">
           <Reveal>
-            <span className="cg-eyebrow">What&apos;s Included</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '0.75rem'}}>
-              Every module, every deployment
-            </h2>
-            <p style={{maxWidth: 640, marginBottom: '2rem'}}>
-              There is one edition of CoreGrid. Whatever your organisation is quoted for, it includes the
-              complete platform.
-            </p>
+            <SectionHeader
+              align="left"
+              eyebrow="What's Included"
+              title="Every module, every deployment"
+              description="There is one edition of CoreGrid. Whatever your organisation is quoted for, it includes the complete platform."
+            />
             <ul className={styles.includedGrid}>
               {included.map((item) => (
                 <li key={item}>
@@ -136,10 +125,7 @@ export default function Pricing(): React.ReactElement {
       <section className="cg-section">
         <div className="cg-container">
           <Reveal>
-            <span className="cg-eyebrow">Questions</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '2rem'}}>
-              Pricing, answered
-            </h2>
+            <SectionHeader align="left" eyebrow="Questions" title="Pricing, answered" />
             <div className={styles.faqList}>
               {faqs.map((item) => (
                 <div key={item.q} className={`cg-card ${styles.faqCard}`}>

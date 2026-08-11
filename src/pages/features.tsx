@@ -3,7 +3,9 @@ import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import {ArrowRight, Check} from 'lucide-react';
 import Reveal from '@site/src/components/Reveal';
-import DynamicIcon, {type IconName} from '@site/src/components/DynamicIcon';
+import PageHeader from '@site/src/components/PageHeader';
+import IconCard from '@site/src/components/IconCard';
+import {type IconName} from '@site/src/components/DynamicIcon';
 import SeoHead from '@site/src/components/SeoHead';
 import styles from './features.module.css';
 
@@ -131,29 +133,19 @@ export default function Features(): React.ReactElement {
         description="Ten modules, one asset management platform - from registration and maintenance through AI-assisted decisions and full lifecycle accountability."
       />
 
-      <header className="cg-page-header">
-        <div className="cg-container">
-          <div className={styles.introInner}>
-            <span className="cg-eyebrow">Capabilities</span>
-            <h1 className={`cg-heading ${styles.title}`}>Ten modules. One asset management platform.</h1>
-            <p className={`cg-lead ${styles.lead}`}>
-              Every aspect of asset lifecycle management in one integrated platform - from registration and
-              maintenance through AI-assisted decisions, reporting and full lifecycle accountability.
-            </p>
-          </div>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Capabilities"
+        title="Ten modules. One asset management platform."
+        lead="Every aspect of asset lifecycle management in one integrated platform - from registration and
+              maintenance through AI-assisted decisions, reporting and full lifecycle accountability."
+      />
 
       <section className="cg-section cg-section--tight">
         <div className="cg-container">
           <Reveal>
             <div className="cg-grid cg-grid--3">
               {modules.map((module) => (
-                <div key={module.title} className={`cg-card ${styles.featureCard}`}>
-                  <div className={styles.featureIcon}>
-                    <DynamicIcon name={module.icon} size={22} strokeWidth={1.75} />
-                  </div>
-                  <h3 className={styles.featureTitle}>{module.title}</h3>
+                <IconCard key={module.title} icon={module.icon} title={module.title}>
                   <ul className={styles.featureList}>
                     {module.items.map((item) => (
                       <li key={item}>
@@ -162,7 +154,7 @@ export default function Features(): React.ReactElement {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </IconCard>
               ))}
             </div>
           </Reveal>
@@ -176,10 +168,10 @@ export default function Features(): React.ReactElement {
               <h2 className="cg-heading" style={{marginBottom: '0.5rem'}}>
                 Want the full technical picture?
               </h2>
-              <p className={styles.ctaText}>Architecture, data model and build status for every module.</p>
+              <p className={styles.ctaText}>See how every module fits together on the Modules page.</p>
             </div>
-            <Link className="cg-btn cg-btn--primary" to="/docs/intro">
-              Read the docs
+            <Link className="cg-btn cg-btn--primary" to="/modules">
+              View modules
               <ArrowRight size={17} strokeWidth={2.25} />
             </Link>
           </div>
