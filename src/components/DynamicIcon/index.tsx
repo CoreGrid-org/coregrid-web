@@ -10,6 +10,11 @@ import {
   Smartphone,
   Bell,
   KeyRound,
+  ClipboardList,
+  Users,
+  RefreshCw,
+  MapPin,
+  BrainCircuit,
   type LucideProps,
 } from 'lucide-react';
 
@@ -24,6 +29,11 @@ const registry = {
   Smartphone,
   Bell,
   KeyRound,
+  ClipboardList,
+  Users,
+  RefreshCw,
+  MapPin,
+  BrainCircuit,
 };
 
 export type IconName = keyof typeof registry;

@@ -1,122 +1,796 @@
-.introInner {
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+/* =========================================================
+   PAGE CONTAINER
+========================================================= */
 
-.title {
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  margin: 1.1rem 0 1.1rem;
-}
-
-.lead {
-  max-width: 640px;
-}
-
-.introBody {
-  max-width: 760px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.introBody p {
-  font-size: 1.02rem;
-  line-height: 1.75;
-}
-
-.twoCol {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--cg-s-3);
-}
-
-.checklist {
-  list-style: none;
-  margin: 1rem 0 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.checklist li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.55rem;
-  color: var(--cg-text-muted);
-  font-size: 0.94rem;
-  line-height: 1.5;
-}
-
-.checkMark {
-  color: var(--cg-accent);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.techTableWrap {
-  overflow-x: auto;
-  border: 1px solid var(--cg-border);
-  border-radius: var(--cg-radius-lg);
-}
-
-.techTable {
+.pageContainer {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
+  max-width: 2000px;
+
+  margin: 0 auto;
+
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-.techTable th,
-.techTable td {
-  text-align: left;
-  padding: 0.85rem 1.25rem;
-  border-bottom: 1px solid var(--cg-border-soft);
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.heroSection {
+  position: relative;
+
+  min-height: 535px;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  background: #0b1223;
+
+  border-bottom: 1px solid #111827;
 }
 
-.techTable th {
-  font-family: var(--cg-font-display);
+.heroGlow {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgba(232, 96, 28, 0.12),
+      transparent 55%
+    );
+
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+
+  max-width: 1050px;
+}
+
+.heroTitle {
+  max-width: 1050px;
+
+  margin: 1.3rem 0 2rem;
+
+  color: #ffffff;
+
+  font-size: clamp(2.5rem, 4.6vw, 4.5rem);
+
   font-weight: 700;
-  color: var(--cg-text);
-  background: var(--cg-bg-alt);
+
+  line-height: 1.08;
+
+  letter-spacing: -0.035em;
 }
 
-.techTable tr:last-child td {
-  border-bottom: none;
+.highlight {
+  color: #e8601c;
 }
 
-.techTable td:last-child {
-  color: var(--cg-text-muted);
-}
+.heroLead {
+  max-width: 850px;
 
-.docsLink {
-  margin-top: 1.25rem;
-  color: var(--cg-text-muted);
-  font-size: 0.92rem;
-}
-
-.principleCard {
-  background: var(--cg-bg);
-}
-
-.principleTitle {
-  font-family: var(--cg-font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.principleDesc {
-  color: var(--cg-text-muted);
-  line-height: 1.6;
   margin: 0;
-  font-size: 0.92rem;
+
+  color: rgba(255, 255, 255, 0.6);
+
+  font-size: 1.1rem;
+
+  line-height: 1.8;
 }
 
-@media (max-width: 768px) {
-  .twoCol {
+
+/* =========================================================
+   COMMON
+========================================================= */
+
+.whiteSection {
+  padding: 6rem 0;
+
+  background: #ffffff;
+}
+
+.altSection,
+.technologySection {
+  padding: 6rem 0;
+
+  background: #f7f9fc;
+}
+
+.eyebrow {
+  display: inline-block;
+
+  color: #e8601c;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.22em;
+}
+
+.sectionHeader {
+  max-width: 900px;
+
+  margin: 0 auto 4rem;
+
+  text-align: center;
+}
+
+.sectionTitle {
+  margin: 1rem 0;
+
+  color: #0b1223;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+
+  font-weight: 700;
+
+  line-height: 1.1;
+
+  letter-spacing: -0.025em;
+}
+
+.sectionDescription {
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  color: rgba(11, 18, 35, 0.58);
+
+  font-size: 1.05rem;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   PROJECT
+========================================================= */
+
+.projectGrid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(0, 1.1fr);
+
+  align-items: center;
+
+  gap: 6rem;
+}
+
+.projectLeft {
+  width: 100%;
+}
+
+.logoWrapper {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-top: 2rem;
+}
+
+.projectLogo {
+  width: 100%;
+
+  max-width: 640px;
+
+  height: auto;
+
+  object-fit: contain;
+}
+
+.projectRight {
+  max-width: 900px;
+}
+
+.projectHeading {
+  max-width: 760px;
+
+  margin: 1.2rem 0 2rem;
+
+  color: #0b1223;
+
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+
+  line-height: 1.2;
+}
+
+.projectText {
+  max-width: 850px;
+
+  margin: 0 0 1.5rem;
+
+  color: rgba(11, 18, 35, 0.6);
+
+  font-size: 1.05rem;
+
+  line-height: 1.9;
+}
+
+.highlights {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 2rem;
+
+  margin-top: 3rem;
+}
+
+.highlightItem {
+  padding-left: 1.25rem;
+
+  border-left: 3px solid #e8601c;
+}
+
+.highlightItem h4 {
+  margin: 0;
+
+  color: #0b1223;
+
+  font-size: 1rem;
+}
+
+.highlightItem p {
+  margin: 0.3rem 0 0;
+
+  font-size: 0.87rem;
+}
+
+
+/* =========================================================
+   MISSION / VISION
+========================================================= */
+
+.missionGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 2rem;
+}
+
+.directionCard {
+  min-height: 330px;
+
+  padding: 3rem;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 10px 35px rgba(15, 23, 42, 0.05);
+}
+
+.directionIcon {
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 2rem;
+
+  border-radius: 16px;
+
+  background: rgba(232, 96, 28, 0.1);
+
+  color: #e8601c;
+}
+
+.directionCard h3 {
+  margin: 0 0 1.25rem;
+
+  color: #0b1223;
+
+  font-size: 1.8rem;
+}
+
+.directionCard p {
+  color: rgba(11, 18, 35, 0.6);
+
+  font-size: 1.05rem;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   CHALLENGE / APPROACH
+========================================================= */
+
+.approachGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 2rem;
+}
+
+.challengeCard,
+.approachCard {
+  position: relative;
+
+  min-height: 500px;
+
+  padding: 3rem;
+
+  overflow: hidden;
+
+  border-radius: 32px;
+}
+
+.challengeCard {
+  background: #f7f9fc;
+
+  border: 1px solid #e2e8f0;
+}
+
+.approachCard {
+  background: #0b1223;
+}
+
+.cardNumber,
+.darkCardNumber {
+  position: absolute;
+
+  top: 2rem;
+  right: 2.5rem;
+
+  font-size: 4.5rem;
+
+  font-weight: 700;
+}
+
+.cardNumber {
+  color: rgba(203, 213, 225, 0.55);
+}
+
+.darkCardNumber {
+  color: rgba(255, 255, 255, 0.05);
+}
+
+.cardIcon,
+.approachIcon {
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 2rem;
+
+  border-radius: 16px;
+}
+
+.cardIcon {
+  background: rgba(232, 96, 28, 0.1);
+
+  color: #e8601c;
+}
+
+.approachIcon {
+  position: relative;
+
+  background: #e8601c;
+
+  color: #ffffff;
+}
+
+.challengeCard h3,
+.approachCard h3 {
+  position: relative;
+
+  margin: 1rem 0 2rem;
+
+  font-size: 1.8rem;
+}
+
+.challengeCard h3 {
+  color: #0b1223;
+}
+
+.approachCard h3 {
+  color: #ffffff;
+}
+
+.itemList {
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1.2rem;
+}
+
+.challengeItem,
+.approachItem {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 1rem;
+}
+
+.challengeItem p {
+  margin: 0;
+
+  color: rgba(11, 18, 35, 0.6);
+
+  line-height: 1.7;
+}
+
+.approachItem p {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.62);
+
+  line-height: 1.7;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+
+  margin-top: 0.65rem;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #e8601c;
+}
+
+.checkIcon {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: rgba(232, 96, 28, 0.15);
+
+  color: #e8601c;
+}
+
+.approachGlow {
+  position: absolute;
+
+  width: 350px;
+  height: 350px;
+
+  top: -130px;
+  right: -130px;
+
+  border-radius: 50%;
+
+  background: rgba(232, 96, 28, 0.1);
+
+  filter: blur(60px);
+}
+
+
+/* =========================================================
+   CAPABILITIES
+========================================================= */
+
+.capabilityGrid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 1.5rem;
+}
+
+.capabilityCard {
+  position: relative;
+
+  min-height: 260px;
+
+  padding: 2rem;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 20px;
+}
+
+.capabilityNumber {
+  position: absolute;
+
+  top: 1.5rem;
+  right: 1.5rem;
+
+  color: #e2e8f0;
+
+  font-size: 2rem;
+
+  font-weight: 800;
+}
+
+.capabilityIcon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 1.5rem;
+
+  border-radius: 12px;
+
+  background: rgba(232, 96, 28, 0.1);
+
+  color: #e8601c;
+}
+
+.capabilityCard h3 {
+  margin-bottom: 0.8rem;
+
+  color: #0b1223;
+}
+
+.capabilityCard p {
+  margin: 0;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   TECHNOLOGY
+========================================================= */
+
+.technologySection {
+  overflow: hidden;
+}
+
+.technologyWindow {
+  position: relative;
+
+  width: 100%;
+
+  overflow: hidden;
+}
+
+.technologyTrack {
+  display: flex;
+
+  width: max-content;
+
+  animation: technologyScroll 30s linear infinite;
+}
+
+.technologyTrack:hover {
+  animation-play-state: paused;
+}
+
+.technologyCard {
+  min-width: 300px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 1.25rem;
+
+  margin: 0 0.75rem;
+
+  padding: 1.5rem 1.75rem;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 16px;
+}
+
+.technologyLogo {
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+.technologyLogo img {
+  width: 48px;
+  height: 48px;
+
+  object-fit: contain;
+}
+
+.technologyCard h3 {
+  margin: 0;
+
+  color: #0b1223;
+
+  font-size: 1.15rem;
+}
+
+.technologyCard p {
+  margin: 0.3rem 0 0;
+
+  font-size: 0.85rem;
+}
+
+.leftFade,
+.rightFade {
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+
+  width: 150px;
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+.leftFade {
+  left: 0;
+
+  background:
+    linear-gradient(
+      to right,
+      #f7f9fc,
+      transparent
+    );
+}
+
+.rightFade {
+  right: 0;
+
+  background:
+    linear-gradient(
+      to left,
+      #f7f9fc,
+      transparent
+    );
+}
+
+@keyframes technologyScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 1024px) {
+  .pageContainer {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .pageContainer {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 996px) {
+  .heroSection {
+    min-height: 470px;
+  }
+
+  .projectGrid,
+  .approachGrid {
     grid-template-columns: 1fr;
+
+    gap: 3rem;
+  }
+
+  .missionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .capabilityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .logoWrapper {
+    justify-content: center;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .pageContainer {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .heroSection {
+    min-height: 440px;
+  }
+
+  .heroTitle {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+  }
+
+  .heroLead {
+    font-size: 0.96rem;
+  }
+
+  .whiteSection,
+  .altSection,
+  .technologySection {
+    padding: 4rem 0;
+  }
+
+  .highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .capabilityGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .directionCard,
+  .challengeCard,
+  .approachCard {
+    padding: 2rem;
+  }
+
+  .technologyCard {
+    min-width: 270px;
+  }
+
+  .leftFade,
+  .rightFade {
+    width: 60px;
   }
 }
