@@ -16,7 +16,7 @@ function Footer(): ReactNode {
 
   return (
     <footer className={`footer footer--${footer.style}`}>
-      <div style={{maxWidth: '2000px', margin: '0 auto', width: '100%', padding: '0 2rem'}}>
+      <div style={{maxWidth: '1180px', margin: '0 auto', width: '100%', padding: '0 1.5rem'}}>
         <div className={styles.top}>
           <div className={styles.brand}>
             <Link to="/" className={styles.brandRow}>
@@ -52,7 +52,7 @@ function Footer(): ReactNode {
       </div>
 
       <div className={styles.bottomWrap}>
-        <div style={{maxWidth: '2000px', margin: '0 auto', width: '100%', padding: '0 2rem'}}>
+        <div style={{maxWidth: '1180px', margin: '0 auto', width: '100%', padding: '0 1.5rem'}}>
           <div className={styles.bottom}>
             <span className={styles.copyright}>{copyright}</span>
           </div>
