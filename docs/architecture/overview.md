@@ -33,7 +33,7 @@ controlled use of AI agents, not in architectural novelty.
   ┌────────────────────────────────────▼───────────────────────────────────────┐
   │  APPLICATION             Use-case services · orchestration · transactions   │
   │                          state-machine guards · audit-event emission        │
-  │                          agent-gateway client · notification dispatch       │
+  │                          agent workflow service · notification dispatch     │
   └────────────────────────────────────┬───────────────────────────────────────┘
   ┌────────────────────────────────────▼───────────────────────────────────────┐
   │  DOMAIN                  Entities · value objects · enumerations            │
@@ -41,8 +41,8 @@ controlled use of AI agents, not in architectural novelty.
   └────────────────────────────────────┬───────────────────────────────────────┘
   ┌────────────────────────────────────▼───────────────────────────────────────┐
   │  INFRASTRUCTURE          EF Core DbContext · repositories · migrations      │
-  │                          Identity-provider client · email client · QR       │
-  │                          AI-service HTTP client · structured logging        │
+  │                          Identity-provider client · object-storage client   │
+  │                          LLM HTTP client · structured logging              │
   └────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -57,10 +57,11 @@ replaceable and mockable in tests.
 |---|---|---|
 | React web app | Administration and configuration; asset, maintenance, transfer and disposal management; audit dashboards and reporting; user and role administration; AI workflow monitoring and approval. | QR scanning, field photo capture, business rules beyond input validation. |
 | Flutter mobile app | Field identification by QR scan; physical verification; fault reporting with photos; task execution; transfer confirmation; AI evaluation status. | User administration, approvals, workflow orchestration, analytics. |
-| API | Token validation; authorisation; request validation; every business rule and state transition; persistence; AI workflow initiation, approval signalling and resumption; audit logging. | LLM reasoning, rendering UI, holding user credentials. |
+| API | Token validation; authorisation; request validation; every business rule and state transition; persistence; AI workflow orchestration (Planner, Maintenance Analysis, Budget Analysis, Policy Compliance — all in-process), approval signalling and resumption; audit logging. | Rendering UI, holding user credentials. |
 | Database | Durable storage of configuration, business data, custom attribute values, workflow state and audit records; referential integrity and constraints. | Business logic beyond integrity constraints; no passwords or tokens. |
-| AI agent service | Executes the lifecycle decision workflow; plans and delegates across specialised agents; invokes a fixed set of read-only tools; deterministic validation; pauses at the human-approval checkpoint. | Writing to the database, calling third-party services, authenticating users, public internet exposure. |
-| Identity provider | Authenticates users; holds the user directory; issues and signs tokens; session termination. | Authorising individual CoreGrid operations; holding business data. |
+| In-process AI agents | Execute the lifecycle decision workflow within the API; plan and delegate across four specialised agent nodes; invoke a fixed set of read-only tools; deterministic validation; pause at the human-approval checkpoint. | Writing to the database directly, calling third-party services beyond model inference, authenticating users. |
+| Identity provider (ThunderID) | Authenticates users; holds the user directory; issues and signs tokens; session termination. | Authorising individual CoreGrid operations; holding business data. |
+| Object storage (Cloudflare R2) | Private storage for maintenance and fault-report photographic evidence. | Public file hosting; the bucket is never publicly accessible. |
 
 ## Web vs. mobile: why two clients
 
@@ -133,20 +134,26 @@ guarantees reasoned-about and consistent across every customer.
                                              │
    Browser ──▶ Static host (React build)     │
                     │                        │
-   Android ──▶ ─────┼──────────────┐         │
-   device           │              │         │
-                    ▼              ▼         │
-            ┌────────────────────────────┐   │   ┌───────────────────────────┐
-            │  ASP.NET Core API          │───┼──▶│  AI agent service         │
-            │  container / app service   │   │   │  container, no ingress    │
-            │  HTTPS · health · Swagger  │   │   └───────────────────────────┘
-            └────────────┬───────────────┘   │
-                         │                   │   ┌───────────────────────────┐
-                         └───────────────────┼──▶│  PostgreSQL (managed)     │
-                                             │   │  restricted network       │
+   Android ──▶ ────┼──────────────┐          │
+   device          │              │          │
+                   ▼              ▼          │
+            ┌────────────────────────────┐   │
+            │  ASP.NET Core API          │   │   ┌───────────────────────────┐
+            │  container / app service   │───┼──▶│  PostgreSQL (managed)     │
+            │  HTTPS · health · Swagger  │   │   │  restricted network       │
+            │                            │   │   └───────────────────────────┘
+            │  hosts Agent Orchestrator + │   │
+            │  all four agent nodes      │   │   ┌───────────────────────────┐
+            │  in-process                │───┼──▶│  Model provider           │
+            └────────────┬───────────────┘   │   │  OpenAI-compatible        │
+                         │                   │   │  (Gemini primary,         │
+                         │                   │   │   optional Groq fallback) │
    Identity provider ◀── OIDC / JWKS ────────┤   └───────────────────────────┘
+   Object storage ◀── S3 API (photo upload) ─┤
    Email API ◀── backend-mediated only ──────┘
 ```
 
-Only the static web host and the API are publicly addressable. The database and the AI agent service sit on
-a private network path reachable only from the API.
+Only the static web host and the API are publicly addressable. The database sits on a private network path
+reachable only from the API. The AI agent subsystem runs in-process inside the API — there is no separate
+agent container to secure, patch or take an ingress rule for. Outbound HTTPS calls to the configured model
+provider are made only by the Planner and Budget Analysis nodes, each with a deterministic fallback.

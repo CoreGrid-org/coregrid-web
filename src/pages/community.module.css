@@ -1,0 +1,249 @@
+.page {
+  background: var(--cg-bg);
+}
+
+.hero {
+  display: flex;
+  max-width: 780px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.hero h1,
+.sectionIntro h2,
+.maintainersHeader h2 {
+  margin: 0;
+}
+
+.hero p,
+.sectionIntro p,
+.maintainersHeader p {
+  max-width: 680px;
+  margin: 0;
+  color: var(--cg-text-muted);
+  line-height: 1.7;
+}
+
+.sectionIntro {
+  display: flex;
+  max-width: 760px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--cg-border);
+  border-bottom: 1px solid var(--cg-border);
+}
+
+.actionItem {
+  display: flex;
+  min-height: 270px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 1.75rem 0;
+}
+
+.actionItem + .actionItem {
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--cg-border);
+}
+
+.actionIcon {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.15rem;
+  border-radius: 11px;
+  background: var(--cg-accent-soft);
+  color: var(--cg-accent);
+}
+
+.actionItem h3,
+.repositoryItem h3 {
+  margin: 0 0 0.65rem;
+  font-size: 1.15rem;
+}
+
+.actionItem p,
+.repositoryItem p {
+  margin: 0 0 1.25rem;
+  color: var(--cg-text-muted);
+  line-height: 1.7;
+}
+
+.actionItem > a,
+.repositoryLinks a,
+.contributorGraphLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cg-text);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.actionItem > a {
+  margin-top: auto;
+  color: var(--cg-accent-dark);
+}
+
+.actionItem > a:hover,
+.repositoryLinks a:hover,
+.contributorGraphLink:hover,
+.contributor:hover {
+  color: var(--cg-accent-dark);
+  text-decoration: none;
+}
+
+.repositoryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.repositoryItem {
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  border-top: 3px solid var(--cg-accent);
+  border-bottom: 1px solid var(--cg-border);
+}
+
+.repositoryLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.repositoryLinks a {
+  font-size: 0.92rem;
+}
+
+.maintainersHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.75rem;
+}
+
+.maintainersHeader > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.contributorGraphLink {
+  flex-shrink: 0;
+  padding-bottom: 0.2rem;
+  color: var(--cg-accent-dark);
+}
+
+.contributors {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--cg-border);
+  border-bottom: 1px solid var(--cg-border);
+}
+
+.contributor {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 0.85rem 1rem 0;
+  color: var(--cg-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contributor + .contributor {
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--cg-border);
+}
+
+.contributor img {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border: 1px solid var(--cg-border);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contributor span {
+  min-width: 0;
+  flex: 1;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .actionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionItem {
+    min-height: auto;
+    padding: 1.4rem 0;
+  }
+
+  .actionItem + .actionItem {
+    padding-left: 0;
+    border-top: 1px solid var(--cg-border);
+    border-left: 0;
+  }
+
+  .contributors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contributor:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .contributor:nth-child(n + 3) {
+    border-top: 1px solid var(--cg-border);
+  }
+}
+
+@media (max-width: 640px) {
+  .repositoryGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .repositoryItem {
+    min-height: 190px;
+  }
+
+  .maintainersHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contributors {
+    grid-template-columns: 1fr;
+  }
+
+  .contributor + .contributor,
+  .contributor:nth-child(3) {
+    padding-left: 0;
+    border-top: 1px solid var(--cg-border);
+    border-left: 0;
+  }
+}

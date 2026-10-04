@@ -4,17 +4,14 @@ sidebar_position: 2
 
 # Maintenance Management
 
-:::info Status
-Planned - see [Planned Features](../../planned-features.md).
-:::
-
 Maintenance turns a fault observed in the field into tracked, costed, closed work - and builds the history
 the AI decision-support agents later reason over.
 
 ## Reporting a fault
 
 Staff or an Inventory Officer report a fault against an asset from either app: a description, the observed
-condition, and an optional photo. An Inventory Officer can also create a maintenance record directly and
+condition, and an optional photo. Photos are stored privately in Cloudflare R2; the browser receives signed
+links that expire after 15 minutes. An Inventory Officer can also create a maintenance record directly and
 classify it as corrective or preventive.
 
 ## Working a record
@@ -36,8 +33,9 @@ and returns the asset to *Active*. If the resulting condition is Unserviceable, 
 *Condemned* instead, opening the [disposal path](./transfers-disposals.md).
 
 CoreGrid tracks cumulative maintenance cost, repair count and the last repair date per asset automatically -
-this feeds the Assessment Agent described in [AI Decision Support](./ai-decision-support.md).
+this feeds the Maintenance Analysis Agent described in [AI Decision Support](./ai-decision-support.md).
 
 ## Finding records
 
 List and filter maintenance records by status, priority, department, asset, assignee and date range.
+All list endpoints accept standard paging, sorting, search and filter parameters.

@@ -61,6 +61,8 @@ const config: Config = {
         {to: '/features', label: 'Features', position: 'left'},
         {to: '/ai-decision-support', label: 'AI Decision Support', position: 'left'},
         {to: '/docs/intro', label: 'Docs', position: 'left'},
+        {to: '/changelog', label: 'Changelog', position: 'left'},
+        {to: '/community', label: 'Community', position: 'left'},
         {
           to: '/contact',
           label: 'Contact',

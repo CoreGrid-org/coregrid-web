@@ -366,11 +366,11 @@ a {
   margin: 0.3rem 0 0;
 }
 
-/* ---------- Footer (dark, flat - common on OSS project sites) ---------- */
+/* ---------- Footer (clean editorial layout, no network background) ---------- */
 
 .footer {
-  background: var(--cg-dark-bg);
-  border-top: 1px solid var(--cg-dark-border);
+  background: #f3f3f1;
+  border-top: 1px solid #d9d9d5;
   padding: 0;
 }
 

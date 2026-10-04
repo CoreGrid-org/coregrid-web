@@ -4,10 +4,6 @@ sidebar_position: 3
 
 # Transfers and Disposals
 
-:::info Status
-Planned - see [Planned Features](../../planned-features.md).
-:::
-
 The two ways an asset leaves its current custody: it moves to a different department, or it leaves the
 register for good.
 
@@ -20,6 +16,9 @@ approval the asset moves to *In Transit*.
 Receipt is confirmed physically: the receiving Inventory Officer scans the asset on arrival, which moves
 ownership to the new department and location and returns the asset to *Active*. A transfer that's approved
 but not confirmed within a configurable number of days is flagged on the Administrator's dashboard.
+
+Every transfer retains the full history - origin, destination, requester, approver, receiver, and every
+timestamp.
 
 ## Disposals
 
@@ -40,4 +39,5 @@ never be deleted.
 ## History
 
 Every transfer and disposal is retained in full - origin, destination, requester, approver, receiver, and
-every timestamp - as part of the asset's permanent history.
+every timestamp - as part of the asset's permanent history. Append-only audit logs ensure no record can be
+altered after the fact.

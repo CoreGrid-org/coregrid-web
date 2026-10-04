@@ -4,61 +4,87 @@ sidebar_position: 2
 
 # Domain Model
 
-## Implemented today
+CoreGrid's domain model implements a normalised relational schema in PostgreSQL via Entity Framework Core, combining foreign-key-backed custom attribute definitions with JSONB storage for dynamic agent workflow execution state.
 
-Two entities and one enumeration currently exist in the backend, forming the identity foundation everything
-else builds on.
+## Conceptual Data Model
 
-**`Organization`** - the customer record for a deployment. Exactly one row exists per deployment; the
-[Setup](../user-manual/organization-setup.md) flow creates it once and refuses to create a second.
+```
+                        ┌───────────────┐
+                        │ Organizations │  (exactly one row per deployment;
+                        └───┬───────┬───┘   the root of every query filter)
+           ┌────────────────┘       └────────────────┐
+           ▼                                         ▼
+    ┌─────────────┐                            ┌───────────┐
+    │ Departments │───────────┐                │   Users   │ (mirror; no
+    └──────┬──────┘           │                └─────┬─────┘  credentials)
+           ▼                  │                      │
+    ┌─────────────┐           │                      │ actor on every
+    │  Locations  │           │                      │ lifecycle record
+    └──────┬──────┘           │                      │
+           │   ┌──────────────────────┐              │
+           │   │   AssetCategories    │              │
+           │   └──────────┬───────────┘              │
+           │              ▼                          │
+           │   ┌──────────────────────┐              │
+           │   │     AssetTypes       │              │
+           │   └──────────┬───────────┘              │
+           │              ▼                          │
+           │   ┌────────────────────────────────┐    │
+           │   │  AssetAttributeDefinitions     │    │
+           │   └────────────────┬───────────────┘    │
+           │                    │                    │
+           └────────┬───────────┘                    │
+                    ▼                                │
+            ┌───────────────┐   1:N   ┌──────────────────────────┐
+            │    Assets     │────────▶│  AssetAttributeValues    │
+            └───┬─┬─┬─┬─┬─┬─┘         └──────────────────────────┘
+                │ │ │ │ │ │
+   ┌────────────┘ │ │ │ │ └──────────────┐
+   ▼              ▼ │ │ ▼                ▼
+ Maintenance  Transfers│ AssetHistory  AgentWorkflows
+ Records          │    │        │              │
+                  │    ▼        │              ├──▶ AgentExecutionSteps
+                  │ Disposals   │              └──▶ AgentApprovals
+                  │             │
+                  ▼             ▼
+        AuditVerifications   Discrepancies ◀── VerificationCampaigns
 
-| Field | Type | Notes |
+        AuditLogs   (append-only; references organisation, user, entity)
+        Notifications (in-app notifications and dispatch records)
+        OrganizationPolicies (thresholds consumed by rules and the Policy Agent)
+```
+
+## Entity Inventory
+
+| Entity | Purpose | Key Relationships |
 |---|---|---|
-| `Id` | Guid | Primary key |
-| `Name` | string | The customer's organisation name |
-| `CreatedAt` | DateTimeOffset | |
-| `Users` | collection | The organisation's users |
+| `Organization` | Customer deployment record — one row per self-hosted deployment; root of all query filters. | 1:N Departments, Users, AssetCategories, OrganizationPolicies |
+| `User` | Local mirror of a ThunderID identity; holds no credentials. | N:1 Organization, N:1 Department; referenced by all lifecycle records |
+| `Department` | Business unit owning assets and holding budgets. | N:1 Organization; 1:N Locations, Assets, Users |
+| `Location` | Physical place where an asset is held. | N:1 Department; 1:N Assets |
+| `AssetCategory` | Top-level grouping of asset types for reporting and aggregation. | N:1 Organization; 1:N AssetTypes |
+| `AssetType` | Classification carrying default useful life and maintenance intervals. | N:1 AssetCategory; 1:N AssetAttributeDefinitions, Assets |
+| `AssetAttributeDefinition` | Declares a custom field for an asset type (text, number, date, boolean, select). | N:1 AssetType; 1:N AssetAttributeValues |
+| `Asset` | Asset master record, lifecycle status, condition, and computed residual value. | N:1 AssetType, Department, Location; 1:N lifecycle records |
+| `AssetAttributeValue` | Value an asset holds for one custom attribute definition. | N:1 Asset, N:1 AssetAttributeDefinition |
+| `AssetHistory` | Append-only chronology of all state changes for an asset. | N:1 Asset, N:1 User |
+| `MaintenanceRecord` | Corrective or preventive maintenance work order with status and costs. | N:1 Asset, N:1 User (reporter, assignee) |
+| `MaintenanceAttachment` | Photographic evidence attached to a maintenance record (Cloudflare R2). | N:1 MaintenanceRecord |
+| `AssetTransfer` | Movement of an asset between departments or locations with scan confirmation. | N:1 Asset, Department (from, to), User (requester, approver, receiver) |
+| `DisposalRequest` | Proposal to retire/condemn an asset with evidenced approval. | N:1 Asset, N:1 User (requester, approver) |
+| `VerificationCampaign` | Scoped, time-bound physical audit exercise. | N:1 Organization; 1:N AuditVerifications |
+| `AuditVerification` | Assertion about an asset's presence and condition during a campaign. | N:1 Campaign, Asset, User |
+| `Discrepancy` | Recorded divergence between physical reality and the asset register. | N:1 AuditVerification, Asset, User (raiser, resolver) |
+| `AuditLog` | Immutable, append-only record of every state-changing operation. | N:1 Organization, User; polymorphic entity reference |
+| `OrganizationPolicy` | Configurable thresholds consumed by business rules and the Policy Compliance Agent. | N:1 Organization, optional N:1 AssetType |
+| `AgentWorkflow` | Durable state and execution graph of an AI evaluation. | N:1 Asset, User; 1:N AgentExecutionSteps, AgentApprovals |
+| `AgentExecutionStep` | Step execution record within an AI workflow. | N:1 AgentWorkflow |
+| `AgentApproval` | Human officer decision on a paused workflow. | N:1 AgentWorkflow, N:1 User |
+| `Notification` | In-app user notification record with read status. | N:1 Organization, N:1 User |
 
-**`User`** - a local mirror of an identity-provider account. Holds no credentials; exists for referential
-integrity (every asset, maintenance record and audit entry will reference a user), query performance, and
-historical accuracy (a past audit record still shows who acted even after that person leaves).
+## Asset Lifecycle State Machine
 
-| Field | Type | Notes |
-|---|---|---|
-| `Id` | Guid | Primary key |
-| `OrganizationId` | Guid | Foreign key to `Organization` |
-| `ExternalSubjectId` | string | The identity provider's subject claim this record mirrors |
-| `Email`, `GivenName`, `FamilyName` | string | Display identity |
-| `Role` | `CoreGridRole` | See below |
-| `IsActive` | bool | Deactivated users are retained, never hard-deleted |
-| `CreatedAt` | DateTimeOffset | |
-
-**`CoreGridRole`** - an enumeration of the four application roles: `Staff`, `InventoryOfficer`, `Auditor`,
-`Administrator`. See [Roles and Permissions](../user-manual/roles-permissions.md) for what each can do.
-
-## Planned entities
-
-These are specified but not yet implemented. They follow the same pattern - plain EF Core entities scoped to
-`OrganizationId` - as the codebase grows into the feature set described in [Planned Features](../planned-features.md).
-
-| Entity | Purpose |
-|---|---|
-| `Department` | A business unit that owns assets and holds budgets; referenced by transfer and approval rules. |
-| `Location` | A place within a department - store, workshop, office, ward. |
-| `AssetCategory` | Top-level grouping of asset types, for reporting. |
-| `AssetType` | A configurable asset definition: name, code, default useful life, default maintenance interval. |
-| `AttributeDefinition` | A custom field on an asset type - name, data type, required flag, validation rule, display order. |
-| `Asset` | The asset master record: identity, status, condition, location, custom attribute values, computed residual value. |
-| `MaintenanceRecord` | A fault report or scheduled maintenance item, tracked from request through completion. |
-| `TransferRequest` | A request to move an asset between departments, with approval and physical-receipt confirmation. |
-| `DisposalRequest` | A request to retire a condemned asset, with evidenced approval. |
-| `VerificationCampaign` / `Discrepancy` | A scoped audit exercise and the differences it finds between the register and physical reality. |
-| `WorkflowRun` | The persisted state of one AI decision-support evaluation. |
-
-## Asset lifecycle (planned)
-
-Once the asset entity lands, every asset moves through a guarded state machine - no transition happens
-silently, and an invalid one is rejected rather than ignored.
+Every asset moves through a strictly guarded state machine. Invalid transitions are rejected at the API layer with deterministic validation errors.
 
 ```
                               ┌──────────────┐
@@ -87,3 +113,20 @@ silently, and an invalid one is rejected rather than ignored.
                                 │   DISPOSED   │   terminal - no further
                                 └──────────────┘   transition permitted
 ```
+
+## Storage Strategies
+
+### Custom Attributes (Attribute-Value Model)
+CoreGrid adopts an explicit `AssetAttributeValues` relational table bound by foreign keys to `AssetAttributeDefinitions`. This guarantees that:
+- Every attribute value is strictly validated against its definition's data type, constraints, and select options.
+- Attribute queries, filtering, and indexing are fully type-safe.
+- Definition renames or updates do not create orphaned or inconsistent JSON keys.
+
+### Agent Workflow State (JSONB)
+Workflow state — including step plans, agent outputs, tool call traces, and policy validation results — is stored in structured JSONB columns on `AgentWorkflows`. This allows flexible, variable-shape execution traces while maintaining single-query snapshot retrieval.
+
+## Data Integrity and Concurrency
+- **Tenant Isolation:** Every organisation-scoped table carries `OrganizationId` with non-clustered indexes and EF Core global query filters.
+- **Optimistic Concurrency:** Concurrent edits on assets are detected using PostgreSQL's system column `xmin` as a concurrency token, preventing lost updates during field verifications.
+- **Append-Only History:** `AuditLogs` and `AssetHistory` tables are strictly append-only; update and delete operations are prohibited.
+- **Soft Deletion & Retention:** Disposed assets and deactivated users are permanently retained to maintain historical referential integrity.
