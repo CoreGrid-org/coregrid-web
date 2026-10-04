@@ -14,10 +14,13 @@ const config: Config = {
     faster: false,
   },
 
-  // Deployed on Vercel, served from the domain root.
-  // TODO: replace with the real production domain once it's assigned in Vercel.
-  url: 'https://coregrid.example.com',
-  baseUrl: '/',
+  // GitHub Pages deployment configuration
+  url: 'https://coregrid-org.github.io',
+  baseUrl: '/coregrid-web/',
+
+  organizationName: 'CoreGrid-org',
+  projectName: 'coregrid-web',
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
 
