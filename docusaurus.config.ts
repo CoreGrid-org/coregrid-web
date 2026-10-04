@@ -63,7 +63,14 @@ const config: Config = {
         {to: '/ai-decision-support', label: 'AI Decision Support', position: 'left'},
         {to: '/pricing', label: 'Pricing', position: 'left'},
         {to: '/docs/intro', label: 'Docs', position: 'left'},
-        {to: '/contact', label: 'Contact', position: 'right', className: 'navbar-cta-button'},
+        {to: '/changelog', label: 'Changelog', position: 'left'},
+        {to: '/community', label: 'Community', position: 'left'},
+        {
+          to: '/contact',
+          label: 'Contact',
+          position: 'right',
+          className: 'navbar-cta-button',
+        },
       ],
     },
     footer: {

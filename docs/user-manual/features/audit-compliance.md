@@ -4,10 +4,6 @@ sidebar_position: 4
 
 # Audit and Compliance
 
-:::info Status
-Planned - see [Planned Features](../../planned-features.md).
-:::
-
 The independent assurance layer: campaigns that check the register against physical reality, discrepancies
 that record where the two diverged, and an immutable log of who did what and when.
 
@@ -18,7 +14,7 @@ locations, categories or asset types. CoreGrid generates the task list from that
 assigns tasks to the officers responsible for each location.
 
 An assigned officer sees their outstanding tasks on the mobile app, ordered by due date, and completes each
-one by scanning the asset and asserting its presence, location and condition.
+one by scanning the asset and asserting its presence, location and condition using the mobile QR scanner.
 
 ## Discrepancies
 
@@ -39,8 +35,8 @@ A resolved discrepancy is never reopened - a new one is raised if the issue recu
 ## The audit log
 
 Every state-changing operation across CoreGrid is recorded - actor, entity, operation, before-and-after
-values, and timestamp - in a log that Auditors and Administrators can read and filter, but no one can edit
-or delete.
+values, and timestamp - in an append-only log that Auditors and Administrators can read and filter, but no
+one can edit or delete. This immutable history is what makes every lifecycle decision accountable.
 
 ## Reporting
 

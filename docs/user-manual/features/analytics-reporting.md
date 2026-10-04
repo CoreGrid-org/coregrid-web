@@ -4,15 +4,11 @@ sidebar_position: 6
 
 # Analytics and Reporting
 
-:::info Status
-Planned - see [Planned Features](../../planned-features.md).
-:::
-
 ## Dashboards
 
 The web dashboard shows role-appropriate indicators: total and active assets, assets under maintenance,
-pending transfers, pending disposals, open discrepancies and workflows awaiting approval - plus at least
-three visualisations: assets by department, assets by condition, and maintenance cost by month.
+pending transfers, pending disposals, open discrepancies and workflows awaiting approval - plus
+visualisations including assets by department, assets by condition, and maintenance cost by month.
 
 The mobile dashboard is task-focused instead: assets to verify, maintenance assigned to you, and transfers
 awaiting your confirmation.
@@ -25,13 +21,19 @@ reflecting whatever filters are applied on screen.
 
 ## Notifications
 
-CoreGrid emails the right person when something needs their attention: a maintenance record is assigned, a
-transfer or disposal needs approval, an AI recommendation needs a decision, or a decision has been made. A
-notification failure never blocks or rolls back the underlying business action - it's retried independently.
-Notification emails carry only what's needed to act - recipient name, asset code, the action required and a
-link - never credentials or full records.
+CoreGrid maintains a user-specific in-app notification centre with unread status. Notifications are
+generated for:
+
+- Maintenance assignment, cancellation and status-change updates
+- Transfer, disposal, verification and agent-workflow events surfaced to relevant users
+- AI recommendation decisions (approval, rejection, revision)
+
+Each notification is linked to the related CoreGrid record for quick navigation. Delivery is designed to
+remain separate from the business transaction, so a notification failure does not undo a completed
+operation.
 
 ## Scope
 
 Every figure and report is computed within your organisation only, and restricted to the departments your
-role permits you to see.
+role permits you to see. Organisation-scoped data access is enforced at the data layer, not at the
+reporting layer.
