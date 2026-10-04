@@ -1,0 +1,340 @@
+/* =========================================================
+   NAVBAR MAIN LAYOUT
+========================================================= */
+
+.navbarInner {
+  width: 100%;
+  max-width: 100%;
+
+  /* Keep in sync with --ifm-navbar-height in src/css/custom.css -
+     Docusaurus positions the doc sidebar, TOC and mobile drawer off
+     that variable, so a mismatch here makes the docs pages misalign. */
+  height: var(--ifm-navbar-height);
+
+  margin: 0;
+
+  padding-left: 24px;
+  padding-right: 24px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(160px, 1fr)
+    auto
+    minmax(160px, 1fr);
+
+  align-items: center;
+
+  gap: 24px;
+}
+
+
+/* =========================================================
+   BRAND AREA
+========================================================= */
+
+.brandArea {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  min-width: 0;
+
+  padding: 0 !important;
+}
+
+.brandWrapper {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+
+  align-items: center;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  margin: 0;
+
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo {
+  display: block;
+
+  width: auto;
+
+  height: 34px;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   CENTER NAVIGATION
+========================================================= */
+
+.navLinks {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  white-space: nowrap;
+}
+
+
+/* Remove default Docusaurus spacing */
+
+.navLinks :global(.navbar__items) {
+  display: flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  margin: 0;
+}
+
+
+/* Individual navbar items */
+
+.navLinks :global(.navbar__item) {
+  display: flex;
+
+  align-items: center;
+
+  padding: 0;
+}
+
+
+/* =========================================================
+   NORMAL NAVIGATION LINKS
+========================================================= */
+
+.navLinks :global(.navbar__link) {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.5rem 0.85rem;
+
+  border-radius: 999px;
+
+  color: #334155;
+
+  font-size: 0.92rem;
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   NAV LINK HOVER
+========================================================= */
+
+.navLinks :global(.navbar__link:hover) {
+  color: var(--cg-accent);
+
+  background: var(--cg-accent-soft);
+
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   ACTIVE NAV LINK
+========================================================= */
+
+.navLinks :global(.navbar__link--active) {
+  color: #ffffff !important;
+
+  background: var(--cg-accent);
+
+  box-shadow:
+    0 4px 12px rgba(232, 96, 28, 0.2);
+}
+
+.navLinks :global(.navbar__link--active:hover) {
+  color: #ffffff !important;
+
+  background: var(--cg-accent);
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.rightArea {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  min-width: 0;
+
+  padding: 0 !important;
+}
+
+.rightArea :global(.navbar__items) {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 0;
+}
+
+.rightArea :global(.navbar__item) {
+  display: flex;
+
+  align-items: center;
+
+  padding: 0;
+}
+
+
+/* =========================================================
+   CONTACT CTA BUTTON
+
+   Add: className: 'navbar-cta-button'
+========================================================= */
+
+.rightArea :global(.navbar-cta-button) {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.55rem 1.15rem;
+
+  border-radius: 999px;
+
+  background: var(--cg-accent);
+
+  color: #ffffff !important;
+
+  font-size: 0.92rem;
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+
+  text-decoration: none !important;
+
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.rightArea :global(.navbar-cta-button:hover) {
+  background: var(--cg-accent-dark);
+
+  color: #ffffff !important;
+}
+
+.rightArea :global(.navbar-cta-button.navbar__link--active) {
+  background: var(--cg-accent);
+
+  color: #ffffff !important;
+}
+
+
+/* =========================================================
+   MOBILE MENU TOGGLE
+========================================================= */
+
+.mobileToggle {
+  display: none;
+}
+
+
+/* =========================================================
+   TABLET / DESKTOP
+========================================================= */
+
+@media (min-width: 1024px) {
+  .navbarInner {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE / SMALL SCREEN
+========================================================= */
+
+@media (max-width: 996px) {
+  .navbarInner {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .brandArea {
+    flex: 1;
+  }
+
+  .brandWrapper {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+  }
+
+  .logo {
+    height: 28px;
+  }
+
+  .mobileToggle {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .rightArea {
+    display: none;
+  }
+}

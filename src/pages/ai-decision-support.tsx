@@ -3,6 +3,8 @@ import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import {ArrowRight, CheckCircle2} from 'lucide-react';
 import Reveal from '@site/src/components/Reveal';
+import PageHeader from '@site/src/components/PageHeader';
+import SectionHeader from '@site/src/components/SectionHeader';
 import SeoHead from '@site/src/components/SeoHead';
 import styles from './ai-decision-support.module.css';
 
@@ -84,38 +86,30 @@ export default function AIDecisionSupport(): React.ReactElement {
         description="Four specialised AI agents analyse every critical asset decision - then put the final choice in the hands of a qualified officer."
       />
 
-      <header className="cg-page-header">
-        <div className="cg-container">
-          <div className={styles.introInner}>
-            <span className="cg-eyebrow">AI Decision Support</span>
-            <h1 className={`cg-heading ${styles.title}`}>Four AI agents. One human decision.</h1>
-            <p className={`cg-lead ${styles.lead}`}>
-              CoreGrid's decision-support engine analyses every critical asset decision from multiple angles
-              - then puts the final choice firmly in the hands of a qualified officer.
-            </p>
-            <div className={styles.actions}>
-              <Link className="cg-btn cg-btn--primary" to="/contact">
-                Request a live demo
-              </Link>
-              <Link className="cg-btn cg-btn--secondary" to="/docs/user-manual/features/ai-decision-support">
-                Read technical documentation
-              </Link>
-            </div>
-          </div>
+      <PageHeader
+        eyebrow="AI Decision Support"
+        title="Four AI agents. One human decision."
+        lead="CoreGrid's decision-support engine analyses every critical asset decision from multiple angles
+              - then puts the final choice firmly in the hands of a qualified officer.">
+        <div className={styles.actions}>
+          <Link className="cg-btn cg-btn--primary" to="/contact">
+            Request a live demo
+          </Link>
+          <Link className="cg-btn cg-btn--secondary" to="/docs/user-manual/features/ai-decision-support">
+            Read technical documentation
+          </Link>
         </div>
-      </header>
+      </PageHeader>
 
       <section className="cg-section cg-section--tight">
         <div className="cg-container">
           <Reveal>
-            <span className="cg-eyebrow">How It Works</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '0.75rem'}}>
-              The four agents
-            </h2>
-            <p style={{maxWidth: 680, marginBottom: '2rem'}}>
-              Each agent specialises in one dimension of the decision. Together they produce an auditable recommendation
-              governed by deterministic policy gates.
-            </p>
+            <SectionHeader
+              align="left"
+              eyebrow="How It Works"
+              title="The four agents"
+              description="Each agent specialises in one dimension of the decision. Together they produce an auditable recommendation governed by deterministic policy gates."
+            />
             <div className="cg-grid cg-grid--4">
               {agents.map((agent) => (
                 <div key={agent.n} className={`cg-card ${styles.agentCard}`}>
@@ -133,13 +127,12 @@ export default function AIDecisionSupport(): React.ReactElement {
       <section className="cg-section cg-section--alt">
         <div className="cg-container">
           <Reveal>
-            <span className="cg-eyebrow">Human Approval</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '0.75rem'}}>
-              Human-in-the-loop control point
-            </h2>
-            <p style={{maxWidth: 720}}>
-              Human approval is a protected workflow checkpoint, not an AI agent. When a recommendation involves a high-impact action, CoreGrid pauses the workflow and preserves the complete decision record for an Administrator to review.
-            </p>
+            <SectionHeader
+              align="left"
+              eyebrow="Human Approval"
+              title="Human-in-the-loop control point"
+              description="Human approval is a protected workflow checkpoint, not an AI agent. When a recommendation involves a high-impact action, CoreGrid pauses the workflow and preserves the complete decision record for an Administrator to review."
+            />
 
             <div className={styles.humanApprovalCard}>
               <div className={styles.humanApprovalGrid}>
@@ -158,13 +151,12 @@ export default function AIDecisionSupport(): React.ReactElement {
       <section className="cg-section">
         <div className="cg-container">
           <Reveal>
-            <span className="cg-eyebrow">Our Principles</span>
-            <h2 className="cg-heading" style={{fontSize: 'clamp(1.6rem, 3vw, 2.1rem)', marginBottom: '0.75rem'}}>
-              AI that assists accountable people
-            </h2>
-            <p style={{maxWidth: 680, marginBottom: '2rem'}}>
-              CoreGrid’s AI supports lifecycle decisions; it does not replace the people accountable for them.
-            </p>
+            <SectionHeader
+              align="left"
+              eyebrow="Our Principles"
+              title="AI that assists accountable people"
+              description="CoreGrid’s AI supports lifecycle decisions; it does not replace the people accountable for them."
+            />
             <div className="cg-grid cg-grid--3">
               {principles.map((item) => (
                 <div key={item.title} className={`cg-card ${styles.principleCard}`}>

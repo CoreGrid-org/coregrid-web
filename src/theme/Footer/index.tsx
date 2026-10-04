@@ -2,7 +2,7 @@ import React, {type ReactNode} from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useThemeConfig, type MultiColumnFooter} from '@docusaurus/theme-common';
-import {ArrowUp, ArrowUpRight, Globe, Mail} from 'lucide-react';
+import {ArrowUp} from 'lucide-react';
 import styles from './styles.module.css';
 
 function Footer(): ReactNode {
@@ -23,9 +23,8 @@ function Footer(): ReactNode {
 
   return (
     <footer className={`footer footer--${footer.style} ${styles.footer}`}>
-      {/* Section 1: brand, links, contact, copyright */}
       <div className={styles.mainSection}>
-        <div className="cg-container">
+        <div style={{maxWidth: '1180px', margin: '0 auto', width: '100%', padding: '0 1.5rem'}}>
           <div className={styles.top}>
             <div className={styles.brand}>
               <Link to="/" className={styles.brandRow}>
@@ -47,23 +46,7 @@ function Footer(): ReactNode {
                   <span className={styles.brandSub}>Asset management</span>
                 </span>
               </Link>
-              <p className={styles.brandTagline}>
-                Asset lifecycle intelligence for modern organisations. One secure platform for registration,
-                maintenance, verification, and governance.
-              </p>
-              <div className={styles.socials}>
-                <a href="mailto:hello@coregrid.io" className={styles.socialButton} aria-label="Email CoreGrid">
-                  <Mail size={15} strokeWidth={2} />
-                </a>
-                <a
-                  href="https://www.coregrid.io"
-                  className={styles.socialButton}
-                  aria-label="CoreGrid website"
-                  target="_blank"
-                  rel="noreferrer noopener">
-                  <Globe size={15} strokeWidth={2} />
-                </a>
-              </div>
+              <p className={styles.brandTagline}>Manage. Monitor. Maximize.</p>
             </div>
 
             {columns.map((col) => (
@@ -85,30 +68,6 @@ function Footer(): ReactNode {
                 </ul>
               </div>
             ))}
-
-            <div className={styles.contactPanel}>
-              <div className={styles.columnTitle}>Get in touch</div>
-
-              <div className={styles.contactGroup}>
-                <span className={styles.contactLabel}>Email</span>
-                <a href="mailto:hello@coregrid.io" className={styles.contactLink}>
-                  hello@coregrid.io
-                  <ArrowUpRight size={13} strokeWidth={2} />
-                </a>
-              </div>
-
-              <div className={styles.contactGroup}>
-                <span className={styles.contactLabel}>Website</span>
-                <a
-                  href="https://www.coregrid.io"
-                  className={styles.contactLink}
-                  target="_blank"
-                  rel="noreferrer noopener">
-                  coregrid.io
-                  <ArrowUpRight size={13} strokeWidth={2} />
-                </a>
-              </div>
-            </div>
           </div>
 
           <div className={styles.bottom}>

@@ -11,13 +11,13 @@ const config: Config = {
 
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
+    faster: false,
   },
 
-  url: 'https://coregrid-org.github.io',
-  baseUrl: '/coregrid-web/',
-
-  organizationName: 'CoreGrid-org',
-  projectName: 'coregrid-web',
+  // Deployed on Vercel, served from the domain root.
+  // TODO: replace with the real production domain once it's assigned in Vercel.
+  url: 'https://coregrid.example.com',
+  baseUrl: '/',
 
   onBrokenLinks: 'throw',
 
@@ -56,10 +56,12 @@ const config: Config = {
         src: 'img/coregrid-logo.png',
       },
       items: [
-        {to: '/', label: 'Home', position: 'left'},
+        {to: '/', label: 'Home', position: 'left', activeBaseRegex: '^/$'},
         {to: '/about', label: 'About', position: 'left'},
         {to: '/features', label: 'Features', position: 'left'},
+        {to: '/modules', label: 'Modules', position: 'left'},
         {to: '/ai-decision-support', label: 'AI Decision Support', position: 'left'},
+        {to: '/pricing', label: 'Pricing', position: 'left'},
         {to: '/docs/intro', label: 'Docs', position: 'left'},
         {to: '/changelog', label: 'Changelog', position: 'left'},
         {to: '/community', label: 'Community', position: 'left'},
@@ -91,8 +93,9 @@ const config: Config = {
         {
           title: 'Documentation',
           items: [
-            {label: 'Architecture', to: '/docs/architecture/overview'},
+            {label: 'Getting Started', to: '/docs/intro'},
             {label: 'User Manual', to: '/docs/user-manual/organization-setup'},
+            {label: 'Roles & Permissions', to: '/docs/user-manual/roles-permissions'},
             {label: 'Planned Features', to: '/docs/planned-features'},
           ],
         },
@@ -101,7 +104,17 @@ const config: Config = {
           items: [
             {label: 'About Us', to: '/about'},
             {label: 'Features', to: '/features'},
+            {label: 'Modules', to: '/modules'},
+            {label: 'Pricing', to: '/pricing'},
             {label: 'Contact Us', to: '/contact'},
+          ],
+        },
+        {
+          title: 'Open Source',
+          items: [
+            // TODO: replace with the real GitHub organisation URL once the repository is public.
+            {label: 'GitHub', href: 'https://github.com/CoreGrid-org/CoreGrid'},
+            {label: 'Apache License 2.0', href: 'https://github.com/CoreGrid-org/CoreGrid/blob/main/LICENSE'},
           ],
         },
       ],

@@ -1,0 +1,44 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+}
+
+.number {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: var(--cg-border);
+  font-family: var(--cg-font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--cg-accent-soft);
+  color: var(--cg-accent);
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--cg-font-display);
+  font-weight: 700;
+  color: var(--cg-text);
+  font-size: 1.05rem;
+  margin: 0 0 0.6rem;
+}
+
+.description {
+  color: var(--cg-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0;
+}

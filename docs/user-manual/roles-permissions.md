@@ -66,5 +66,5 @@ Small population, high privilege, typically desk-based.
 | Manage users | No | No | No | Yes |
 | Approve an AI recommendation | No | No | No | Yes |
 
-For the full permission list and how it's enforced, see
-[Identity and Access](../architecture/identity-and-access.md).
+Roles and departments can be changed at any time by an Administrator - see
+[Organisation Setup](./organization-setup.md).

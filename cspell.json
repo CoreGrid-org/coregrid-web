@@ -1,0 +1,33 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "docusaurus",
+    "Docusaurus",
+    "coregrid",
+    "CoreGrid",
+    "clsx",
+    "lucide",
+    "Lucide",
+    "mdx",
+    "MDX",
+    "rspack",
+    "Rspack",
+    "swizzle",
+    "swizzled",
+    "prism",
+    "esnext",
+    "tsconfig",
+    "webp",
+    "avif",
+    "favicon"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "build",
+    "dist",
+    ".docusaurus",
+    "package-lock.json",
+    "static"
+  ]
+}

@@ -8,7 +8,6 @@
     "build": "docusaurus build",
     "generate:changelog": "node scripts/generate-changelog.mjs",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",

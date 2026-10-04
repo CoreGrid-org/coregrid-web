@@ -11,6 +11,14 @@ import {
   Bell,
   KeyRound,
   Settings2,
+  ClipboardList,
+  Users,
+  RefreshCw,
+  MapPin,
+  BrainCircuit,
+  Server,
+  Layers,
+  Headphones,
   type LucideProps,
 } from 'lucide-react';
 
@@ -26,6 +34,14 @@ const registry = {
   Bell,
   KeyRound,
   Settings2,
+  ClipboardList,
+  Users,
+  RefreshCw,
+  MapPin,
+  BrainCircuit,
+  Server,
+  Layers,
+  Headphones,
 };
 
 export type IconName = keyof typeof registry;

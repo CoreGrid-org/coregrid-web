@@ -24,8 +24,8 @@ their own identity provider. Nothing is shared between organisations.
 | Identity provider (ThunderID) | Authenticates every user via OpenID Connect / OAuth 2.0 and issues the tokens the API validates. |
 | Object storage (Cloudflare R2) | Private photo storage for maintenance and fault-report evidence. |
 
-See [Architecture](./architecture/overview.md) for how these fit together, and
-[Project Structure](./project-structure/repository-layout.md) for how the codebase is organised.
+See the [User Manual](./user-manual/organization-setup.md) for how an administrator configures and runs
+CoreGrid day to day.
 
 ## Function groups
 
