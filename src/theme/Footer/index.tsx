@@ -1,4 +1,4 @@
-import React, {type ReactNode} from 'react';
+import React, {useEffect, useState, type ReactNode} from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useThemeConfig, type MultiColumnFooter} from '@docusaurus/theme-common';
@@ -9,6 +9,15 @@ function Footer(): ReactNode {
   const {footer} = useThemeConfig();
   // Hooks must run before any early return
   const logoSrc = useBaseUrl((footer as MultiColumnFooter | undefined)?.logo?.src ?? '');
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // The site's single back-to-top button: hidden at the top, shown once the reader scrolls down.
+  useEffect(() => {
+    const update = () => setShowBackToTop(window.scrollY > 400);
+    update();
+    window.addEventListener('scroll', update, {passive: true});
+    return () => window.removeEventListener('scroll', update);
+  }, []);
 
   if (!footer) {
     return null;
@@ -84,7 +93,13 @@ function Footer(): ReactNode {
         <div className={styles.watermark}>CoreGrid</div>
       </div>
 
-      <button type="button" className={styles.backToTop} onClick={handleBackToTop} aria-label="Back to top">
+      <button
+        type="button"
+        className={`${styles.backToTop} ${showBackToTop ? styles.backToTopVisible : ''}`}
+        onClick={handleBackToTop}
+        aria-label="Back to top"
+        tabIndex={showBackToTop ? 0 : -1}
+        aria-hidden={!showBackToTop}>
         <ArrowUp size={16} strokeWidth={2.4} />
       </button>
     </footer>

@@ -1,444 +1,339 @@
-import React from 'react';
-import Link from '@docusaurus/Link';
+import React, {useEffect, useMemo, useState} from 'react';
 import Layout from '@theme/Layout';
-import {ArrowRight, BookOpen, Download, ShieldCheck, Sparkles} from 'lucide-react';
+import useBrokenLinks from '@docusaurus/useBrokenLinks';
+import clsx from 'clsx';
+import {
+  Calendar,
+  ChevronDown,
+  Download,
+  ExternalLink,
+  FileArchive,
+  Layers,
+  Monitor,
+  Smartphone,
+  Users,
+} from 'lucide-react';
 import SeoHead from '@site/src/components/SeoHead';
-import changelogData from '@site/src/data/generated/changelog';
+import PageHeader from '@site/src/components/PageHeader';
+import {
+  latestIds,
+  owner,
+  productById,
+  products,
+  releases,
+  type ChangelogBlock,
+  type ChangelogRelease,
+} from '@site/src/data/changelog';
 import styles from './changelog.module.css';
 
-const featureGroups = [
-  {
-    title: 'Asset registry and identification',
-    items: [
-      'Configurable categories, types, and type-specific attributes',
-      'Organisation-scoped registration and unique asset codes',
-      'Printable QR labels, mobile QR scanning, and manual-code lookup',
-      'Department and location assignment',
-      'Condition tracking, depreciation, and immutable lifecycle history',
-    ],
-  },
-  {
-    title: 'Maintenance management',
-    items: [
-      'Fault reporting with observed condition and optional evidence',
-      'Corrective and preventive maintenance records',
-      'Assignment, cost capture, and work-completion detail',
-      'Guarded status flow: requested, approved, in progress, completed, cancelled',
-      'Per-asset history, repair count, cumulative cost, and latest repair date',
-    ],
-  },
-  {
-    title: 'Transfers and disposals',
-    items: [
-      'Inter-department transfer requests with controlled approval',
-      'Receiving-department confirmation with scan support',
-      'Transfer history with timestamps and accountable actors',
-      'Condemnation and evidence-backed disposal requests',
-      'Disposal precondition checks, revision requests, and final recording',
-    ],
-  },
-  {
-    title: 'Audit and compliance',
-    items: [
-      'Verification campaigns and officer task assignment',
-      'Field verification of presence, location, and condition',
-      'Automatic and manually raised discrepancies',
-      'Controlled resolution and lifecycle history updates',
-      'Append-only audit logs and reporting',
-    ],
-  },
-  {
-    title: 'AI decision support',
-    items: [
-      'Planner, maintenance analysis, budget analysis, and policy compliance stages',
-      'Evidence-based recommendations for repair, retention, transfer, or disposal',
-      'Deterministic validation of policy and business rules',
-      'Persisted workflow state and read-only organisation-scoped tools',
-      'Administrator approval before high-impact actions execute',
-    ],
-  },
-  {
-    title: 'Administration, reporting, and field operations',
-    items: [
-      'ThunderID authentication with organisation-scoped access control',
-      'Asset, department, location, policy, and user administration',
-      'Operational dashboards and authorised exportable reports',
-      'Flutter field operations for department and inventory staff',
-      'In-app notifications linked to related records',
-    ],
-  },
-];
+const productIcons: Record<string, typeof Monitor> = {platform: Monitor, mobile: Smartphone};
 
-const technologies = [
-  ['Backend', 'ASP.NET Core Web API on .NET 10 with Entity Framework Core'],
-  ['Database', 'PostgreSQL with EF Core migrations, relational constraints, and scoped access'],
-  ['Web application', 'React, Vite, React Router, and IBM Carbon Design System'],
-  ['Mobile application', 'Flutter for Android field operations'],
-  ['Authentication', 'ThunderID using OpenID Connect/OAuth 2.0 and PKCE'],
-  ['Storage', 'Cloudflare R2 or another S3-compatible private object-storage provider'],
-  ['AI decision support', 'In-process .NET workflow orchestration with provider-configured model access'],
-];
+const dateFormat = new Intl.DateTimeFormat('en', {dateStyle: 'long', timeZone: 'UTC'});
+const shortDateFormat = new Intl.DateTimeFormat('en', {month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC'});
 
-const contributors = [
-  {name: 'Jayashan Guruge', role: 'Asset Registry & QR Identification; Planner Agent'},
-  {name: 'Seneja Ramanayaka', role: 'Maintenance Management; Maintenance Analysis Agent'},
-  {name: 'Bhanuka Samarasinghe', role: 'Transfers & Disposal; Budget Analysis Agent'},
-  {name: 'Hasitha Erandika', role: 'Audit & Compliance, organisation configuration, user administration; Policy Compliance Agent and human-approval checkpoint'},
-];
+function formatDate(iso: string, format = dateFormat): string {
+  return iso ? format.format(new Date(iso)) : 'Date unavailable';
+}
 
-const docs: [string, string][] = [
-  ['Software Requirements Specification', 'https://github.com/CoreGrid-org/CoreGrid/blob/v0.1.0/srs/00-front-matter.md'],
-  ['System Architecture', 'https://github.com/CoreGrid-org/CoreGrid/blob/v0.1.0/srs/03-system-architecture.md'],
-  ['Functional Requirements', 'https://github.com/CoreGrid-org/CoreGrid/blob/v0.1.0/srs/06-functional-requirements.md'],
-  ['Mobile Application Documentation', 'https://github.com/CoreGrid-org/CoreGrid/blob/v0.1.0/mobile/README.md'],
-  ['Deployment and Operations', 'https://github.com/CoreGrid-org/CoreGrid/blob/v0.1.0/srs/14-deployment-and-operations.md'],
-  ['Contribution History', 'https://github.com/CoreGrid-org/CoreGrid/blob/v0.1.0/contribution-history.md'],
-];
+function formatSize(bytes: number): string {
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let value = bytes;
+  let unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit += 1;
+  }
+  return `${value.toFixed(unit === 0 ? 0 : 1)} ${units[unit]}`;
+}
 
-const outOfScope = [
-  'Barcode generation',
-  'GPS coordinate capture and GIS/map visualisation',
-  'Generic document attachments',
-  'Offline mobile synchronisation and deferred submission',
-  'Push notifications',
-  'Predictive computer-vision condition assessment',
-  'ERP/financial-system integration',
-  'Shared multi-tenant SaaS billing and self-service organisation signup',
-  'Native iOS release package',
-];
-
-const securityPoints = [
-  'ThunderID JWT authentication, role-based authorisation, and organisation/department-scoped access control',
-  'Server-side validation, structured API errors, and guarded lifecycle state transitions',
-  'Append-only audit and asset-history records for state-changing operations',
-  'Private photo storage with backend-authorised, short-lived access paths',
-  'AI tools restricted to allow-listed, organisation-scoped, read-only operations',
-  'Deterministic validation and human approval before high-impact AI recommendations can change business data',
-];
-
-export default function ChangelogPage(): React.ReactElement {
+/** Renders the inline markdown kept by the generator: **bold**, `code` and [links](url). */
+function Inline({text}: {text: string}): React.ReactElement {
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
   return (
-    <Layout
-      title="Changelog"
-      description="CoreGrid release history and changelog.">
-      <SeoHead
-        path="/changelog"
-        title="Changelog"
-        description="CoreGrid release history and changelog details for the v0.1.0 baseline release."
-      />
+    <>
+      {parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) return <strong key={index}>{part.slice(2, -2)}</strong>;
+        if (part.startsWith('`') && part.endsWith('`')) return <code key={index}>{part.slice(1, -1)}</code>;
+        const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+        if (link) {
+          return (
+            <a key={index} href={link[2]} target="_blank" rel="noreferrer noopener">
+              {link[1]}
+            </a>
+          );
+        }
+        return <React.Fragment key={index}>{part}</React.Fragment>;
+      })}
+    </>
+  );
+}
 
-      <main className={styles.page}>
-        <header className="cg-page-header">
-          <div className="cg-container">
-            <div className={styles.hero}>
-              <span className="cg-eyebrow">Release history</span>
-              <h1 className="cg-heading">Changelog</h1>
-              <p className="cg-lead">
-                All notable changes to CoreGrid are documented here, from the first baseline release to future product updates.
-              </p>
-            </div>
+function Block({block}: {block: ChangelogBlock}): React.ReactElement {
+  switch (block.type) {
+    case 'heading':
+      return <h4 className={styles.subheading}>{block.text}</h4>;
+    case 'quote':
+      return (
+        <blockquote className={styles.quote}>
+          <Inline text={block.text} />
+        </blockquote>
+      );
+    case 'code':
+      return (
+        <pre className={styles.code}>
+          <code>{block.code}</code>
+        </pre>
+      );
+    case 'list': {
+      const ListTag = block.ordered ? 'ol' : 'ul';
+      return (
+        <ListTag className={clsx(styles.list, block.ordered && styles.orderedList)} start={block.start}>
+          {block.items.map((item, index) => (
+            <li key={index}>
+              <Inline text={item} />
+            </li>
+          ))}
+        </ListTag>
+      );
+    }
+    default:
+      return (
+        <p className={styles.paragraph}>
+          <Inline text={block.text} />
+        </p>
+      );
+  }
+}
+
+function ProductChip({productId}: {productId: string}): React.ReactElement {
+  const Icon = productIcons[productId] ?? Layers;
+  return (
+    <span className={styles.productChip}>
+      <Icon size={13} strokeWidth={2.2} aria-hidden="true" />
+      {productById.get(productId)?.label ?? productId}
+    </span>
+  );
+}
+
+function ReleaseNotes({release}: {release: ChangelogRelease}): React.ReactElement {
+  return (
+    <div className={styles.sections}>
+      {release.sections.map((section) => (
+        <section key={section.heading} className={styles.section}>
+          <h3 className={styles.sectionHeading}>{section.heading}</h3>
+          {section.blocks.map((block, index) => (
+            <Block key={index} block={block} />
+          ))}
+        </section>
+      ))}
+    </div>
+  );
+}
+
+function ReleaseCard({release}: {release: ChangelogRelease}): React.ReactElement {
+  const isLatest = latestIds.has(release.id);
+  // Lets Docusaurus's broken-link check see these anchors (linked from /community).
+  useBrokenLinks().collectAnchor(release.id);
+
+  return (
+    <article id={release.id} className={clsx(styles.release, isLatest && styles.releaseLatest)}>
+      <span className={styles.timelineDot} aria-hidden="true" />
+
+      <div className={styles.card}>
+        <header className={styles.cardHeader}>
+          <div className={styles.badges}>
+            <ProductChip productId={release.product} />
+            {isLatest && <span className={styles.latestBadge}>Latest</span>}
+            {release.prerelease && <span className={styles.preBadge}>Pre-release</span>}
+          </div>
+
+          <div className={styles.titleRow}>
+            <h2 className={styles.version}>{release.version}</h2>
+            {release.tagline && <span className={styles.tagline}>{release.tagline}</span>}
+          </div>
+
+          <div className={styles.meta}>
+            <span>
+              <Calendar size={14} strokeWidth={2} aria-hidden="true" />
+              <time dateTime={release.date}>{formatDate(release.date)}</time>
+            </span>
+            <span className={styles.metaName}>{release.name}</span>
           </div>
         </header>
 
-        <div className={`cg-container ${styles.contentLayout}`}>
-          <aside className={styles.versionSidebar} aria-label="Release versions">
-            <h2 className={styles.sidebarHeading}>Versions</h2>
-            <nav className={styles.versionList} aria-label="Changelog versions">
-              {changelogData.length > 0 ? (
-                changelogData.map((release, index) => (
-                  <a
-                    key={release.slug}
-                    href={`#${release.slug}`}
-                    className={`${styles.versionLink} ${index === 0 ? styles.selectedVersion : ''}`}>
-                    <span>{release.version}</span>
-                    {index === 0 && <span className={styles.latestBadge}>Latest</span>}
-                  </a>
-                ))
-              ) : (
-                <a href="#v0.1.0" className={`${styles.versionLink} ${styles.selectedVersion}`}>
-                  v0.1.0
-                </a>
-              )}
-            </nav>
-            <a
-              href="https://github.com/CoreGrid-org/CoreGrid/releases"
-              target="_blank"
-              rel="noreferrer noopener"
-              className={styles.allReleasesLink}>
-              View all on GitHub
-              <ArrowRight size={17} strokeWidth={2} aria-hidden="true" />
+        {release.summary.map((text, index) => (
+          <p key={index} className={styles.summary}>
+            <Inline text={text} />
+          </p>
+        ))}
+
+        <div className={styles.actions}>
+          <a href={release.githubUrl} target="_blank" rel="noreferrer noopener" className="cg-btn cg-btn--primary">
+            View on GitHub
+            <ExternalLink size={15} strokeWidth={2} aria-hidden="true" />
+          </a>
+          {release.assets.map((asset) => (
+            <a key={asset.url} href={asset.url} className="cg-btn cg-btn--ghost">
+              <Download size={15} strokeWidth={2} aria-hidden="true" />
+              {asset.name}
+              <span className={styles.assetSize}>{formatSize(asset.size)}</span>
             </a>
+          ))}
+          <a href={release.sourceUrl} className="cg-btn cg-btn--ghost">
+            <FileArchive size={15} strokeWidth={2} aria-hidden="true" />
+            Source code (.zip)
+          </a>
+        </div>
+
+        {release.sections.length > 0 &&
+          (isLatest ? (
+            <ReleaseNotes release={release} />
+          ) : (
+            <details className={styles.details}>
+              <summary>
+                Full release notes
+                <span className={styles.detailsCount}>{release.sections.length} sections</span>
+                <ChevronDown size={16} strokeWidth={2} aria-hidden="true" className={styles.chevron} />
+              </summary>
+              <ReleaseNotes release={release} />
+            </details>
+          ))}
+
+        {release.contributors.length > 0 && (
+          <footer className={styles.contributors}>
+            <span className={styles.contributorsLabel}>
+              <Users size={14} strokeWidth={2} aria-hidden="true" />
+              Contributors
+            </span>
+            <div className={styles.contributorList}>
+              {release.contributors.map((login) => (
+                <a
+                  key={login}
+                  href={`https://github.com/${encodeURIComponent(login)}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className={styles.contributor}>
+                  <img
+                    src={`https://github.com/${encodeURIComponent(login)}.png?size=64`}
+                    alt=""
+                    width={24}
+                    height={24}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {login}
+                </a>
+              ))}
+            </div>
+          </footer>
+        )}
+      </div>
+    </article>
+  );
+}
+
+export default function ChangelogPage(): React.ReactElement {
+  const [filter, setFilter] = useState('all');
+  const [activeId, setActiveId] = useState(releases[0]?.id ?? '');
+
+  const visible = useMemo(
+    () => (filter === 'all' ? releases : releases.filter((release) => release.product === filter)),
+    [filter],
+  );
+
+  // Highlight the release currently in view in the sidebar.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.find((entry) => entry.isIntersecting);
+        if (hit) setActiveId(hit.target.id);
+      },
+      {rootMargin: '-20% 0px -70% 0px'},
+    );
+    visible.forEach((release) => {
+      const element = document.getElementById(release.id);
+      if (element) observer.observe(element);
+    });
+    setActiveId(visible[0]?.id ?? '');
+    return () => observer.disconnect();
+  }, [visible]);
+
+  const filters = [
+    {id: 'all', label: 'All', count: releases.length},
+    ...products.map((product) => ({id: product.id, label: product.label, count: product.releases.length})),
+  ];
+
+  return (
+    <Layout title="Changelog" description="CoreGrid release history for the web platform and mobile app.">
+      <SeoHead
+        path="/changelog"
+        title="Changelog"
+        description="Release history and release notes for the CoreGrid web platform and mobile app."
+      />
+
+      <main className={styles.page}>
+        <PageHeader
+          eyebrow="Release history"
+          title="Changelog"
+          lead="Every CoreGrid release across the web platform and the mobile field app, straight from GitHub."
+        />
+
+        <div className={clsx('cg-container', styles.layout)}>
+          <aside className={styles.sidebar} aria-label="Changelog navigation">
+            <div className={styles.filters} role="tablist" aria-label="Filter by product">
+              {filters.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={filter === item.id}
+                  className={clsx(styles.filter, filter === item.id && styles.filterActive)}
+                  onClick={() => setFilter(item.id)}>
+                  {item.label}
+                  <span className={styles.filterCount}>{item.count}</span>
+                </button>
+              ))}
+            </div>
+
+            <h2 className={styles.sidebarHeading}>Versions</h2>
+            <nav className={styles.versionList}>
+              {visible.map((release) => (
+                <a
+                  key={release.id}
+                  href={`#${release.id}`}
+                  className={clsx(styles.versionLink, activeId === release.id && styles.versionActive)}>
+                  <span className={styles.versionLinkTop}>
+                    {release.version}
+                    {latestIds.has(release.id) && <span className={styles.versionLatest}>Latest</span>}
+                  </span>
+                  <span className={styles.versionLinkMeta}>
+                    {productById.get(release.product)?.label} · {formatDate(release.date, shortDateFormat)}
+                  </span>
+                </a>
+              ))}
+            </nav>
+
+            <div className={styles.repoLinks}>
+              {products.map((product) => (
+                <a
+                  key={product.id}
+                  href={`https://github.com/${owner}/${product.repo}/releases`}
+                  target="_blank"
+                  rel="noreferrer noopener">
+                  {product.repo} releases
+                  <ExternalLink size={13} strokeWidth={2} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
           </aside>
 
-          {changelogData.length > 0 ? (
-            changelogData.map((release) => (
-              <article key={release.slug} id={release.slug} className={styles.releaseCard}>
-                <div className={styles.releaseHeader}>
-                  <div>
-                    <div className={styles.version}>{release.version}</div>
-                    <div className={styles.releaseDate}>
-                      {release.name} · Released on{' '}
-                      {release.date
-                        ? new Intl.DateTimeFormat('en', {dateStyle: 'long', timeZone: 'UTC'}).format(
-                            new Date(`${release.date}T00:00:00Z`),
-                          )
-                        : 'date unavailable'}
-                    </div>
-                  </div>
-                  <a
-                    href={release.githubUrl}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className={styles.primaryLink}>
-                    <BookOpen size={14} strokeWidth={2} />
-                    View release on GitHub
-                    <ArrowRight size={14} strokeWidth={2} />
-                  </a>
-                </div>
-
-                {release.summary && <p className={styles.introText}>{release.summary}</p>}
-
-                <div className={styles.downloadRow}>
-                  <a
-                    href="https://github.com/CoreGrid-org/CoreGrid/archive/refs/heads/main.zip"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className={styles.secondaryLink}>
-                    <Download size={15} strokeWidth={2} />
-                    Web Source Code (.zip)
-                  </a>
-                  <a
-                    href="https://github.com/CoreGrid-org/coregrid-mobile/archive/refs/heads/main.zip"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className={styles.secondaryLink}>
-                    <Download size={15} strokeWidth={2} />
-                    Mobile Source Code (.zip)
-                  </a>
-                </div>
-
-                {release.sections.map((section) => (
-                  <section key={section.heading} className={styles.sectionBlock}>
-                    <div className={styles.sectionTitleRow}>
-                      <Sparkles size={18} strokeWidth={2} />
-                      <h2>{section.heading}</h2>
-                    </div>
-                    {section.blocks.map((block, blockIndex) =>
-                      block.type === 'paragraph' ? (
-                        <p key={`${section.heading}-${blockIndex}`} className={styles.bodyText}>
-                          {block.text}
-                        </p>
-                      ) : (
-                        <ul key={`${section.heading}-${blockIndex}`} className={styles.securityList}>
-                          {block.items.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      ),
-                    )}
-                  </section>
-                ))}
-
-                {release.contributors.length > 0 && (
-                  <section className={styles.sectionBlock}>
-                    <div className={styles.sectionTitleRow}>
-                      <BookOpen size={18} strokeWidth={2} />
-                      <h2>Contributors ({release.contributors.length})</h2>
-                    </div>
-                    <div className={styles.contributorGrid}>
-                      {release.contributors.map((contributor) => (
-                        <a
-                          key={contributor}
-                          href={`https://github.com/${encodeURIComponent(contributor)}`}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className={styles.contributorCard}>
-                          <img
-                            src={`https://github.com/${encodeURIComponent(contributor)}.png?size=96`}
-                            alt={`${contributor} GitHub profile`}
-                            className={styles.contributorAvatar}
-                            loading="lazy"
-                            decoding="async"
-                          />
-                          <span>
-                            {contributor}
-                          </span>
-                        </a>
-                      ))}
-                    </div>
-                  </section>
-                )}
-              </article>
-            ))
-          ) : (
-          <article id="v0.1.0" className={styles.releaseCard}>
-            <div className={styles.releaseHeader}>
-              <div>
-                <div className={styles.version}>v0.1.0</div>
-                <div className={styles.releaseDate}>Released on October 4, 2026</div>
-              </div>
-              <a
-                href="https://github.com/CoreGrid-org/CoreGrid/tree/v0.1.0"
-                target="_blank"
-                rel="noreferrer noopener"
-                className={styles.primaryLink}>
-                <BookOpen size={14} strokeWidth={2} />
-                View tag on GitHub
-                <ArrowRight size={14} strokeWidth={2} />
-              </a>
-            </div>
-
-            <p className={styles.introText}>
-              CoreGrid v0.1.0 is the first baseline release of CoreGrid, a configurable, self-hosted asset lifecycle
-              management platform for institutional and government assets. It replaces disconnected registers and manual
-              processes with a role-controlled system for asset registration, field identification, maintenance,
-              transfers, disposals, compliance, and controlled AI-assisted decisions.
-            </p>
-
-            <div className={styles.downloadRow}>
-              <a
-                href="https://github.com/CoreGrid-org/CoreGrid/archive/refs/heads/main.zip"
-                target="_blank"
-                rel="noreferrer noopener"
-                className={styles.secondaryLink}>
-                <Download size={15} strokeWidth={2} />
-                Web Source Code (.zip)
-              </a>
-              <a
-                href="https://github.com/CoreGrid-org/coregrid-mobile/archive/refs/heads/main.zip"
-                target="_blank"
-                rel="noreferrer noopener"
-                className={styles.secondaryLink}>
-                <Download size={15} strokeWidth={2} />
-                Mobile Source Code (.zip)
-              </a>
-            </div>
-
-            <p className={styles.bodyText}>
-              CoreGrid is designed for self-hosted deployment. Clone the repository and follow the setup and operations
-              documentation to configure the API, PostgreSQL, web application, mobile client, and ThunderID.
-            </p>
-
-            <section className={styles.sectionBlock}>
-              <div className={styles.sectionTitleRow}>
-                <Sparkles size={18} strokeWidth={2} />
-                <h2>What&apos;s included</h2>
-              </div>
-
-              <div className={styles.featureGrid}>
-                {featureGroups.map((group) => (
-                  <div key={group.title} className={styles.featureCard}>
-                    <h3>{group.title}</h3>
-                    <ul>
-                      {group.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className={styles.sectionBlock}>
-              <div className={styles.sectionTitleRow}>
-                <ShieldCheck size={18} strokeWidth={2} />
-                <h2>Built for accountable asset management</h2>
-              </div>
-
-              <div className={styles.infoGrid}>
-                <div className={styles.infoCard}>
-                  <p>
-                    CoreGrid is built for organisations that need to know what assets they own, where those assets are,
-                    who is responsible for them, what condition they are in, and how every lifecycle decision was made.
-                  </p>
-                </div>
-                <div className={styles.infoCard}>
-                  <ul>
-                    <li>Configurable asset structures rather than one fixed asset schema</li>
-                    <li>Department and organisation scoping to protect operational data</li>
-                    <li>Clear separation between field operations and management approvals</li>
-                    <li>Immutable history and audit records for lifecycle accountability</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-
-            <section className={styles.sectionBlock}>
-              <div className={styles.sectionTitleRow}>
-                <Sparkles size={18} strokeWidth={2} />
-                <h2>Technology</h2>
-              </div>
-
-              <div className={styles.techList}>
-                {technologies.map(([label, value]) => (
-                  <div key={label} className={styles.techRow}>
-                    <span className={styles.techLabel}>{label}</span>
-                    <span className={styles.techValue}>{value}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className={styles.sectionBlock}>
-              <div className={styles.sectionTitleRow}>
-                <ShieldCheck size={18} strokeWidth={2} />
-                <h2>Out of scope</h2>
-              </div>
-
-              <ul className={styles.outOfScopeList}>
-                {outOfScope.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section className={styles.sectionBlock}>
-              <div className={styles.sectionTitleRow}>
-                <BookOpen size={18} strokeWidth={2} />
-                <h2>Contributors ({contributors.length})</h2>
-              </div>
-
-              <div className={styles.contributorGrid}>
-                {contributors.map((person) => (
-                  <div key={person.name} className={styles.contributorCard}>
-                    <h3>{person.name}</h3>
-                    <p>{person.role}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className={styles.sectionBlock}>
-              <div className={styles.sectionTitleRow}>
-                <ArrowRight size={18} strokeWidth={2} />
-                <h2>Documentation</h2>
-              </div>
-
-              <ul className={styles.linkList}>
-                {docs.map(([label, url]) => (
-                  <li key={label}>
-                    <a href={url} target="_blank" rel="noreferrer noopener">
-                      {label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            <section className={styles.sectionBlock}>
-              <div className={styles.sectionTitleRow}>
-                <ShieldCheck size={18} strokeWidth={2} />
-                <h2>Reliability and security</h2>
-              </div>
-
-              <ul className={styles.securityList}>
-                {securityPoints.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
-          </article>
-          )}
+          <div className={styles.timeline}>
+            {visible.length > 0 ? (
+              visible.map((release) => <ReleaseCard key={release.id} release={release} />)
+            ) : (
+              <p className={styles.empty}>No releases published yet.</p>
+            )}
+          </div>
         </div>
       </main>
     </Layout>

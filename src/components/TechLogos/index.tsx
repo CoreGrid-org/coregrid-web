@@ -7,7 +7,6 @@ const LOGOS = [
   {key: 'flutter', label: 'Flutter', src: 'img/tech/flutter.svg'},
   {key: 'dotnet', label: '.NET', src: 'img/tech/dotnet.svg'},
   {key: 'postgresql', label: 'PostgreSQL', src: 'img/tech/postgresql.svg'},
-  {key: 'langgraph', label: 'LangGraph', src: 'img/tech/langgraph.svg'},
 ];
 
 // Repeated so the strip has enough items to loop seamlessly at any width.
@@ -27,7 +26,7 @@ export default function TechLogos(): React.ReactElement {
     <div
       className={styles.marqueeViewport}
       role="list"
-      aria-label="Built on: React, Flutter, .NET, PostgreSQL, and LangGraph">
+      aria-label="Built on: React, Flutter, .NET and PostgreSQL">
       <div className={styles.marqueeTrack} aria-hidden="true">
         {TRACK.map((item, i) => (
           <LogoChip key={`${item.key}-${i}`} label={item.label} src={item.src} />

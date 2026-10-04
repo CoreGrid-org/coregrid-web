@@ -9,6 +9,7 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'architecture/overview',
+        'architecture/component-architecture',
         'architecture/identity-and-access',
         'architecture/technology-stack',
       ],

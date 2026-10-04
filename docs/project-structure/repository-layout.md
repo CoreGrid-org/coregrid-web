@@ -4,21 +4,22 @@ sidebar_position: 1
 
 # Repository Layout
 
-The CoreGrid repository is organised as a full-stack solution containing the backend API, the frontend web application, automated test suites, infrastructure configurations, developer scripts, and technical specifications.
+The [CoreGrid repository](https://github.com/CoreGrid-org/CoreGrid) holds the backend API, the React web application, the backend test suite, infrastructure configuration, developer scripts and the specifications. The Flutter field app lives in its own repository, [coregrid-mobile](https://github.com/CoreGrid-org/coregrid-mobile).
 
 ```
 CoreGrid/
 ├── backend/                       ASP.NET Core 10 Web API
-│   ├── Data/                      EF Core DbContext, entity configurations, interceptors
-│   ├── Domain/                    Domain entities, value objects, and enumerations
-│   │   ├── Agents/                AgentWorkflow, AgentExecutionStep, AgentApproval
-│   │   ├── Assets/                Asset, AssetAttributeDefinition, AssetAttributeValue, AssetHistory
-│   │   ├── Audit/                 AuditLog, AuditVerification, VerificationCampaign, Discrepancy
-│   │   ├── Identity/              User, CoreGridRole, Organization
-│   │   ├── Maintenance/           MaintenanceRecord, MaintenanceAttachment
-│   │   ├── Notifications/         Notification, NotificationChannel
-│   │   ├── OrgConfig/             Department, Location, AssetCategory, AssetType, OrganizationPolicy
-│   │   └── Transfers/             AssetTransfer, DisposalRequest
+│   ├── Data/                      CoreGridDbContext (configuration + query filters), Auditing/ interceptor
+│   ├── Domain/                    Entities and constants (one shared CoreGrid.Api.Domain namespace)
+│   │   ├── Agents/                AgentWorkflow, AgentExecutionStep, AgentApproval, action/verdict constants
+│   │   ├── Assets/                Asset, AssetCategory, AssetType, AssetAttributeDefinition/Value, AssetHistory
+│   │   ├── Audit/                 AuditLogEntry
+│   │   ├── Identity/              Organization, User, CoreGridRole
+│   │   ├── Maintenance/           MaintenanceRecord
+│   │   ├── Notifications/         Notification, NotificationTypes
+│   │   ├── OrgConfig/             Department, Location, OrganizationPolicy
+│   │   ├── Transfers/             AssetTransfer, DisposalRequest, DisposalPreconditionResult
+│   │   └── Verification/          VerificationCampaign, VerificationTask, Discrepancy
 │   ├── Features/                  Feature-slice controllers, services, and DTOs
 │   │   ├── AgentTools/            Read-only analytical tools exposed to AI agents
 │   │   ├── Agents/                In-process agent orchestrator and specialised nodes
@@ -31,17 +32,20 @@ CoreGrid/
 │   │   ├── Notifications/         In-app notification centre and dispatch services
 │   │   ├── OrgConfig/             Departments, locations, categories, types, attributes, policies
 │   │   ├── Setup/                 First-run deployment initialization and admin provisioning
-│   │   ├── Shared/                Paging, validation envelopes, currentUser providers
+│   │   ├── Shared/                Current user, auth policies, exceptions, paging, scoping, R2 storage, reporting, health
 │   │   ├── Transfers/             Inter-department transfers and scan confirmations
 │   │   ├── Users/                 User invitation, directory management, role changes
 │   │   └── Verification/          Mobile field verification endpoints
-│   ├── Migrations/                EF Core migration history and schema snapshots
+│   ├── Migrations/                EF Core migration history and model snapshot
+│   ├── db/                        Generated schema.sql and numbered SQL migration exports
 │   ├── Program.cs                 Composition root: DI registration, middleware, auth pipeline
-│   └── appsettings.json           Base configuration (secrets injected via environment variables)
+│   ├── Dockerfile                 Production image (listens on :8080)
+│   └── .env.example               Every setting and secret, documented (copy to backend/.env)
 │
 ├── backend.Tests/                 xUnit backend test suite
-│   ├── AgentToolsServiceTests.cs  Validation of read-only agent tools
 │   ├── AgentWorkflowServiceTests.cs End-to-end multi-agent evaluation workflow tests
+│   ├── PolicyRuleEngineTests.cs   Deterministic policy rules PR-01 … PR-09
+│   ├── QueryFilterTests.cs        Organisation isolation through global query filters
 │   ├── AppendOnlyTests.cs         Immutability tests for audit logs and asset histories
 │   ├── AuthorizationMatrixTests.cs Role and policy permission enforcement tests
 │   ├── AssetServiceTests.cs       Asset registration, status transitions, and validation
@@ -50,26 +54,32 @@ CoreGrid/
 │
 ├── frontend/                      React 19 web application (IBM Carbon Design System)
 │   ├── public/                    Static assets, branding, and icons
+│   ├── Dockerfile · nginx.conf    Production image: static build served by nginx
 │   └── src/
-│       ├── app/                   App shell, router definitions, layout providers
-│       ├── features/              Feature modules (assets, maintenance, audit, agents, setup)
-│       ├── shared/                Reusable Carbon UI components, hooks, utilities, API clients
-│       └── styles/                Carbon theme integration and global styling
+│       ├── app/                   App.tsx - routes and role-guarded layouts
+│       ├── features/              One folder per feature: assets, audit, auth, dashboard, maintenance,
+│       │                          notifications, profile, reports, settings, setup, transfers, users, workflows
+│       ├── shared/                components, hooks, lib (API client, validation), pages
+│       ├── styles/                Carbon theme integration and global styling
+│       └── test/                  Vitest + React Testing Library setup
 │
 ├── infra/                         Infrastructure and authentication configurations
 │   └── thunderid/                 ThunderID OIDC client and role definitions
 │
 ├── scripts/                       Developer and operational utilities
 │   ├── db/                        Migration export and schema validation scripts
-│   ├── perf/                      k6 load testing and agent latency benchmarks
+│   ├── perf/                      k6 load testing, agent latency and slow-query reports
 │   └── thunderid/                 ThunderID provisioning scripts
 │
-└── docs/                          Technical specifications, SRS chapters, and ADRs
+├── docs/                          SRS chapters, architecture decision records, setup guides
+├── docker-compose.yml             Local ThunderID + PostgreSQL 16
+├── setup.sh · Makefile            One-command local setup and common tasks
+└── .github/workflows/ci.yml       Backend and frontend CI
 ```
 
 ## Feature-Folder Convention (Backend)
 
-The backend follows vertical feature slicing under `Features/`. Rather than dividing code into cross-cutting technical layers (`Controllers/`, `Services/`, `Models/`), each feature folder encapsulates its own controller, service logic, request models, and response DTOs:
+The backend follows vertical feature slicing under `Features/`: one folder per feature, each owning its controllers, services and DTOs. A small feature stays flat; a larger one splits into `Controllers/`, `Services/` and `DTOs/` subfolders inside its own folder, and registers its services through a `<Name>Module.cs`:
 
 - **Encapsulation:** Changes to a feature are isolated within its directory.
 - **Traceability:** Corresponds directly to functional requirement specifications (FRs).

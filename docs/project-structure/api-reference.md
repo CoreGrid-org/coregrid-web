@@ -11,7 +11,7 @@ The authoritative, generated contract is published as OpenAPI/Swagger by the run
 | Method and Route | Purpose | Authorisation |
 |---|---|---|
 | `GET /api/setup/status` | Whether first-run Setup has been completed. | Anonymous |
-| `POST /api/setup/complete` | Create the deployment's single `Organization` and its first `Administrator`. Refused once an organisation exists. | Anonymous (rate-limited) |
+| `POST /api/setup/complete` | Create the deployment's single `Organization` and its first `Administrator`. Refused once an organisation exists. | Anonymous |
 | `GET /api/me` | Resolved profile: user, organisation, department, role, and effective permissions. | Authenticated |
 | `GET /api/departments` | List departments with search and pagination. | Read roles |
 | `POST /api/departments` · `PUT /api/departments/{id}` | Create / amend a department. | `CanManageConfiguration` |
@@ -19,10 +19,10 @@ The authoritative, generated contract is published as OpenAPI/Swagger by the run
 | `GET, POST /api/locations` · `PUT /api/locations/{id}` · `PATCH …/deactivate`, `…/activate` | Manage physical locations within departments. | read: Read roles; write: `CanManageConfiguration` |
 | `GET /api/organization-policies` · `GET /{id}` · `POST` · `PUT /{id}` | Read and configure policy thresholds (org-wide and per-asset-type overrides). | `CanManageConfiguration` |
 | `GET /api/users` | List users with filtering, search, and pagination. | Administrator, Inventory Officer, Auditor |
-| `POST /api/users` | Provision a user via ThunderID and create the local mirror record. | `CanManageUsers` |
+| `POST /api/users` | Create the account in ThunderID (SCIM, with an initial password and role) and the local mirror record. | `CanManageUsers` |
 | `PATCH /api/users/{id}` | Update user role or assigned department. | `CanManageUsers` |
 | `PATCH /api/users/{id}/deactivate` · `/activate` | Deactivate (refused for the last active Administrator) / reactivate. | `CanManageUsers` |
-| `POST /api/users/{id}/reset-password` | Trigger password reset through ThunderID. | `CanManageUsers` |
+| `POST /api/users/{id}/reset-password` | Set a new password in ThunderID (forwarded, never stored). | `CanManageUsers` |
 
 ## 2. Asset Configuration and Registry (Component A)
 
@@ -51,9 +51,10 @@ The authoritative, generated contract is published as OpenAPI/Swagger by the run
 | `GET /api/maintenance/{id}` | Maintenance record details with temporary signed photo URLs. | Read roles |
 | `GET /api/maintenance/my-reports` | List fault reports raised by the current caller. | Staff, Inventory Officer |
 | `POST /api/maintenance/faults` | Submit a fault report with condition and optional photo. | `CanRequestMaintenance` |
-| `POST /api/maintenance/photos` | Upload photographic evidence (stored privately in Cloudflare R2). | `CanRequestMaintenance` (rate-limited) |
+| `POST /api/maintenance/photos` | Upload photographic evidence (stored privately in Cloudflare R2). | `CanRequestMaintenance` |
 | `POST /api/maintenance` | Create a corrective or preventive maintenance record directly. | Inventory Officer, Administrator |
 | `PUT /api/maintenance/{id}` | Amend work order details (type, priority, description). | `CanManageMaintenance` |
+| `GET /api/maintenance/{id}/cost-suggestion` | Suggested cost from past repairs of the same asset and asset type, with a confidence level. | `CanManageMaintenance` |
 | `POST /api/maintenance/{id}/approve` | Approve and assign work order with estimated cost. | `CanManageMaintenance` |
 | `POST /api/maintenance/{id}/start` | Begin work; transitions asset status to `UNDER_MAINTENANCE`. | `CanManageMaintenance` |
 | `POST /api/maintenance/{id}/complete` | Complete record with actual cost and resulting condition in a single transaction. | Inventory Officer |
@@ -99,19 +100,21 @@ The authoritative, generated contract is published as OpenAPI/Swagger by the run
 
 | Method and Route | Purpose | Authorisation |
 |---|---|---|
-| `POST /api/agent-workflows` | Initiate multi-agent evaluation (Planner → Maintenance → Budget → Policy). | `CanInitiateWorkflow` (rate-limited) |
+| `POST /api/agent-workflows` | Start a multi-agent evaluation (Planner → Maintenance → Budget → Policy) for an asset type (`assetTypeId`), optionally narrowed to one asset (`assetId`). | `CanInitiateWorkflow` |
 | `GET /api/agent-workflows` · `GET /{id}` | List / view workflow execution records and current statuses. | Inventory Officer, Auditor, Administrator |
 | `GET /api/agent-workflows/{id}/execution-summary` | Full auditable trace: step graph, agent outputs, deterministic gates, approvals. | Inventory Officer, Auditor, Administrator |
 | `POST /api/agent-workflows/{id}/run-maintenance-agent` | Re-run Maintenance Analysis node independently. | `CanInitiateWorkflow` |
 | `POST /api/agent-workflows/{id}/run-budget-agent` | Re-run Budget Analysis node independently. | `CanInitiateWorkflow` |
 | `POST /api/agent-workflows/{id}/run-policy-agent` | Re-run Policy Compliance node independently. | `CanInitiateWorkflow` |
 | `POST /api/agent-workflows/{id}/evaluate` | Run deterministic policy validation against proposed recommendations. | `CanInitiateWorkflow` |
-| `PATCH /api/agent-workflows/{id}/decide` | Human officer decision (Approve, Reject, Request Revision) on paused workflow. | `CanApproveWorkflow` (Administrator only) |
-| `GET /api/agent-tools/*`, `POST /api/agent-tools/compute-depreciation` | Read-only agent analytical tools (also invoked in-process). | `CanReadAssets` |
+| `POST /api/agent-workflows/{id}/resume` | Resume a workflow from its last persisted checkpoint. | `CanInitiateWorkflow` |
+| `PATCH /api/agent-workflows/{id}/decide` | Administrator decision (Approve, Reject, Revise) on a paused workflow, with a reason of at least 10 characters. | `CanApproveWorkflow` (Administrator only) |
+| `GET /api/agent-tools/assets/{assetId}/summary`, `/financials`, `/compliance-state`, `/maintenance-history`, `/failure-statistics` | Read-only per-asset agent tools (also invoked in-process). | `CanReadAssets` |
+| `GET /api/agent-tools/departments/{departmentId}/budget-summary` · `GET /api/agent-tools/organization-policies` · `POST /api/agent-tools/compute-depreciation` | Read-only budget, policy and depreciation tools. | `CanReadAssets` |
 
 ## 7. System Endpoints
 
 | Method and Route | Purpose | Authorisation |
 |---|---|---|
-| `GET /health` | Liveness and component health check (database, identity provider). | Anonymous |
-| `GET /swagger` | Interactive OpenAPI documentation and schema explorer. | Anonymous |
+| `GET /health` | Liveness and dependency health check. | Anonymous |
+| `GET /swagger` | Interactive OpenAPI documentation and schema explorer (Development environment only). | Anonymous |

@@ -62,7 +62,6 @@ const config: Config = {
         {to: '/', label: 'Home', position: 'left', activeBaseRegex: '^/$'},
         {to: '/about', label: 'About', position: 'left'},
         {to: '/features', label: 'Features', position: 'left'},
-        {to: '/modules', label: 'Modules', position: 'left'},
         {to: '/ai-decision-support', label: 'AI Decision Support', position: 'left'},
         {to: '/pricing', label: 'Pricing', position: 'left'},
         {to: '/docs/intro', label: 'Docs', position: 'left'},
@@ -107,7 +106,6 @@ const config: Config = {
           items: [
             {label: 'About Us', to: '/about'},
             {label: 'Features', to: '/features'},
-            {label: 'Modules', to: '/modules'},
             {label: 'Pricing', to: '/pricing'},
             {label: 'Contact Us', to: '/contact'},
           ],

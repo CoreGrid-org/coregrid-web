@@ -8,111 +8,40 @@ CoreGrid's domain model implements a normalised relational schema in PostgreSQL 
 
 ## Conceptual Data Model
 
-```
-                        ┌───────────────┐
-                        │ Organizations │  (exactly one row per deployment;
-                        └───┬───────┬───┘   the root of every query filter)
-           ┌────────────────┘       └────────────────┐
-           ▼                                         ▼
-    ┌─────────────┐                            ┌───────────┐
-    │ Departments │───────────┐                │   Users   │ (mirror; no
-    └──────┬──────┘           │                └─────┬─────┘  credentials)
-           ▼                  │                      │
-    ┌─────────────┐           │                      │ actor on every
-    │  Locations  │           │                      │ lifecycle record
-    └──────┬──────┘           │                      │
-           │   ┌──────────────────────┐              │
-           │   │   AssetCategories    │              │
-           │   └──────────┬───────────┘              │
-           │              ▼                          │
-           │   ┌──────────────────────┐              │
-           │   │     AssetTypes       │              │
-           │   └──────────┬───────────┘              │
-           │              ▼                          │
-           │   ┌────────────────────────────────┐    │
-           │   │  AssetAttributeDefinitions     │    │
-           │   └────────────────┬───────────────┘    │
-           │                    │                    │
-           └────────┬───────────┘                    │
-                    ▼                                │
-            ┌───────────────┐   1:N   ┌──────────────────────────┐
-            │    Assets     │────────▶│  AssetAttributeValues    │
-            └───┬─┬─┬─┬─┬─┬─┘         └──────────────────────────┘
-                │ │ │ │ │ │
-   ┌────────────┘ │ │ │ │ └──────────────┐
-   ▼              ▼ │ │ ▼                ▼
- Maintenance  Transfers│ AssetHistory  AgentWorkflows
- Records          │    │        │              │
-                  │    ▼        │              ├──▶ AgentExecutionSteps
-                  │ Disposals   │              └──▶ AgentApprovals
-                  │             │
-                  ▼             ▼
-        AuditVerifications   Discrepancies ◀── VerificationCampaigns
-
-        AuditLogs   (append-only; references organisation, user, entity)
-        Notifications (in-app notifications and dispatch records)
-        OrganizationPolicies (thresholds consumed by rules and the Policy Agent)
-```
+[![CoreGrid conceptual data model: one Organization row scopes everything. Departments own Locations; Users optionally belong to a department. AssetCategories contain AssetTypes, which define custom AssetAttributeDefinitions and optional policy overrides. Assets are of a type, held by a department at a location, and have attribute values and append-only history. Per-asset records cover maintenance, transfers, disposals, verification tasks and discrepancies, and agent workflows with their steps and approvals. Audit log entries and notifications are cross-cutting.](../architecture/img/data-model.png)](../architecture/img/data-model.png)
 
 ## Entity Inventory
 
-| Entity | Purpose | Key Relationships |
+| Entity (table) | Purpose | Key Relationships |
 |---|---|---|
-| `Organization` | Customer deployment record — one row per self-hosted deployment; root of all query filters. | 1:N Departments, Users, AssetCategories, OrganizationPolicies |
-| `User` | Local mirror of a ThunderID identity; holds no credentials. | N:1 Organization, N:1 Department; referenced by all lifecycle records |
-| `Department` | Business unit owning assets and holding budgets. | N:1 Organization; 1:N Locations, Assets, Users |
-| `Location` | Physical place where an asset is held. | N:1 Department; 1:N Assets |
+| `Organization` | The customer deployment - exactly one row per self-hosted deployment; root of all query filters. | 1:N Users, Departments, Locations, AssetCategories, AssetTypes, OrganizationPolicies, Assets |
+| `User` | Local mirror of a ThunderID identity (`ExternalSubjectId` = token `sub`), with one role and an active flag; holds no credentials. | N:1 Organization, optional N:1 Department; referenced as the actor on lifecycle records |
+| `Department` | Business unit that holds assets. | N:1 Organization; 1:N Locations, Assets |
+| `Location` | Physical place within a department where an asset is held. | N:1 Department; 1:N Assets |
 | `AssetCategory` | Top-level grouping of asset types for reporting and aggregation. | N:1 Organization; 1:N AssetTypes |
-| `AssetType` | Classification carrying default useful life and maintenance intervals. | N:1 AssetCategory; 1:N AssetAttributeDefinitions, Assets |
-| `AssetAttributeDefinition` | Declares a custom field for an asset type (text, number, date, boolean, select). | N:1 AssetType; 1:N AssetAttributeValues |
-| `Asset` | Asset master record, lifecycle status, condition, and computed residual value. | N:1 AssetType, Department, Location; 1:N lifecycle records |
-| `AssetAttributeValue` | Value an asset holds for one custom attribute definition. | N:1 Asset, N:1 AssetAttributeDefinition |
-| `AssetHistory` | Append-only chronology of all state changes for an asset. | N:1 Asset, N:1 User |
-| `MaintenanceRecord` | Corrective or preventive maintenance work order with status and costs. | N:1 Asset, N:1 User (reporter, assignee) |
-| `MaintenanceAttachment` | Photographic evidence attached to a maintenance record (Cloudflare R2). | N:1 MaintenanceRecord |
-| `AssetTransfer` | Movement of an asset between departments or locations with scan confirmation. | N:1 Asset, Department (from, to), User (requester, approver, receiver) |
-| `DisposalRequest` | Proposal to retire/condemn an asset with evidenced approval. | N:1 Asset, N:1 User (requester, approver) |
-| `VerificationCampaign` | Scoped, time-bound physical audit exercise. | N:1 Organization; 1:N AuditVerifications |
-| `AuditVerification` | Assertion about an asset's presence and condition during a campaign. | N:1 Campaign, Asset, User |
-| `Discrepancy` | Recorded divergence between physical reality and the asset register. | N:1 AuditVerification, Asset, User (raiser, resolver) |
-| `AuditLog` | Immutable, append-only record of every state-changing operation. | N:1 Organization, User; polymorphic entity reference |
-| `OrganizationPolicy` | Configurable thresholds consumed by business rules and the Policy Compliance Agent. | N:1 Organization, optional N:1 AssetType |
-| `AgentWorkflow` | Durable state and execution graph of an AI evaluation. | N:1 Asset, User; 1:N AgentExecutionSteps, AgentApprovals |
-| `AgentExecutionStep` | Step execution record within an AI workflow. | N:1 AgentWorkflow |
-| `AgentApproval` | Human officer decision on a paused workflow. | N:1 AgentWorkflow, N:1 User |
-| `Notification` | In-app user notification record with read status. | N:1 Organization, N:1 User |
+| `AssetType` | Classification with a useful life (years) and an optional default maintenance interval. | N:1 AssetCategory; 1:N AssetAttributeDefinitions, Assets |
+| `AssetAttributeDefinition` | Custom field for an asset type: TEXT, NUMBER, DATE, BOOLEAN or SELECT, with required flag, validation rule and display order. | N:1 AssetType; 1:N AssetAttributeValues |
+| `Asset` | Asset master record: code, QR payload, status, condition, acquisition cost, residual value, repair count and cumulative maintenance cost. | N:1 AssetType, Department, Location; 1:N lifecycle records |
+| `AssetAttributeValue` | Typed value (text, number, date or boolean) an asset holds for one attribute definition. | N:1 Asset, N:1 AssetAttributeDefinition |
+| `AssetHistory` | Append-only chronology of lifecycle events for an asset, with previous and new values. | N:1 Asset, N:1 User (actor) |
+| `MaintenanceRecord` | Fault report or corrective/preventive work order with status, estimated and actual cost, optional photo (R2 object key) and resulting condition. | N:1 Asset, N:1 User (reporter, assignee) |
+| `AssetTransfer` | Movement of an asset between departments/locations with approval and receipt confirmation. | N:1 Asset, Department and Location (from, to), User (initiator, approver, confirmer) |
+| `DisposalRequest` | Proposal to dispose of a condemned asset, with valuation and approval. | N:1 Asset, N:1 User (initiator, approver) |
+| `VerificationCampaign` | Scoped, time-bound physical audit (by department, location, category or type). | N:1 Organization; 1:N VerificationTasks |
+| `VerificationTask` | One asset to verify in a campaign: asserted presence, location and condition. | N:1 Campaign, Asset, User (assignee, completer) |
+| `Discrepancy` | Divergence between the physical asset and the register, raised automatically or manually, then resolved. | N:1 Campaign, VerificationTask, Asset, User (raiser, resolver) |
+| `AuditLogEntry` | Append-only record of every entity mutation, written by the audit interceptor. | N:1 Organization, User (actor); entity type + id reference |
+| `OrganizationPolicy` | Thresholds consumed by business rules and the Policy Compliance Agent (repair-to-replace ratio, minimum service life, confidence floor and more). | N:1 Organization, optional N:1 AssetType |
+| `AgentWorkflow` | Durable state of an AI evaluation, scoped to an asset type and optionally one asset; JSONB plan, outputs, tool calls and validation result. | N:1 AssetType, optional N:1 Asset, N:1 User; 1:N AgentExecutionSteps, AgentApprovals |
+| `AgentExecutionStep` | One agent step: input hash, output summary, duration and error. | N:1 AgentWorkflow |
+| `AgentApproval` | Administrator decision on a paused workflow, with reason and a workflow snapshot. | N:1 AgentWorkflow, N:1 User |
+| `Notification` | In-app notification with read status, linked to a related record by type and id. | N:1 Organization, N:1 User (recipient) |
 
 ## Asset Lifecycle State Machine
 
-Every asset moves through a strictly guarded state machine. Invalid transitions are rejected at the API layer with deterministic validation errors.
+Every asset moves through a guarded state machine. The feature services check the current status before each transition and reject invalid ones with a `409 Conflict` (`invalid_status_transition`). Completing maintenance with the resulting condition `UNSERVICEABLE` moves the asset straight to `CONDEMNED`; any other completion returns it to `ACTIVE`. A rejected transfer also returns the asset to `ACTIVE`.
 
-```
-                              ┌──────────────┐
-        register ────────────▶│    ACTIVE    │◀──────────┐
-                              └──┬───┬───┬───┘           │
-                                 │   │   │               │ complete
-            transfer requested   │   │   │ maintenance   │
-                    ┌────────────┘   │   └───────────┐   │
-                    ▼                │               ▼   │
-         ┌────────────────────┐      │      ┌──────────────────┐
-         │ TRANSFER_REQUESTED │      │      │ UNDER_MAINTENANCE│
-         └─────────┬──────────┘      │      └──────────────────┘
-            approve│  reject         │ condemn
-                   ▼                 ▼
-         ┌────────────────────┐   ┌──────────────┐
-         │  IN_TRANSIT        │   │  CONDEMNED   │
-         └─────────┬──────────┘   └──────┬───────┘
-           confirm │                     │ disposal requested
-            receipt│                     ▼
-                   │            ┌─────────────────────┐
-                   └───────────▶│ DISPOSAL_REQUESTED  │
-                     back to    └──────┬──────────┬───┘
-                      ACTIVE    approve│          │reject
-                                       ▼          └────▶ back to CONDEMNED
-                                ┌──────────────┐
-                                │   DISPOSED   │   terminal - no further
-                                └──────────────┘   transition permitted
-```
+[![CoreGrid asset lifecycle state machine: a registered asset starts ACTIVE. It moves to UNDER_MAINTENANCE when maintenance starts and back to ACTIVE when completed, or to CONDEMNED if completed as UNSERVICEABLE. A transfer request moves it to TRANSFER_REQUESTED; rejection returns it to ACTIVE, approval moves it to IN_TRANSIT, and confirmed receipt returns it to ACTIVE in the new department and location. A condemned asset can be put up for disposal (DISPOSAL_REQUESTED); rejection returns it to CONDEMNED and approval makes it DISPOSED, which is terminal.](../architecture/img/asset-lifecycle.png)](../architecture/img/asset-lifecycle.png)
 
 ## Storage Strategies
 
@@ -126,7 +55,7 @@ CoreGrid adopts an explicit `AssetAttributeValues` relational table bound by for
 Workflow state — including step plans, agent outputs, tool call traces, and policy validation results — is stored in structured JSONB columns on `AgentWorkflows`. This allows flexible, variable-shape execution traces while maintaining single-query snapshot retrieval.
 
 ## Data Integrity and Concurrency
-- **Tenant Isolation:** Every organisation-scoped table carries `OrganizationId` with non-clustered indexes and EF Core global query filters.
-- **Optimistic Concurrency:** Concurrent edits on assets are detected using PostgreSQL's system column `xmin` as a concurrency token, preventing lost updates during field verifications.
-- **Append-Only History:** `AuditLogs` and `AssetHistory` tables are strictly append-only; update and delete operations are prohibited.
+- **Tenant Isolation:** Every organisation-scoped table carries `OrganizationId` and an EF Core global query filter. The four child tables without their own column (`AssetAttributeDefinitions`, `AssetAttributeValues`, `AgentExecutionSteps`, `AgentApprovals`) are filtered through their parent.
+- **Optimistic Concurrency:** `AssetTransfers` and `DisposalRequests` use PostgreSQL's system column `xmin` as a concurrency token, so two people approving the same request at once cannot both succeed.
+- **Append-Only History:** `AuditLogEntries` and `AssetHistory` are append-only; updates and deletes are rejected (covered by `AppendOnlyTests`).
 - **Soft Deletion & Retention:** Disposed assets and deactivated users are permanently retained to maintain historical referential integrity.

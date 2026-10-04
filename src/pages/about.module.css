@@ -326,96 +326,6 @@
 }
 
 
-/* =========================================================
-   TECHNOLOGY
-========================================================= */
-
-.technologySection {
-  overflow: hidden;
-}
-
-.technologyWindow {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  margin-top: 1rem;
-}
-
-.technologyTrack {
-  display: flex;
-  width: max-content;
-  animation: technologyScroll 30s linear infinite;
-}
-
-.technologyTrack:hover {
-  animation-play-state: paused;
-}
-
-.technologyCard {
-  min-width: 280px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 0 0.6rem;
-  padding: 1.25rem 1.5rem;
-}
-
-.technologyLogo {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.technologyLogo img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
-
-.technologyCard h3 {
-  margin: 0;
-  font-family: var(--cg-font-display);
-  color: var(--cg-text);
-  font-size: 1.02rem;
-}
-
-.technologyCard p {
-  margin: 0.25rem 0 0;
-  font-size: 0.82rem;
-}
-
-.leftFade,
-.rightFade {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 120px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.leftFade {
-  left: 0;
-  background: linear-gradient(to right, var(--cg-bg-alt), transparent);
-}
-
-.rightFade {
-  right: 0;
-  background: linear-gradient(to left, var(--cg-bg-alt), transparent);
-}
-
-@keyframes technologyScroll {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
 
 
 /* =========================================================
@@ -454,14 +364,5 @@
 
   .capabilityGrid {
     grid-template-columns: 1fr;
-  }
-
-  .technologyCard {
-    min-width: 240px;
-  }
-
-  .leftFade,
-  .rightFade {
-    width: 50px;
   }
 }

@@ -1,0 +1,617 @@
+{
+  "schemaVersion": 1,
+  "owner": "CoreGrid-org",
+  "products": [
+    {
+      "id": "platform",
+      "label": "Web Platform",
+      "repo": "CoreGrid",
+      "etag": "W/\"e53f00a3e1e627d49dd0aba34bd7bf29e6e1cf202cb7ca72e44956ac9179f81e\"",
+      "releases": [
+        {
+          "id": "platform-v1.0.0",
+          "product": "platform",
+          "version": "v1.0.0",
+          "name": "CoreGrid v1.0.0 - First Stable Release",
+          "tagline": "First Stable Release",
+          "date": "2026-10-04T13:02:11Z",
+          "prerelease": false,
+          "githubUrl": "https://github.com/CoreGrid-org/CoreGrid/releases/tag/v1.0.0",
+          "sourceUrl": "https://github.com/CoreGrid-org/CoreGrid/archive/refs/tags/v1.0.0.zip",
+          "assets": [],
+          "summary": [
+            "CoreGrid v1.0.0 is the first stable release of the CoreGrid asset lifecycle management platform.",
+            "This release builds on the v0.1.0 baseline. AI-assisted evaluation can now cover a whole fleet, the agent system has been rebuilt to be modular, maintenance gets smarter cost estimates, the Workflows page has been redesigned, and setup is one command."
+          ],
+          "contributors": [
+            "HasithaErandika",
+            "jguruge",
+            "seneja",
+            "NipunaBhanuka18"
+          ],
+          "sections": [
+            {
+              "heading": "What's New",
+              "blocks": [
+                {
+                  "type": "heading",
+                  "text": "Fleet-Wide Lifecycle Evaluation"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Evaluate a whole asset type (for example, every laptop in the organisation) in a single run",
+                    "Narrow an evaluation to a single asset when needed",
+                    "Get a recommendation for each asset, plus an overall summary for the fleet",
+                    "Only one evaluation can run at a time for the same asset type or asset",
+                    "Searchable asset type and asset selectors in the new evaluation dialog"
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "Redesigned Agentic Workflows Page"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Summary tiles for **In progress**, **Needs a decision**, **Finished** and **Stopped safely**",
+                    "**Active**, **Awaiting Approval** and **Completed** tabs",
+                    "Workflow cards with a status colour, who started the evaluation, and when",
+                    "A step-by-step timeline of what each agent did",
+                    "Clear visuals for ranked options, the fleet action mix and per-asset results",
+                    "An **Agents** tab that explains each agent, its tools and whether it uses AI"
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "Smarter Maintenance"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Cost suggestions based on past repairs of the same asset and asset type, with a confidence level",
+                    "The suggested cost can still be edited",
+                    "Photo evidence on new maintenance records",
+                    "Photos upload only when the form is submitted, not when they are picked"
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "Easier Setup and Configuration"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "One-command local setup with `./setup.sh`",
+                    "All settings and secrets in one file (`backend/.env`)",
+                    "`backend/.env.example` documents every setting",
+                    "Reference ThunderID configuration included",
+                    "A simpler README, with links to every setup guide"
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "Performance and Database Tooling"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Performance test suite: 50 virtual users, a 70:30 read/write mix, and report exports",
+                    "Agent workflow latency testing",
+                    "Slow-query capture",
+                    "Database schema and migration export scripts"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Agentic Asset Evaluation",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "The agent system has been rebuilt to be modular and easier to maintain and audit."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "Each evaluation runs through four specialised agents:"
+                },
+                {
+                  "type": "code",
+                  "lang": "text",
+                  "code": "Planner\n   ↓\nMaintenance Analysis\n   ↓\nBudget Analysis\n   ↓\nPolicy Compliance\n   ↓\nDecision Gate"
+                },
+                {
+                  "type": "heading",
+                  "text": "Agents"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "**Planner** checks that the request is in scope and plans the evaluation",
+                    "**Maintenance Analysis** calculates repair count, time between failures, cost trend and a 12-month cost projection",
+                    "**Budget Analysis** compares projected repair cost with each asset's remaining value and ranks the options",
+                    "**Policy Compliance** checks each recommendation against the organisation's policy rules",
+                    "**Decision Gate** routes the result for approval, completes it as advice, or stops it safely"
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "Improvements in This Release"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Each agent can only use its own read-only tools",
+                    "All numbers are calculated by the system; AI only helps rank the options",
+                    "A second AI provider is used if the first is unavailable",
+                    "If no AI provider is available, the system falls back to rule-based results, so evaluations always finish",
+                    "A blocked recommendation is replaced with the next action that policy allows",
+                    "Disposal recommendations always require Administrator approval",
+                    "A request for revision re-runs the evaluation without suggesting the rejected action again"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Security and Auditability",
+              "blocks": [
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Agents cannot change business records",
+                    "Tool access is limited to each agent's own read-only tools",
+                    "Policy decisions use deterministic rules, never AI",
+                    "Every agent step is recorded with its result and timing",
+                    "Administrator approval is required for high-impact actions",
+                    "Each approval stores the approver's reason and a snapshot of the workflow",
+                    "Secrets are kept out of committed configuration files"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Upgrade Notes",
+              "blocks": [
+                {
+                  "type": "heading",
+                  "text": "Upgrading from v0.1.0"
+                },
+                {
+                  "type": "list",
+                  "ordered": true,
+                  "start": 1,
+                  "items": [
+                    "**Run the database migration.**"
+                  ]
+                },
+                {
+                  "type": "code",
+                  "lang": "bash",
+                  "code": "dotnet ef database update"
+                },
+                {
+                  "type": "paragraph",
+                  "text": "This adds asset-type scope to agent workflows."
+                },
+                {
+                  "type": "list",
+                  "ordered": true,
+                  "start": 2,
+                  "items": [
+                    "**Move your configuration.**"
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "text": "Connection strings, CORS, ThunderID, AI and storage settings now come from `backend/.env` or environment variables."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "`appsettings*.json` now hold only logging settings."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "See:"
+                },
+                {
+                  "type": "code",
+                  "lang": "text",
+                  "code": "backend/.env.example"
+                },
+                {
+                  "type": "list",
+                  "ordered": true,
+                  "start": 3,
+                  "items": [
+                    "**Optional:** Set `LlmFallback__ApiKey` to enable the backup AI provider."
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "text": "API Changes"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "`POST /api/agent-workflows` now accepts `assetTypeId`, and `assetId` is optional",
+                    "Workflow responses now include scope and fleet results"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Quality",
+              "blocks": [
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "**452 backend tests passing**",
+                    "**115 web app tests passing**",
+                    "**Zero-warning build**",
+                    "**CI on every push and pull request**"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Known Limitations",
+              "blocks": [
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Approving a workflow records the decision but does not run the action automatically. Disposals are still completed through the disposal approval step, which requires an approved workflow.",
+                    "Department budget tracking is not available yet, so the budget headroom rule is shown as not applicable.",
+                    "Email and SMS notifications are not included; notifications are in-app only."
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Future Enhancements",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "Future releases may introduce:"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Automatic execution of approved actions",
+                    "Department budget tracking",
+                    "Offline field operation and sync",
+                    "Push, email and SMS notifications",
+                    "Configurable lifecycle workflows",
+                    "Predictive failure analysis",
+                    "Computer-vision condition assessment",
+                    "ERP and financial-system integrations",
+                    "Multi-tenant SaaS and billing"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Project Status",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "CoreGrid v1.0.0 is the first stable release."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "Assets can be managed end to end, with AI helping on fleet-wide decisions while every important action stays controlled, auditable and approved by a person."
+                },
+                {
+                  "type": "quote",
+                  "text": "**CoreGrid v1.0.0 - First Stable Release.**"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "platform-v0.1.0",
+          "product": "platform",
+          "version": "v0.1.0",
+          "name": "Coregrid v0.1.0 - MVP",
+          "tagline": "Baseline MVP Release",
+          "date": "2026-09-29T03:00:22Z",
+          "prerelease": false,
+          "githubUrl": "https://github.com/CoreGrid-org/CoreGrid/releases/tag/v0.1.0",
+          "sourceUrl": "https://github.com/CoreGrid-org/CoreGrid/archive/refs/tags/v0.1.0.zip",
+          "assets": [],
+          "summary": [
+            "CoreGrid v0.1.0 is the first MVP release of the CoreGrid asset lifecycle management platform.",
+            "This release provides the foundation for managing physical assets from registration and verification through maintenance, transfers, disposal, auditing, reporting, and controlled AI-assisted evaluation."
+          ],
+          "contributors": [
+            "HasithaErandika",
+            "jguruge",
+            "seneja",
+            "NipunaBhanuka18"
+          ],
+          "sections": [
+            {
+              "heading": "What's Included",
+              "blocks": [
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Organisation, department, location, and user management",
+                    "Configurable asset categories, types, and custom attributes",
+                    "Role- and permission-based access control with ThunderID",
+                    "Asset registration, search, filtering, and lifecycle history",
+                    "QR code generation, scanning, and asset identification",
+                    "Physical asset verification and reconciliation",
+                    "Asset condition tracking",
+                    "Maintenance and fault management",
+                    "Maintenance assignment, completion, cost, and evidence tracking",
+                    "Asset transfers and physical receipt confirmation",
+                    "Asset condemnation and disposal workflows",
+                    "Verification campaigns and discrepancy management",
+                    "Audit logging",
+                    "Inventory, maintenance, disposal, and audit reports",
+                    "PDF and CSV report export",
+                    "Role-based dashboards",
+                    "Transactional notifications",
+                    "Health monitoring and Swagger/OpenAPI documentation"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Agentic Asset Evaluation",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "CoreGrid v0.1.0 introduces a controlled AI-assisted asset evaluation workflow."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "The workflow analyses:"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Asset information",
+                    "Maintenance history",
+                    "Financial information",
+                    "Department budget",
+                    "Organisation policies"
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "text": "The system uses specialised agents for planning, maintenance analysis, budget analysis, and policy compliance."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "AI recommendations are validated using deterministic business rules before any action can proceed."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "High-impact actions require authorised human approval."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "The agent service has read-only access to business data and cannot directly modify asset records."
+                }
+              ]
+            },
+            {
+              "heading": "Security and Auditability",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "The MVP includes:"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "ThunderID authentication",
+                    "Permission-based API authorisation",
+                    "Organisation-scoped data",
+                    "Audit logging",
+                    "Read-only agent tools",
+                    "Deterministic validation",
+                    "Human approval for high-impact actions",
+                    "Workflow persistence and execution history",
+                    "Failure, timeout, and retry handling"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "API",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "CoreGrid provides a REST API covering:"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Identity and configuration",
+                    "Assets",
+                    "Maintenance",
+                    "Transfers",
+                    "Disposal",
+                    "Verification",
+                    "Audit",
+                    "Reporting",
+                    "Dashboards",
+                    "Agentic workflows"
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "text": "Swagger/OpenAPI is available through `/swagger`, and `/health` provides system and dependency status."
+                }
+              ]
+            },
+            {
+              "heading": "MVP Scope",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "CoreGrid v0.1.0 focuses on the essential asset lifecycle:"
+                },
+                {
+                  "type": "paragraph",
+                  "text": "**Register → Identify → Verify → Maintain → Transfer → Evaluate → Approve → Dispose → Audit → Report**"
+                },
+                {
+                  "type": "paragraph",
+                  "text": "This release is the baseline foundation for future platform development."
+                }
+              ]
+            },
+            {
+              "heading": "Future Enhancements",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "Future releases may introduce:"
+                },
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Offline field operation and synchronisation",
+                    "Configurable lifecycle workflows",
+                    "Push notifications",
+                    "Automated preventive maintenance",
+                    "Multi-tenant SaaS and billing",
+                    "Additional AI agents",
+                    "Predictive failure analysis",
+                    "Computer-vision condition assessment",
+                    "ERP and financial-system integrations",
+                    "Sovereign-cloud and data-residency options",
+                    "Advanced administration and governance"
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "text": "These capabilities are outside the v0.1.0 MVP."
+                }
+              ]
+            },
+            {
+              "heading": "Project Status",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "CoreGrid v0.1.0 establishes the initial platform and provides the core technical foundation for intelligent physical asset lifecycle management."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "The architecture is designed to support future expansion while keeping business operations controlled, auditable, and permission-based."
+                },
+                {
+                  "type": "paragraph",
+                  "text": "**CoreGrid v0.1.0 - Baseline MVP.**"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mobile",
+      "label": "Mobile App",
+      "repo": "coregrid-mobile",
+      "etag": "W/\"a88db9eada5a10205cd484a6b765f86760b6684991a630add154c959a2bd1da8\"",
+      "releases": [
+        {
+          "id": "mobile-v0.1.0",
+          "product": "mobile",
+          "version": "v0.1.0",
+          "name": "CoreGrid Mobile v0.1.0",
+          "tagline": "Initial Mobile Baseline",
+          "date": "2026-10-04T15:11:48Z",
+          "prerelease": false,
+          "githubUrl": "https://github.com/CoreGrid-org/coregrid-mobile/releases/tag/v0.1.0",
+          "sourceUrl": "https://github.com/CoreGrid-org/coregrid-mobile/archive/refs/tags/v0.1.0.zip",
+          "assets": [],
+          "summary": [
+            "CoreGrid Mobile v0.1.0 is the initial Flutter-based field operations client for the CoreGrid platform."
+          ],
+          "contributors": [
+            "HasithaErandika",
+            "jguruge",
+            "seneja",
+            "NipunaBhanuka18"
+          ],
+          "sections": [
+            {
+              "heading": "Included",
+              "blocks": [
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "ThunderID authentication with OAuth 2.0 and PKCE",
+                    "Role-based access for Staff and Inventory Officers",
+                    "QR code and manual asset lookup",
+                    "Asset details and verification",
+                    "Fault reporting with photo evidence",
+                    "Maintenance task progress",
+                    "Transfer requests and receipt confirmation",
+                    "Workflow status and recommendations",
+                    "Notifications",
+                    "Role-based dashboards",
+                    "Shared UI and API architecture",
+                    "Unit and widget test coverage"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Platform",
+              "blocks": [
+                {
+                  "type": "list",
+                  "ordered": false,
+                  "items": [
+                    "Flutter / Dart",
+                    "Android",
+                    "Riverpod",
+                    "Dio",
+                    "go_router",
+                    "ThunderID",
+                    "CoreGrid REST API"
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "Notes",
+              "blocks": [
+                {
+                  "type": "paragraph",
+                  "text": "This release is an initial working baseline. Device testing is still required for camera, QR scanning, photo capture, and other hardware-dependent flows. Administrative and approval features remain available through the CoreGrid web application."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

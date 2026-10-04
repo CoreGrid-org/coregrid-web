@@ -1,44 +1,217 @@
-.featureList {
-  list-style: none;
+/* ---------- Layer bar ---------- */
+
+.layerBar {
+  position: sticky;
+  top: var(--ifm-navbar-height);
+  z-index: 5;
+  border-bottom: 1px solid var(--cg-border);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.layerBarInner {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  overflow-x: auto;
+}
+
+.layerChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--cg-border);
+  border-radius: 999px;
+  color: var(--cg-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.layerChip span {
+  color: var(--cg-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.layerChip:hover {
+  border-color: var(--cg-accent);
+  color: var(--cg-accent);
+  text-decoration: none;
+}
+
+/* ---------- Layers ---------- */
+
+.layer {
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 3.5rem);
+}
+
+.layerHeader {
+  max-width: 680px;
+  margin-bottom: 2rem;
+}
+
+.layerTag {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--cg-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.layerHeader h2 {
+  margin: 0 0 0.5rem;
+  color: var(--cg-text);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.layerHeader p {
   margin: 0;
-  padding: 0;
+  font-size: 1.02rem;
+}
+
+/* ---------- Cards (same anatomy as the pricing plans) ---------- */
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.card {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  padding: 1.75rem;
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-lg);
+  background: var(--cg-card-bg);
+  transition: border-color 0.15s ease;
 }
 
-.featureList li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.55rem;
-  color: var(--cg-text-muted);
-  font-size: 0.92rem;
-  line-height: 1.5;
+.card:hover {
+  border-color: var(--cg-accent);
 }
 
-.checkMark {
-  color: var(--cg-accent);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-}
-
-.ctaBanner {
+.cardHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  padding: 3rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
 }
 
-.ctaText {
+.cardIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--cg-radius-sm);
+  background: var(--cg-accent-soft);
+  color: var(--cg-accent-dark);
+}
+
+.cardLayer {
   color: var(--cg-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cardTitle {
+  margin: 0 0 0.6rem;
+  color: var(--cg-text);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.cardDesc {
+  margin: 0;
+  color: var(--cg-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.cardList {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: 0.65rem;
+  margin: 1.5rem 0;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid var(--cg-border);
+  list-style: none;
+}
+
+.cardList li {
+  display: flex;
+  gap: 0.6rem;
+  color: var(--cg-text);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.cardList svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: var(--cg-accent);
+}
+
+.cardCta {
+  width: 100%;
+}
+
+.cardCta:hover {
+  border-color: var(--cg-accent) !important;
+  color: var(--cg-accent) !important;
+}
+
+/* ---------- CTA ---------- */
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 2rem 2.25rem;
+  border: 1px solid var(--cg-border);
+  border-left: 3px solid var(--cg-accent);
+  border-radius: var(--cg-radius-lg);
+}
+
+.cta h2 {
+  margin: 0 0 0.35rem;
+  color: var(--cg-text);
+  font-size: 1.35rem;
+}
+
+.cta p {
   margin: 0;
 }
 
-@media (max-width: 640px) {
-  .ctaBanner {
-    justify-content: center;
-    text-align: center;
+/* ---------- Responsive ---------- */
+
+@media (max-width: 680px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .layerBarInner {
+    justify-content: flex-start;
+  }
+
+  .cta {
+    padding: 1.5rem;
   }
 }

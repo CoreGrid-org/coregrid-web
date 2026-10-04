@@ -1,915 +1,331 @@
-/* =========================================================
-   PAGE CONTAINER
-========================================================= */
-
-.pageContainer {
-  width: 100%;
-  max-width: 1180px;
-
-  margin-left: auto;
-  margin-right: auto;
-
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
+/* ---------- Hero ---------- */
 
 .hero {
   position: relative;
-
-  min-height: 760px;
-
-  display: flex;
-  align-items: center;
-
-  overflow: hidden;
-
-  background: #06101f;
+  padding: clamp(2.5rem, 6vw, 4rem) 0 0;
+  border-bottom: 1px solid var(--cg-border);
 }
 
-
-/* =========================================================
-   HERO VIDEO
-========================================================= */
-
-.heroVideo {
+/* Faint dot grid that fades out downwards. */
+.hero::before {
+  content: '';
   position: absolute;
-
   inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
-
-/* =========================================================
-   HERO OVERLAYS
-========================================================= */
-
-.heroOverlay {
-  position: absolute;
-
-  inset: 0;
-
-  background: rgba(2, 11, 24, 0.7);
-}
-
-.heroLeftGradient {
-  position: absolute;
-
-  inset: 0;
-
-  background:
-    linear-gradient(
-      to right,
-      rgba(2, 11, 24, 0.97) 0%,
-      rgba(2, 11, 24, 0.68) 52%,
-      rgba(2, 11, 24, 0.3) 100%
-    );
-}
-
-.heroBottomGradient {
-  position: absolute;
-
-  inset: 0;
-
-  background:
-    linear-gradient(
-      to top,
-      rgba(2, 11, 24, 0.95),
-      transparent 55%
-    );
-}
-
-
-/* =========================================================
-   HERO CONTAINER
-========================================================= */
-
-.heroContainer {
-  position: relative;
-
-  z-index: 5;
-
-  width: 100%;
-  max-width: 1180px;
-
-  margin: 0 auto;
-
-  padding: 5rem 1.5rem;
-}
-
-
-/* =========================================================
-   HERO GRID
-========================================================= */
-
-.heroGrid {
-  display: grid;
-
-  grid-template-columns:
-    minmax(0, 0.85fr)
-    minmax(0, 1.15fr);
-
-  align-items: center;
-
-  gap: 4rem;
-}
-
-
-/* =========================================================
-   HERO COPY
-========================================================= */
-
-.heroCopy {
-  width: 100%;
-  max-width: 760px;
-}
-
-.heroEyebrow {
-  display: inline-block;
-
-  color: var(--cg-accent);
-
-  font-size: 0.8rem;
-  font-weight: 700;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.2em;
-}
-
-.heroTitle {
-  margin: 1.25rem 0 0;
-
-  color: #ffffff;
-
-  font-size: clamp(2.75rem, 4vw, 3.75rem);
-
-  font-weight: 700;
-
-  line-height: 1.08;
-
-  letter-spacing: -0.035em;
-}
-
-.highlight {
-  color: var(--cg-accent);
-}
-
-.heroLead {
-  max-width: 680px;
-
-  margin: 2rem 0 0;
-
-  color: rgba(255, 255, 255, 0.66);
-
-  font-size: 1.25rem;
-
-  line-height: 1.9;
-}
-
-
-/* =========================================================
-   HERO BUTTONS
-========================================================= */
-
-.heroActions {
-  display: flex;
-
-  align-items: center;
-
-  flex-wrap: wrap;
-
-  gap: 1rem;
-
-  margin-top: 2.25rem;
-}
-
-.primaryButton,
-.secondaryButton {
-  min-height: 54px;
-
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 0.75rem;
-
-  padding: 0.9rem 2rem;
-
-  border-radius: 12px;
-
-  font-size: 1rem;
-  font-weight: 700;
-
-  text-decoration: none !important;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.primaryButton {
-  background: var(--cg-accent);
-
-  color: #ffffff !important;
-
-  box-shadow:
-    0 10px 25px rgba(232, 96, 28, 0.22);
-}
-
-.primaryButton:hover {
-  background: #f07030;
-
-  color: #ffffff !important;
-
-  transform: translateY(-2px);
-}
-
-.secondaryButton {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-
-  background: rgba(255, 255, 255, 0.1);
-
-  color: #ffffff !important;
-}
-
-.secondaryButton:hover {
-  border-color: rgba(255, 255, 255, 0.42);
-
-  background: rgba(255, 255, 255, 0.16);
-
-  color: #ffffff !important;
-}
-
-
-/* =========================================================
-   HERO FEATURES
-========================================================= */
-
-.heroFeatures {
-  display: flex;
-
-  align-items: center;
-
-  flex-wrap: wrap;
-
-  gap: 1rem 1.75rem;
-
-  margin-top: 2.25rem;
-}
-
-.heroFeatureItem {
-  display: flex;
-
-  align-items: center;
-
-  gap: 0.6rem;
-
-  color: rgba(255, 255, 255, 0.65);
-
-  font-size: 0.85rem;
-}
-
-.featureBullet {
-  width: 17px;
-  height: 17px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border: 2px solid var(--cg-accent);
-
-  border-radius: 50%;
-}
-
-.featureBullet span {
-  width: 6px;
-  height: 6px;
-
-  display: block;
-
-  background: var(--cg-accent);
-
-  border-radius: 50%;
-}
-
-
-/* =========================================================
-   HERO IMAGE
-========================================================= */
-
-.heroVisual {
-  position: relative;
-
-  width: 100%;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.heroImageGlow {
-  position: absolute;
-
-  top: 50%;
-  right: 5%;
-
-  width: 70%;
-  height: 70%;
-
-  transform: translateY(-50%);
-
-  background: rgba(232, 96, 28, 0.1);
-
-  border-radius: 50%;
-
-  filter: blur(100px);
-}
-
-.heroVisualImg {
-  position: relative;
-
-  z-index: 2;
-
-  width: 100%;
-  max-width: 900px;
-
-  height: auto;
-
-  object-fit: contain;
-}
-
-
-/* =========================================================
-   LOGO SLIDER
-========================================================= */
-
-.logoSection {
-  position: relative;
-
-  width: 100%;
-
-  overflow: hidden;
-
-  padding: 4rem 0;
-
-  background: #ffffff;
-
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.logoSectionHeading {
-  margin-bottom: 3rem;
-
-  text-align: center;
-
-  color: #94a3b8;
-
-  font-size: 0.85rem;
-  font-weight: 700;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.22em;
-}
-
-.logoSlider {
-  position: relative;
-
-  width: 100%;
-
-  overflow: hidden;
-}
-
-.logoTrack {
-  display: flex;
-
-  width: max-content;
-
-  animation: logoScroll 35s linear infinite;
-}
-
-.logoTrack:hover {
-  animation-play-state: paused;
-}
-
-.logoItem {
-  width: 330px;
-  height: 160px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  padding: 2rem;
-}
-
-.logoItem img {
-  max-width: 280px;
-  max-height: 125px;
-
-  width: auto;
-  height: auto;
-
-  object-fit: contain;
-
-  transition: transform 0.3s ease;
-}
-
-.logoItem:hover img {
-  transform: scale(1.08);
-}
-
-.logoFadeLeft,
-.logoFadeRight {
-  position: absolute;
-
-  top: 0;
-  bottom: 0;
-
-  width: 170px;
-
-  z-index: 3;
-
+  background-image: radial-gradient(circle, rgba(15, 23, 42, 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
   pointer-events: none;
 }
 
-.logoFadeLeft {
-  left: 0;
-
-  background:
-    linear-gradient(
-      to right,
-      #ffffff,
-      transparent
-    );
+.hero :global(.cg-container) {
+  position: relative;
+  z-index: 1;
 }
 
-.logoFadeRight {
-  right: 0;
-
-  background:
-    linear-gradient(
-      to left,
-      #ffffff,
-      transparent
-    );
-}
-
-@keyframes logoScroll {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-
-/* =========================================================
-   COMMON SECTIONS
-========================================================= */
-
-.overviewSection {
-  padding: 6rem 0;
-
-  background: #ffffff;
-}
-
-
-/* =========================================================
-   OVERVIEW
-========================================================= */
-
-.howGrid {
+.heroGrid {
   display: grid;
-
-  grid-template-columns:
-    minmax(0, 0.85fr)
-    minmax(0, 1.15fr);
-
-  align-items: start;
-
-  gap: 6rem;
-}
-
-.howCopy {
-  position: sticky;
-  top: calc(var(--ifm-navbar-height) + 2rem);
-
-  width: 100%;
-  max-width: 420px;
-}
-
-.howTitle {
-  font-size: clamp(1.7rem, 3vw, 2.3rem);
-  margin: 1rem 0 1rem;
-}
-
-.howText {
-  color: var(--cg-text-muted);
-  line-height: 1.7;
-  margin: 0 0 1.75rem;
-}
-
-.overviewContent {
-  width: 100%;
-  max-width: 760px;
-}
-
-.overviewFeatureList {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2rem;
-
-  margin-top: 2.5rem;
-}
-
-.overviewFeature {
-  display: flex;
-
-  align-items: flex-start;
-
-  gap: 1.25rem;
-}
-
-.overviewFeatureIcon {
-  width: 48px;
-  height: 48px;
-
-  display: flex;
-
+  grid-template-columns: 1.05fr 0.95fr;
   align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.heroTitle {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+}
+
+.heroLead {
+  margin: 0 0 2rem;
+  text-align: left;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.badgeLink {
+  display: inline-flex;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+
+.badgeLink:hover {
+  opacity: 1;
+}
+
+.badgeImg {
+  display: block;
+  width: auto;
+  height: 20px;
+}
+
+.heroVisual {
+  display: flex;
   justify-content: center;
-
-  flex-shrink: 0;
-
-  background: rgba(232, 96, 28, 0.1);
-
-  color: var(--cg-accent);
-
-  border-radius: 12px;
+  min-width: 0;
 }
 
-.overviewFeature h3 {
-  margin: 0 0 0.35rem;
-
-  color: #0b1223;
-
-  font-size: 1.05rem;
+.heroImage {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
 }
 
-.overviewFeature p {
-  margin: 0;
+.statBar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem clamp(2.5rem, 6vw, 4.5rem);
+  padding: var(--cg-s-3) 0;
+  border-top: 1px solid var(--cg-border);
+}
 
-  color: rgba(11, 18, 35, 0.6);
+.statItem {
+  text-align: center;
+}
 
-  font-size: 0.94rem;
+.statValue {
+  color: var(--cg-text);
+  font-family: var(--cg-font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
 
+.statLabel {
+  margin-top: 0.2rem;
+  color: var(--cg-text-muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- Shared section typography ---------- */
+
+.sectionTitle {
+  margin: 0.25rem 0 1rem;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+
+.sectionText {
+  margin: 0 0 1.5rem;
+  color: var(--cg-text-muted);
+  font-size: 1.02rem;
   line-height: 1.7;
 }
 
+.eyebrowIcon {
+  margin-right: 0.4rem;
+  vertical-align: -2px;
+}
 
-/* =========================================================
-   DEPARTMENTS
-========================================================= */
+.centerEyebrow {
+  margin-bottom: var(--cg-s-4);
+  text-align: center;
+}
 
-.departmentGrid {
+.introGrid {
   display: grid;
-
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: var(--cg-s-6);
+  margin-bottom: var(--cg-s-4);
 }
 
-
-/* =========================================================
-   DOCUMENTATION
-========================================================= */
-
-.docsGrid {
-  display: grid;
-
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-
-  gap: 1.5rem;
+.introGrid .sectionText {
+  margin-bottom: 1rem;
 }
 
-.docsCardLink {
-  display: block;
-  text-decoration: none !important;
+.moreLink {
+  margin-top: var(--cg-s-4);
+  text-align: center;
 }
 
-.docsLinkLabel {
+.moreLink a {
   display: inline-flex;
-
   align-items: center;
   gap: 0.4rem;
-
-  color: var(--cg-accent);
-
-  font-size: 0.88rem;
   font-weight: 600;
+  text-decoration: none;
 }
 
-
-/* =========================================================
-   CTA
-========================================================= */
-
-.ctaSection {
-  padding: clamp(2.5rem, 5vw, 3.5rem);
-  border-radius: var(--cg-radius-lg);
-  background: var(--cg-accent);
+.moreLink a:hover {
+  color: var(--cg-accent-dark);
+  text-decoration: none;
 }
 
-.ctaContent {
+/* ---------- Quick start ---------- */
+
+.quickstartGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.quickstartCopy {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
+.quickstartCode {
+  min-width: 0;
+}
+
+.quickstartCode :global(.theme-code-block) {
+  margin: 0;
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-lg);
+  box-shadow: none;
+}
+
+/* ---------- Module + community cards ---------- */
+
+.moduleCard,
+.communityCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--cg-bg);
+}
+
+.moduleTop {
+  display: flex;
   align-items: center;
   justify-content: space-between;
-
-  gap: 2.5rem;
+  margin-bottom: 1.1rem;
 }
 
-.ctaTitle {
-  margin: 0 0 0.6rem;
-
-  font-family: var(--cg-font-display);
-  font-weight: 700;
-  color: #ffffff;
-
-  font-size: clamp(1.5rem, 2.6vw, 1.9rem);
-  letter-spacing: -0.02em;
-}
-
-.ctaText {
-  max-width: 620px;
-
-  margin: 0;
-
-  color: rgba(255, 255, 255, 0.82);
-
-  line-height: 1.7;
-}
-
-.ctaButtons {
-  display: flex;
-
-  align-items: center;
-
-  flex-wrap: wrap;
-
-  gap: 0.85rem;
-
-  flex-shrink: 0;
-}
-
-.ctaPrimary,
-.ctaSecondary {
+.moduleIcon {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--cg-radius-sm);
+  background: var(--cg-accent-soft);
+  color: var(--cg-accent-dark);
+}
 
-  padding: 0.7rem 1.4rem;
+.communityCard .moduleIcon {
+  margin-bottom: 1.1rem;
+}
 
-  border-radius: var(--cg-radius-btn);
+.moduleNumber {
+  color: var(--cg-text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
 
+.moduleTitle {
+  margin: 0 0 0.5rem;
+  color: var(--cg-text);
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.moduleDesc {
+  margin: 0;
+  color: var(--cg-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  font-size: 0.95rem;
-
-  text-decoration: none !important;
-
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  text-decoration: none;
 }
 
-.ctaPrimary {
-  background: #ffffff;
-
-  color: var(--cg-accent) !important;
+.cardLink:hover {
+  color: var(--cg-accent-dark);
+  text-decoration: none;
 }
 
-.ctaPrimary:hover {
-  background: rgba(255, 255, 255, 0.9);
+/* ---------- Industries ---------- */
+
+.industryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.ctaSecondary {
-  border: 1px solid rgba(255, 255, 255, 0.5);
-
-  color: #ffffff !important;
+.industryGrid li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.95rem 1.1rem;
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-lg);
+  background: var(--cg-bg);
+  color: var(--cg-text);
+  font-size: 0.92rem;
+  font-weight: 600;
 }
 
-.ctaSecondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #ffffff;
+.industryGrid svg {
+  flex-shrink: 0;
+  color: var(--cg-accent);
 }
 
-@media (max-width: 640px) {
-  .ctaContent {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+/* ---------- Community ---------- */
 
-  .ctaButtons {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .ctaPrimary,
-  .ctaSecondary {
-    width: 100%;
-  }
+.communityIntro {
+  max-width: 640px;
+  margin: 0 auto var(--cg-s-4);
+  text-align: center;
 }
 
+/* ---------- Responsive ---------- */
 
-/* =========================================================
-   LARGE SCREEN
-========================================================= */
-
-@media (min-width: 1024px) {
-  .pageContainer,
-  .heroContainer {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-
-  .hero {
-    min-height: 820px;
-  }
-}
-
-
-/* =========================================================
-   EXTRA LARGE
-========================================================= */
-
-@media (min-width: 1280px) {
-  .pageContainer,
-  .heroContainer {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-
-  .hero {
-    min-height: 880px;
-  }
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 996px) {
-  .hero {
-    min-height: auto;
-
-    padding: 5rem 0;
-  }
-
+@media (max-width: 960px) {
   .heroGrid,
-  .howGrid {
+  .quickstartGrid,
+  .introGrid {
     grid-template-columns: 1fr;
   }
 
-  .heroCopy {
-    max-width: 800px;
+  .introGrid {
+    gap: 0;
   }
 
-  .heroVisual {
-    justify-content: center;
+  .heroImage {
+    max-width: 380px;
   }
 
-  .heroVisualImg {
-    max-width: 700px;
-  }
-
-  .howGrid {
-    gap: 3rem;
-  }
-
-  .howCopy {
-    position: static;
-    max-width: none;
-  }
-
-  .departmentGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .docsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .ctaContent {
-    flex-direction: column;
-
-    align-items: flex-start;
+  .industryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 640px) {
-  .pageContainer,
-  .heroContainer {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
-
-  .hero {
-    padding: 4rem 0;
-  }
-
-  .heroTitle {
-    font-size: clamp(2.5rem, 12vw, 3.4rem);
-  }
-
-  .heroLead {
-    font-size: 0.96rem;
-  }
-
-  .heroActions {
-    align-items: stretch;
-
-    flex-direction: column;
-  }
-
-  .primaryButton,
-  .secondaryButton {
-    width: 100%;
-  }
-
-  .heroFeatures {
-    flex-direction: column;
-
-    align-items: flex-start;
-  }
-
-  .logoSection {
-    padding: 3rem 0;
-  }
-
-  .logoItem {
-    width: 260px;
-    height: 130px;
-  }
-
-  .logoItem img {
-    max-width: 220px;
-    max-height: 95px;
-  }
-
-  .logoFadeLeft,
-  .logoFadeRight {
-    width: 55px;
-  }
-
-  .overviewSection {
-    padding: 4rem 0;
-  }
-
-  .departmentGrid,
-  .docsGrid {
+@media (max-width: 520px) {
+  .industryGrid {
     grid-template-columns: 1fr;
   }
 }
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .logoTrack {
-    animation: none;
-  }
-}
-

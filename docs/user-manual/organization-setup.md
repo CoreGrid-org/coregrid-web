@@ -21,7 +21,7 @@ each of these.
 
 ### 1. Departments and locations
 
-Create the departments that own assets and hold budgets (for example, *Fleet*, *Facilities*, *IT*), then the
+Create the departments that own assets (for example, *Fleet*, *Facilities*, *IT*), then the
 locations within each - a store, a workshop, an office, a ward. Every asset belongs to a department and a
 location, and both drive who can see and act on it.
 
@@ -49,10 +49,12 @@ asset is eligible for disposal, and the failure frequency that flags an asset fo
 
 ### 5. Users and roles
 
-Invite users by email and assign each one a role - Staff, Inventory Officer, Auditor or Administrator - and
-a home department. Invited users receive an email to set up their sign-in; you never handle or see their
-password. Roles and departments can be changed at any time. Deactivating a user keeps their historical
-records intact but blocks their sign-in immediately.
+Create each user with their name, email, an initial password and a role - Staff, Inventory Officer, Auditor
+or Administrator - then assign a home department. CoreGrid creates the account in ThunderID and passes the
+password straight through; it is never stored by CoreGrid. Roles and departments can be changed at any time
+and take effect on the user's next action, and you can set a new password for a user from the same screen.
+Deactivating a user keeps their historical records intact and blocks them on their very next request. The
+last active Administrator can't be demoted or deactivated.
 
 ## Where this fits
 
