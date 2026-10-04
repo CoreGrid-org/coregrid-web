@@ -1,0 +1,383 @@
+.page {
+  background: var(--cg-bg);
+}
+
+.hero {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contentLayout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  align-items: start;
+  gap: 2rem;
+  padding-bottom: 4rem;
+}
+
+.versionSidebar {
+  position: sticky;
+  top: 2rem;
+  padding: 0.5rem 0;
+}
+
+.sidebarHeading {
+  margin: 0 0 1.25rem 1.25rem;
+  color: var(--cg-text-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.versionList {
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid var(--cg-border);
+}
+
+.versionLink {
+  display: flex;
+  min-height: 74px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-left: -4px;
+  padding: 0.9rem 1rem 0.9rem 1.25rem;
+  border-left: 4px solid transparent;
+  color: var(--cg-text-muted);
+  font-size: 1.2rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.versionLink:hover {
+  color: var(--cg-text);
+  text-decoration: none;
+}
+
+.selectedVersion {
+  border-left-color: #1764ff;
+  color: var(--cg-text);
+}
+
+.latestBadge {
+  color: #1764ff;
+  font-size: 0.75rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.allReleasesLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.75rem 0 0 1.25rem;
+  color: #1764ff;
+  font-size: 1.05rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.allReleasesLink:hover {
+  color: #0d4fd0;
+  text-decoration: none;
+}
+
+.releaseCard {
+  scroll-margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--cg-border);
+  border-radius: 24px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.04);
+}
+
+.releaseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  border-bottom: 1px solid var(--cg-border);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.version {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.2rem;
+}
+
+.releaseDate {
+  color: var(--cg-text-muted);
+  font-size: 0.88rem;
+}
+
+.primaryLink,
+.secondaryLink,
+.linkList a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.primaryLink {
+  background: var(--cg-accent);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(240, 112, 48, 0.18);
+}
+
+.primaryLink:hover,
+.secondaryLink:hover,
+.linkList a:hover {
+  text-decoration: none;
+}
+
+.downloadRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.secondaryLink {
+  border: 1px solid var(--cg-border);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--cg-text);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.introText,
+.bodyText,
+.infoCard p,
+.featureCard li,
+.outOfScopeList li,
+.securityList li,
+.linkList a {
+  color: var(--cg-text-muted);
+  line-height: 1.72;
+}
+
+.sectionBlock {
+  padding-top: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid var(--cg-border);
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  color: var(--cg-text);
+}
+
+.sectionTitleRow h2 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.featureCard {
+  background: var(--cg-bg-alt);
+  border: 1px solid var(--cg-border);
+  border-radius: 16px;
+  padding: 1.1rem 1.2rem;
+}
+
+.featureCard h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1.05rem;
+}
+
+.featureCard ul,
+.outOfScopeList,
+.securityList,
+.linkList {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.featureCard ul {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.infoCard {
+  background: var(--cg-bg-alt);
+  border: 1px solid var(--cg-border);
+  border-radius: 16px;
+  padding: 1.2rem 1.25rem;
+}
+
+.infoCard ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.techList {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.techRow {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--cg-border);
+}
+
+.techLabel {
+  font-weight: 700;
+  color: var(--cg-text);
+}
+
+.techValue {
+  color: var(--cg-text-muted);
+}
+
+.contributorGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contributorCard {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: var(--cg-bg-alt);
+  border: 1px solid var(--cg-border);
+  border-radius: 16px;
+  padding: 1.2rem;
+  color: var(--cg-text);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.contributorCard:hover {
+  border-color: var(--cg-accent);
+  color: var(--cg-text);
+  text-decoration: none;
+}
+
+.contributorAvatar {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border: 1px solid var(--cg-border);
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--cg-bg);
+}
+
+.contributorCard h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.contributorCard p {
+  margin: 0;
+  color: var(--cg-text-muted);
+  line-height: 1.7;
+}
+
+.linkList {
+  display: grid;
+  gap: 0.5rem;
+}
+
+@media (max-width: 820px) {
+  .contentLayout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .versionSidebar {
+    position: static;
+  }
+
+  .versionList {
+    flex-direction: row;
+    border-left: 0;
+    border-bottom: 3px solid var(--cg-border);
+  }
+
+  .versionLink {
+    min-height: 56px;
+    flex: 1;
+    justify-content: center;
+    margin: 0 0 -3px;
+    padding: 0.75rem 0.5rem;
+    border-left: 0;
+    border-bottom: 3px solid transparent;
+    font-size: 1rem;
+  }
+
+  .selectedVersion {
+    border-bottom-color: #1764ff;
+  }
+
+  .latestBadge {
+    font-size: 0.65rem;
+  }
+
+  .allReleasesLink {
+    margin-top: 1rem;
+  }
+
+  .featureGrid,
+  .infoGrid,
+  .contributorGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .techRow {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .versionLink {
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  .releaseHeader {
+    flex-direction: column;
+  }
+
+  .primaryLink,
+  .secondaryLink {
+    width: 100%;
+    justify-content: center;
+  }
+}

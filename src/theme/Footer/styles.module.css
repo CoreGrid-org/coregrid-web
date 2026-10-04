@@ -1,42 +1,71 @@
+.footer {
+  padding: 0;
+}
+
+/* ───────── Section 1: main content ───────── */
+
+.mainSection {
+  position: relative;
+  z-index: 1;
+}
+
 .top {
   display: grid;
-  grid-template-columns: 1.6fr repeat(3, 1fr);
+  grid-template-columns: 1.6fr repeat(4, 1fr);
   gap: 2rem;
   padding: clamp(2.5rem, 5vw, 3.25rem) 0 clamp(1.75rem, 3vw, 2.25rem);
 }
 
 .brand {
-  max-width: 280px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
 .brandRow {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   text-decoration: none !important;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.1rem;
+  width: fit-content;
 }
 
 .brandLogo {
   display: block;
-  height: 26px;
+  height: 30px;
   width: auto;
   flex-shrink: 0;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
 }
 
 .brandName {
   font-family: var(--cg-font-display);
   font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: -0.01em;
+  font-size: 1.05rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .brandNameCore {
-  color: rgba(255, 255, 255, 0.9);
+  color: #171717;
 }
 
 .brandNameGrid {
   color: #f07030;
+}
+
+.brandSub {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7a7a76;
 }
 
 .brandTagline {
@@ -49,9 +78,11 @@
 .columnTitle {
   font-family: var(--cg-font-display);
   font-weight: 700;
-  font-size: 0.8rem;
-  color: #ffffff;
-  margin-bottom: 0.9rem;
+  font-size: 0.72rem;
+  color: #5a5a57;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .columnList {
@@ -60,7 +91,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
 .columnLink {
@@ -71,21 +102,20 @@
 }
 
 .columnLink:hover {
-  color: #ffffff;
+  color: #111111;
   text-decoration: none;
 }
 
-.bottomWrap {
-  border-top: 1px solid var(--cg-dark-border);
-}
+/* Divider + bottom bar */
 
 .bottom {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem 1.5rem;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
   flex-wrap: wrap;
-  padding: 1rem 0;
+  padding: 1.25rem 0 1.5rem;
+  border-top: 1px solid #e2e2de;
 }
 
 .copyright {
@@ -93,20 +123,75 @@
   font-size: 0.82rem;
 }
 
-@media (max-width: 768px) {
+.orgInfo {
+  color: #6a6a66;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+/* ───────── Section 2: watermark ───────── */
+
+.watermarkSection {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.watermark {
+  font-family: var(--cg-font-display);
+  font-size: clamp(5rem, 21vw, 26rem);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  white-space: nowrap;
+  color: rgba(17, 17, 17, 0.07);
+  margin-bottom: -0.1em;
+}
+
+/* ───────── Back to top ───────── */
+
+.backToTop {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: var(--cg-accent);
+  color: #ffffff;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(240, 112, 48, 0.28);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.backToTop:hover {
+  background: #d95e20;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
   .top {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem 1.5rem;
-  }
-
-  .brand {
-    max-width: none;
-    grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .top {
     grid-template-columns: 1fr;
+  }
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

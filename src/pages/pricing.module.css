@@ -1,5 +1,118 @@
 .heroCta {
   margin-top: var(--cg-s-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.heroCtaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tierGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .tierGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tierCard {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: var(--cg-s-6) var(--cg-s-4);
+}
+
+.tierFeatured {
+  border-color: var(--cg-accent);
+  box-shadow: 0 0 0 1px var(--cg-accent);
+}
+
+.tierBadge {
+  position: absolute;
+  top: -0.7rem;
+  left: var(--cg-s-4);
+  background: var(--cg-accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+}
+
+.tierEyebrow {
+  color: var(--cg-text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.tierName {
+  font-family: var(--cg-font-display);
+  font-size: 1.3rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.tierPriceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.tierPrice {
+  font-family: var(--cg-font-display);
+  font-size: 2rem;
+  color: var(--cg-text);
+}
+
+.tierPriceNote {
+  color: var(--cg-text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.tierSummary {
+  color: var(--cg-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+.tierFeatures {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex-grow: 1;
+}
+
+.tierFeatures li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--cg-text);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.tierCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .includedGrid {
@@ -64,6 +177,18 @@
   gap: 2rem;
   padding: 3rem;
   flex-wrap: wrap;
+}
+
+.ctaBannerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ctaBannerActions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .ctaText {

@@ -232,6 +232,7 @@ export default function Home(): React.ReactElement {
               <div className={styles.heroFeatures}>
 
                 {[
+                  'Open Source, Apache 2.0',
                   'Secure & Auditable',
                   'Human-Controlled AI',
                   'Multi-Department Ready',

@@ -14,7 +14,8 @@ const config: Config = {
     faster: false,
   },
 
-  // TODO: replace with the real production domain once hosting is decided.
+  // Deployed on Vercel, served from the domain root.
+  // TODO: replace with the real production domain once it's assigned in Vercel.
   url: 'https://coregrid.example.com',
   baseUrl: '/',
 
@@ -62,7 +63,14 @@ const config: Config = {
         {to: '/ai-decision-support', label: 'AI Decision Support', position: 'left'},
         {to: '/pricing', label: 'Pricing', position: 'left'},
         {to: '/docs/intro', label: 'Docs', position: 'left'},
-        {to: '/contact', label: 'Contact', position: 'right', className: 'navbar-cta-button'},
+        {to: '/changelog', label: 'Changelog', position: 'left'},
+        {to: '/community', label: 'Community', position: 'left'},
+        {
+          to: '/contact',
+          label: 'Contact',
+          position: 'right',
+          className: 'navbar-cta-button',
+        },
       ],
     },
     footer: {
@@ -99,6 +107,14 @@ const config: Config = {
             {label: 'Modules', to: '/modules'},
             {label: 'Pricing', to: '/pricing'},
             {label: 'Contact Us', to: '/contact'},
+          ],
+        },
+        {
+          title: 'Open Source',
+          items: [
+            // TODO: replace with the real GitHub organisation URL once the repository is public.
+            {label: 'GitHub', href: 'https://github.com/CoreGrid-org/CoreGrid'},
+            {label: 'Apache License 2.0', href: 'https://github.com/CoreGrid-org/CoreGrid/blob/main/LICENSE'},
           ],
         },
       ],
