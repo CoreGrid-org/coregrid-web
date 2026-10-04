@@ -38,30 +38,4 @@ An asset is never deleted once it has history. It leaves the active register onl
 Every asset moves through a guarded state machine - no transition happens silently, and an invalid one is
 rejected rather than ignored.
 
-```
-                              ┌──────────────┐
-        register ────────────▶│    ACTIVE    │◀──────────┐
-                              └──┬───┬───┬───┘           │
-                                 │   │   │               │ complete
-            transfer requested   │   │   │ maintenance   │
-                    ┌────────────┘   │   └───────────┐   │
-                    ▼                │               ▼   │
-         ┌────────────────────┐      │      ┌──────────────────┐
-         │ TRANSFER_REQUESTED │      │      │ UNDER_MAINTENANCE│
-         └─────────┬──────────┘      │      └──────────────────┘
-            approve│  reject         │ condemn
-                   ▼                 ▼
-         ┌────────────────────┐   ┌──────────────┐
-         │  IN_TRANSIT        │   │  CONDEMNED   │
-         └─────────┬──────────┘   └──────┬───────┘
-           confirm │                     │ disposal requested
-            receipt│                     ▼
-                   │            ┌─────────────────────┐
-                   └───────────▶│ DISPOSAL_REQUESTED  │
-                     back to    └──────┬──────────┬───┘
-                      ACTIVE    approve│          │reject
-                                       ▼          └────▶ back to CONDEMNED
-                                ┌──────────────┐
-                                │   DISPOSED   │   terminal - no further
-                                └──────────────┘   transition permitted
-```
+[![CoreGrid asset lifecycle state machine: a registered asset starts ACTIVE. It moves to UNDER_MAINTENANCE when maintenance starts and back to ACTIVE when completed, or to CONDEMNED if completed as UNSERVICEABLE. A transfer request moves it to TRANSFER_REQUESTED; rejection returns it to ACTIVE, approval moves it to IN_TRANSIT, and confirmed receipt returns it to ACTIVE in the new department and location. A condemned asset can be put up for disposal (DISPOSAL_REQUESTED); rejection returns it to CONDEMNED and approval makes it DISPOSED, which is terminal.](../../architecture/img/asset-lifecycle.png)](../../architecture/img/asset-lifecycle.png)

@@ -89,35 +89,6 @@ const approachItems = [
 ];
 
 
-const technologies = [
-  {
-    logo: '/img/tech/react.svg',
-    title: 'React',
-    label: 'Management Web Application',
-  },
-  {
-    logo: '/img/tech/flutter.svg',
-    title: 'Flutter',
-    label: 'Field Operations Application',
-  },
-  {
-    logo: '/img/tech/dotnet.svg',
-    title: 'ASP.NET Core',
-    label: 'REST API & Business Layer',
-  },
-  {
-    logo: '/img/tech/postgresql.svg',
-    title: 'PostgreSQL',
-    label: 'Central Data Platform',
-  },
-  {
-    logo: '/img/tech/langgraph.svg',
-    title: 'LangGraph',
-    label: 'Agentic AI Workflow',
-  },
-];
-
-
 /* =========================================================
    PAGE
 ========================================================= */
@@ -494,92 +465,6 @@ export default function About(): React.ReactElement {
         </div>
       </section>
 
-
-      {/* =====================================================
-          TECHNOLOGY
-      ===================================================== */}
-
-      <section className={`cg-section cg-section--alt ${styles.technologySection}`}>
-
-        <div className="cg-container">
-
-          <Reveal>
-            <div className={styles.sectionHeader}>
-
-              <span className="cg-eyebrow">
-                Technology
-              </span>
-
-              <h2 className={`cg-heading ${styles.sectionTitle}`}>
-                Built as an Integrated System
-              </h2>
-
-              <p className={styles.sectionDescription}>
-                The project combines web, mobile, backend, data, identity and
-                AI technologies within a single architecture.
-              </p>
-
-            </div>
-          </Reveal>
-
-        </div>
-
-
-        <Reveal>
-          <div className={styles.technologyWindow}>
-
-            <div className={styles.leftFade} />
-            <div className={styles.rightFade} />
-
-
-            <div className={styles.technologyTrack}>
-
-              {[...technologies, ...technologies].map(
-                (technology, index) => {
-
-                  const technologyLogo = useBaseUrl(
-                    technology.logo,
-                  );
-
-                  return (
-                    <div
-                      className={`cg-card ${styles.technologyCard}`}
-                      key={`${technology.title}-${index}`}
-                    >
-
-                      <div className={styles.technologyLogo}>
-
-                        <img
-                          src={technologyLogo}
-                          alt={`${technology.title} logo`}
-                        />
-
-                      </div>
-
-
-                      <div>
-
-                        <h3>
-                          {technology.title}
-                        </h3>
-
-                        <p>
-                          {technology.label}
-                        </p>
-
-                      </div>
-
-                    </div>
-                  );
-                },
-              )}
-
-            </div>
-
-          </div>
-        </Reveal>
-
-      </section>
 
     </Layout>
   );

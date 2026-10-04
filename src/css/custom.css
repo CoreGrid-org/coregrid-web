@@ -335,3 +335,283 @@ a {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ---------- Docs: sidebar, table of contents, typography, tables ---------- */
+
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--cg-border) !important;
+}
+
+.theme-doc-sidebar-menu {
+  padding: var(--cg-s-3) var(--cg-s-2) !important;
+}
+
+.theme-doc-sidebar-menu .menu__link,
+.theme-doc-sidebar-menu .menu__caret {
+  border-radius: var(--cg-radius-sm);
+}
+
+.theme-doc-sidebar-menu .menu__link {
+  color: var(--cg-text-muted);
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.theme-doc-sidebar-menu .menu__link:hover {
+  background: var(--cg-bg-alt);
+  color: var(--cg-text);
+}
+
+/* Category headings read as section labels, not links. */
+.theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link,
+.theme-doc-sidebar-item-link-level-1 > .menu__link {
+  color: var(--cg-text);
+  font-weight: 650;
+}
+
+.theme-doc-sidebar-menu .menu__list .menu__list {
+  margin-left: 0.75rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--cg-border);
+}
+
+.theme-doc-sidebar-menu .menu__link--active:not(.menu__link--sublist) {
+  background: var(--cg-accent-soft);
+  color: var(--cg-accent-dark);
+  font-weight: 600;
+}
+
+.theme-doc-sidebar-menu .menu__link--sublist.menu__link--active {
+  color: var(--cg-text);
+}
+
+.theme-doc-sidebar-menu .menu__caret::before,
+.theme-doc-sidebar-menu .menu__link--sublist-caret::after {
+  opacity: 0.55;
+}
+
+/* Table of contents: muted links with an accent rail for the current heading. */
+.table-of-contents {
+  border-left: 1px solid var(--cg-border);
+  font-size: 0.82rem;
+}
+
+.table-of-contents__link {
+  display: block;
+  margin-left: -1px;
+  padding-left: 0.75rem;
+  border-left: 2px solid transparent;
+  color: var(--cg-text-muted);
+}
+
+.table-of-contents__link:hover,
+.table-of-contents__link--active {
+  color: var(--cg-accent);
+  text-decoration: none;
+}
+
+.table-of-contents__link--active {
+  border-left-color: var(--cg-accent);
+  font-weight: 600;
+}
+
+.theme-doc-toc-desktop::before {
+  content: 'On this page';
+  display: block;
+  margin: 0 0 0.6rem 0.75rem;
+  color: var(--cg-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.theme-doc-markdown {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.theme-doc-markdown h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  letter-spacing: -0.03em;
+}
+
+.theme-doc-markdown h2 {
+  margin-top: 2.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--cg-border);
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+}
+
+.theme-doc-markdown h3 {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+.theme-doc-markdown p,
+.theme-doc-markdown li {
+  color: var(--cg-text-muted);
+}
+
+.theme-doc-markdown strong {
+  color: var(--cg-text);
+}
+
+.theme-doc-markdown li::marker {
+  color: var(--cg-accent);
+}
+
+.theme-doc-markdown :not(pre) > code {
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--cg-border);
+  border-radius: 5px;
+  background: var(--cg-bg-alt);
+  color: var(--cg-accent-dark);
+  font-size: 0.85em;
+}
+
+.theme-doc-markdown pre {
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-sm);
+}
+
+/* Tables: full width, quiet header, horizontal scroll on narrow screens. */
+.theme-doc-markdown table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-lg);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.theme-doc-markdown table thead tr {
+  background: var(--cg-bg-alt);
+}
+
+.theme-doc-markdown table th {
+  color: var(--cg-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.theme-doc-markdown table th,
+.theme-doc-markdown table td {
+  padding: 0.7rem 0.9rem;
+  border: 0;
+  border-bottom: 1px solid var(--cg-border);
+  vertical-align: top;
+}
+
+.theme-doc-markdown table tr {
+  border: 0;
+  background: transparent;
+}
+
+.theme-doc-markdown table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.theme-doc-markdown table tbody tr:hover {
+  background: #fcfcfd;
+}
+
+.theme-doc-markdown table td {
+  color: var(--cg-text-muted);
+}
+
+.theme-doc-markdown table td:first-child {
+  color: var(--cg-text);
+  font-weight: 600;
+}
+
+/* Diagrams: framed and clickable to open full size. */
+.theme-doc-markdown a:has(> img) {
+  display: block;
+  margin: 1.5rem 0 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-lg);
+  background: #fff;
+  transition: border-color 0.15s ease;
+}
+
+.theme-doc-markdown a:has(> img):hover {
+  border-color: var(--cg-accent);
+}
+
+.theme-doc-markdown a:has(> img) img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Collapsible "Text version" blocks: neutral instead of the blue info alert. */
+.theme-doc-markdown details {
+  --ifm-alert-background-color: var(--cg-bg-alt);
+  --ifm-alert-background-color-highlight: var(--cg-bg-alt);
+  --ifm-alert-border-color: var(--cg-border);
+  --ifm-alert-foreground-color: var(--cg-text);
+  --docusaurus-details-decoration-color: var(--cg-accent);
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-sm);
+  box-shadow: none;
+  font-size: 0.9rem;
+}
+
+.theme-doc-markdown details summary {
+  font-weight: 600;
+}
+
+.theme-doc-markdown blockquote {
+  border-left: 3px solid var(--cg-accent);
+  background: var(--cg-accent-soft);
+  border-radius: 0 var(--cg-radius-sm) var(--cg-radius-sm) 0;
+  color: var(--cg-text);
+  padding: 0.75rem 1rem;
+}
+
+/* Breadcrumbs and previous/next cards. */
+.breadcrumbs__link {
+  font-size: 0.82rem;
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  background: var(--cg-accent-soft);
+  color: var(--cg-accent-dark);
+}
+
+.pagination-nav__link {
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-lg);
+  transition: border-color 0.15s ease;
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--cg-accent);
+}
+
+.pagination-nav__sublabel {
+  color: var(--cg-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pagination-nav__label {
+  color: var(--cg-text);
+}
+
+/* The footer renders the site's only back-to-top button; hide Docusaurus's built-in one on docs pages. */
+.theme-back-to-top-button {
+  display: none !important;
+}

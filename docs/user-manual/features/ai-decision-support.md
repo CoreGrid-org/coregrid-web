@@ -10,9 +10,11 @@ ASP.NET Core API — no separate container, no additional network surface.
 
 ## Starting an evaluation
 
-An Inventory Officer or Administrator initiates an evaluation for a specific asset from either app and
-receives a workflow reference immediately, without waiting for it to finish. An evaluation can't be started
-for an asset already in a terminal state, or while another evaluation is already running for it.
+An Inventory Officer or Administrator starts an evaluation for a whole asset type - for example, every laptop
+in the organisation - or narrows it to a single asset. The new-evaluation dialog has searchable asset type and
+asset selectors, and the caller gets a workflow reference immediately, without waiting for it to finish. Each
+asset in scope gets its own recommendation, plus an overall summary for the fleet. Only one evaluation can run
+at a time for the same asset type or asset.
 
 ## The four agents
 
@@ -36,27 +38,11 @@ for an asset already in a terminal state, or while another evaluation is already
 
 ## The workflow
 
-```
-ENTRY → Officer initiates evaluation
-  ↓
-NODE 1 · PLANNER — produces ordered plan
-  ↓
-NODE 2 · MAINTENANCE ANALYSIS — repair history, cost trend, MTBF
-  ↓
-NODE 3 · BUDGET ANALYSIS — financials, depreciation, ranked options
-  ↓
-NODE 4 · POLICY COMPLIANCE — deterministic policy validation
-  ↓
-DETERMINISTIC GATE — schema + business rules + authorisation
-  ├─ FAIL (fatal) → Safe failure, no state change
-  ├─ NEEDS REVISION (max 2) → Back to Node 2
-  └─ PASS → Is the action high-impact?
-       ├─ No → Completed advisory (stored, no state change)
-       └─ Yes → AWAITING APPROVAL (workflow pauses)
-            ├─ Approve → Action executes via normal business service
-            ├─ Reject → Terminal, reason recorded
-            └─ Revise (max 2) → Back to Node 2
-```
+[![CoreGrid asset lifecycle evaluation workflow: the Planner, Maintenance, Budget and Policy agents run in order; out-of-scope requests end as FAILED_SAFE; the gate result is COMPLETED_ADVISORY for low-impact passes, FAILED_SAFE on failure, REVISION_REQUESTED when rework is needed, or AWAITING_APPROVAL for high-impact results, which an Administrator approves, rejects, or sends back for revision (at most twice).](../../architecture/img/agent-workflow.png)](../../architecture/img/agent-workflow.png)
+
+Green states finished well, red states stopped safely, yellow states are waiting for a person and orange
+means the evaluation was sent back. Only an Administrator can approve, reject or revise, and must give a
+reason of at least 10 characters.
 
 All state is persisted at each checkpoint, so a workflow can resume from where it left off after a restart.
 The entire workflow is time-bounded to 120 seconds.
@@ -69,11 +55,15 @@ scores, cost calculations, compliance checks - not just the conclusion.
 
 An Administrator can:
 
-- **Approve** - the recommended action executes through the ordinary business workflow, under the same
-  rules and audit logging as if a person had done it manually.
-- **Reject** - the workflow ends; nothing changes.
-- **Request revision** - the workflow re-analyses with the reviewer's comments as added context (capped at
-  two revisions before it's handed to manual review).
+- **Approve** - the decision, the approver's reason and a snapshot of the workflow are recorded. Approval
+  does not run the action automatically: a disposal is still completed through the normal disposal approval
+  step, which requires an approved workflow.
+- **Reject** - the workflow ends and the reason is recorded; nothing changes.
+- **Revise** - the evaluation runs again without suggesting the rejected action (capped at two revisions).
+
+Every decision needs a reason of at least 10 characters. Disposal recommendations always require
+Administrator approval, and a recommendation that policy blocks is replaced with the next action policy
+allows.
 
 ## Model configuration
 

@@ -1,164 +1,264 @@
+// Generates src/data/generated/changelog.json from the GitHub Releases of every CoreGrid repo.
+//
+// Runs automatically before `npm start` and `npm run build` (see package.json), or manually with
+// `npm run generate:changelog`. Uses ETag conditional requests so unchanged repos cost nothing
+// against the GitHub rate limit, fetches all repos in parallel, falls back to the committed data
+// when offline, and only rewrites the output file when its content actually changed.
+//
+// Set GITHUB_TOKEN to raise the API rate limit (the deploy workflow does this automatically).
+
 import {existsSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
-import {dirname, join} from 'node:path';
+import {dirname, join, relative} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
-const scriptDir = dirname(fileURLToPath(import.meta.url));
-const projectDir = join(scriptDir, '..');
-const dataDir = join(projectDir, 'src', 'data');
-const generatedDir = join(dataDir, 'generated');
-const cacheFile = join(dataDir, 'changelog-cache.json');
-const outputFile = join(generatedDir, 'changelog.ts');
+const projectDir = join(dirname(fileURLToPath(import.meta.url)), '..');
+const outputFile = join(projectDir, 'src', 'data', 'generated', 'changelog.json');
 const owner = 'CoreGrid-org';
-const repo = 'CoreGrid';
+const requestTimeoutMs = 10_000;
+// Bump when the parsed output shape changes so cached ETags are ignored and releases re-parsed.
+const schemaVersion = 1;
 
-function stripMarkdown(text) {
-  return text
-    .replace(/\*\*(.*?)\*\*/g, '$1')
-    .replace(/__(.*?)__/g, '$1')
-    .replace(/`([^`]*)`/g, '$1')
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .trim();
-}
+const products = [
+  {id: 'platform', label: 'Web Platform', repo: 'CoreGrid'},
+  {id: 'mobile', label: 'Mobile App', repo: 'coregrid-mobile'},
+];
 
-function parseGithubBody(body = '') {
-  const leadingLines = [];
+// Release-note sections that are rendered elsewhere on the page (or not at all).
+const skippedSections = /^(contributors?|full changelog)$/i;
+
+const log = (message) => console.log(`[changelog] ${message}`);
+
+// ---------------------------------------------------------------------------
+// Markdown parsing
+// ---------------------------------------------------------------------------
+
+/**
+ * Turns a GitHub release body into {tagline, summary, sections}. Inline markdown (bold, code,
+ * links) is kept as-is and rendered by the page; block structure is converted into typed blocks.
+ */
+function parseReleaseBody(body = '') {
+  const lines = body.replace(/\r\n/g, '\n').split('\n');
+
+  // Headings deeper than the section level become sub-headings inside a section. When a body has
+  // only one `##` (e.g. "## Initial Mobile Baseline" followed by `###` groups), the `###` level is
+  // the real section level.
+  const h2Count = lines.filter((line) => /^##\s/.test(line.trim())).length;
+  const sectionLevel = h2Count > 1 ? 2 : 3;
+
   const sections = [];
-  let currentSection = null;
-  let sawHeading = false;
+  let current = {heading: '', blocks: []};
+  sections.push(current);
 
-  const addBlock = (blocks, block) => {
-    const lastBlock = blocks.at(-1);
-    if (block.type === 'list' && lastBlock?.type === 'list') {
-      lastBlock.items.push(...block.items);
+  const push = (block) => {
+    const last = current.blocks.at(-1);
+    if (block.type === 'list' && last?.type === 'list' && last.ordered === block.ordered) {
+      last.items.push(...block.items);
+    } else if (block.type === 'paragraph' && last?.type === 'paragraph' && last.continues) {
+      last.text += ` ${block.text}`;
     } else {
-      blocks.push(block);
+      current.blocks.push(block);
     }
   };
 
-  for (const rawLine of body.replace(/\r\n/g, '\n').split('\n')) {
-    const line = rawLine.trim();
-    if (line.startsWith('## ')) {
-      sawHeading = true;
-      currentSection = {heading: stripMarkdown(line.slice(3)), blocks: []};
-      sections.push(currentSection);
-    } else if (line.startsWith('# ')) {
-      continue;
-    } else if (line.startsWith('- ') || line.startsWith('* ')) {
-      if (currentSection) {
-        addBlock(currentSection.blocks, {type: 'list', items: [stripMarkdown(line.slice(2))]});
+  for (let i = 0; i < lines.length; i += 1) {
+    const raw = lines[i];
+    const line = raw.trim();
+
+    const fence = line.match(/^(`{3,}|~{3,})\s*([\w-]*)/);
+    if (fence) {
+      const code = [];
+      const indent = raw.match(/^\s*/)[0].length;
+      for (i += 1; i < lines.length && !/^(`{3,}|~{3,})\s*$/.test(lines[i].trim()); i += 1) {
+        code.push(lines[i].slice(Math.min(indent, lines[i].match(/^\s*/)[0].length)));
       }
-    } else if (currentSection && line) {
-      addBlock(currentSection.blocks, {type: 'paragraph', text: stripMarkdown(line)});
-    } else if (!sawHeading && line) {
-      leadingLines.push(stripMarkdown(line));
+      push({type: 'code', lang: fence[2] || 'text', code: code.join('\n').trimEnd()});
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,6})\s+(.*)$/);
+    if (heading) {
+      const level = heading[1].length;
+      const text = heading[2].replace(/#+$/, '').trim();
+      if (level === 1) continue;
+      if (level <= sectionLevel) {
+        current = {heading: text, blocks: []};
+        sections.push(current);
+      } else {
+        push({type: 'heading', text});
+      }
+      continue;
+    }
+
+    const bullet = line.match(/^[-*+]\s+(.*)$/);
+    const numbered = line.match(/^(\d+)[.)]\s+(.*)$/);
+    if (bullet) {
+      push({type: 'list', ordered: false, items: [bullet[1].trim()]});
+    } else if (numbered) {
+      const last = current.blocks.at(-1);
+      const start = Number(numbered[1]);
+      // An ordered list interrupted by indented paragraphs/code resumes at the right number.
+      if (last?.type === 'list' && last.ordered) {
+        last.items.push(numbered[2].trim());
+      } else {
+        push({type: 'list', ordered: true, start, items: [numbered[2].trim()]});
+      }
+    } else if (/^(-{3,}|\*{3,}|_{3,})$/.test(line) || !line) {
+      const last = current.blocks.at(-1);
+      if (last?.type === 'paragraph') last.continues = false;
+    } else if (line.startsWith('>')) {
+      push({type: 'quote', text: line.replace(/^>\s?/, '')});
+    } else {
+      push({type: 'paragraph', text: line, continues: true});
     }
   }
 
-  const nonEmptySections = sections.filter((section) => section.blocks.length > 0);
-  let summary = leadingLines.join(' ');
-  let releaseSections = nonEmptySections;
-  const firstSectionParagraphs = nonEmptySections[0]?.blocks.filter((block) => block.type === 'paragraph') ?? [];
-
-  if (!summary && firstSectionParagraphs.length > 0) {
-    summary = firstSectionParagraphs.map((block) => block.text).join(' ');
-    releaseSections = nonEmptySections.slice(1);
+  for (const section of sections) {
+    for (const block of section.blocks) delete block.continues;
   }
 
-  releaseSections = releaseSections.filter(
-    (section) => section.blocks.some((block) => block.type === 'list') && !/^contributors$/i.test(section.heading),
-  );
+  // Leading sections made only of paragraphs form the intro: "## First Stable Release" + text.
+  let tagline = '';
+  const summary = [];
+  while (sections.length && sections[0].blocks.every((block) => block.type === 'paragraph')) {
+    const intro = sections.shift();
+    if (!tagline && intro.heading) tagline = intro.heading;
+    summary.push(...intro.blocks.map((block) => block.text));
+  }
+  // A single intro section followed by sub-headings (mobile style) still yields a summary.
+  if (!summary.length && sections[0] && !sections[0].heading) {
+    const intro = sections.shift();
+    summary.push(...intro.blocks.filter((block) => block.type === 'paragraph').map((block) => block.text));
+  }
 
   return {
-    summary: summary.replace(/\s+/g, ' ').slice(0, 500),
-    sections: releaseSections,
+    tagline,
+    summary,
+    sections: sections.filter((section) => section.blocks.length && !skippedSections.test(section.heading)),
   };
 }
 
-async function fetchReleases() {
-  const headers = {
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'User-Agent': 'coregrid-web-changelog-generator',
+function toRelease(product, release) {
+  const body = release.body ?? '';
+  const {tagline, summary, sections} = parseReleaseBody(body);
+  const seen = new Set();
+  const contributors = [release.author?.login, ...[...body.matchAll(/@([a-zA-Z0-9-]+)/g)].map((m) => m[1])]
+    .filter(Boolean)
+    .filter((login) => !seen.has(login.toLowerCase()) && seen.add(login.toLowerCase()));
+  const publishedAt = release.published_at || release.created_at || '';
+
+  return {
+    id: `${product.id}-${release.tag_name}`,
+    product: product.id,
+    version: release.tag_name,
+    name: release.name || release.tag_name,
+    tagline,
+    date: publishedAt,
+    prerelease: Boolean(release.prerelease),
+    githubUrl: release.html_url,
+    sourceUrl: `https://github.com/${owner}/${product.repo}/archive/refs/tags/${release.tag_name}.zip`,
+    assets: (release.assets ?? []).map((asset) => ({
+      name: asset.name,
+      url: asset.browser_download_url,
+      size: asset.size,
+    })),
+    summary,
+    contributors,
+    sections,
   };
-
-  if (process.env.GITHUB_TOKEN) {
-    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-  }
-
-  const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases?per_page=100`, {headers});
-  if (!response.ok) {
-    throw new Error(`GitHub API responded with ${response.status} ${response.statusText}`);
-  }
-
-  const rawReleases = await response.json();
-  return rawReleases
-    .filter((release) => !release.draft)
-    .map((release) => {
-      const {summary, sections} = parseGithubBody(release.body ?? '');
-      const mentions = [...(release.body ?? '').matchAll(/@([a-zA-Z0-9-]+)/g)].map((match) => match[1]);
-      const contributors = [...new Set([release.author?.login, ...mentions].filter(Boolean))];
-      const publishedAt = release.published_at || release.created_at;
-
-      return {
-        slug: release.tag_name,
-        version: release.tag_name,
-        name: release.name || release.tag_name,
-        date: publishedAt ? publishedAt.slice(0, 10) : '',
-        tag: release.tag_name,
-        prerelease: Boolean(release.prerelease),
-        githubUrl: release.html_url,
-        summary,
-        contributors,
-        sections,
-      };
-    })
-    .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-async function generateChangelog() {
-  let releases;
-  try {
-    releases = await fetchReleases();
-    writeFileSync(cacheFile, `${JSON.stringify(releases, null, 2)}\n`);
-    console.log(`Fetched ${releases.length} releases from GitHub (${owner}/${repo}); cache refreshed.`);
-  } catch (error) {
-    if (!existsSync(cacheFile)) {
-      throw new Error(`Could not fetch releases and no cache exists at ${cacheFile}.`, {cause: error});
+// ---------------------------------------------------------------------------
+// GitHub fetching
+// ---------------------------------------------------------------------------
+
+const baseHeaders = {
+  Accept: 'application/vnd.github+json',
+  'X-GitHub-Api-Version': '2022-11-28',
+  'User-Agent': 'coregrid-web-changelog-generator',
+  ...(process.env.GITHUB_TOKEN ? {Authorization: `Bearer ${process.env.GITHUB_TOKEN}`} : {}),
+};
+
+/** Returns {status: 'fresh', etag, releases} | {status: 'unchanged'}; throws on failure. */
+async function fetchProductReleases(product, etag) {
+  const releases = [];
+  let url = `https://api.github.com/repos/${owner}/${product.repo}/releases?per_page=100`;
+  let firstEtag = null;
+
+  while (url) {
+    const isFirstPage = !releases.length && !firstEtag;
+    const response = await fetch(url, {
+      headers: isFirstPage && etag ? {...baseHeaders, 'If-None-Match': etag} : baseHeaders,
+      signal: AbortSignal.timeout(requestTimeoutMs),
+    });
+    if (response.status === 304) return {status: 'unchanged'};
+    if (!response.ok) {
+      const remaining = response.headers.get('x-ratelimit-remaining');
+      const hint = remaining === '0' ? ' (rate limited - set GITHUB_TOKEN)' : '';
+      throw new Error(`${response.status} ${response.statusText}${hint}`);
     }
-    releases = JSON.parse(readFileSync(cacheFile, 'utf8'));
-    console.warn(`Could not fetch releases (${error.message}); using local cache ${cacheFile}.`);
+    if (isFirstPage) firstEtag = response.headers.get('etag');
+    releases.push(...(await response.json()));
+    url = response.headers.get('link')?.match(/<([^>]+)>;\s*rel="next"/)?.[1] ?? null;
   }
 
-  const banner = `// GENERATED FILE - do not edit directly.\n// Source: GitHub Releases API for ${owner}/${repo}; cached at src/data/changelog-cache.json.\n// Regenerate with \`npm run generate:changelog\`.\n\n`;
-  const generatedModule = `${banner}export type ChangelogBlock =
-  | {type: 'paragraph'; text: string}
-  | {type: 'list'; items: string[]};
-
-export type ChangelogSection = {
-  heading: string;
-  blocks: ChangelogBlock[];
-};
-
-export type ChangelogRelease = {
-  slug: string;
-  version: string;
-  name: string;
-  date: string;
-  tag: string;
-  prerelease: boolean;
-  githubUrl: string;
-  summary: string;
-  contributors: string[];
-  sections: ChangelogSection[];
-};
-
-const changelog: ChangelogRelease[] = ${JSON.stringify(releases, null, 2)};
-
-export default changelog;\n`;
-
-  writeFileSync(outputFile, generatedModule);
-  console.log(`Generated ${outputFile} from ${releases.length} releases.`);
+  return {
+    status: 'fresh',
+    etag: firstEtag,
+    releases: releases.filter((release) => !release.draft).map((release) => toRelease(product, release)),
+  };
 }
 
-mkdirSync(generatedDir, {recursive: true});
-await generateChangelog();
+// ---------------------------------------------------------------------------
+// Main
+// ---------------------------------------------------------------------------
+
+function readPrevious() {
+  try {
+    const data = JSON.parse(readFileSync(outputFile, 'utf8'));
+    if (data.schemaVersion !== schemaVersion) {
+      return {products: data.products.map(({etag, ...product}) => product)};
+    }
+    return data;
+  } catch {
+    return {products: []};
+  }
+}
+
+const previous = readPrevious();
+const previousById = new Map(previous.products.map((product) => [product.id, product]));
+const offline = process.argv.includes('--offline') || process.env.CHANGELOG_OFFLINE === '1';
+
+const results = await Promise.all(
+  products.map(async (product) => {
+    const cached = previousById.get(product.id);
+    const keep = (reason) => {
+      if (!cached) throw new Error(`${product.repo}: ${reason}, and no cached releases exist.`);
+      log(`${product.repo}: ${reason}; using ${cached.releases.length} cached release(s).`);
+      return cached;
+    };
+
+    if (offline) return keep('offline mode');
+    try {
+      const result = await fetchProductReleases(product, cached?.etag);
+      if (result.status === 'unchanged') {
+        log(`${product.repo}: up to date (${cached.releases.length} release(s)).`);
+        return cached;
+      }
+      log(`${product.repo}: fetched ${result.releases.length} release(s).`);
+      return {...product, etag: result.etag, releases: result.releases};
+    } catch (error) {
+      return keep(`fetch failed (${error.cause?.code ?? error.message})`);
+    }
+  }),
+);
+
+const output = `${JSON.stringify({schemaVersion, owner, products: results}, null, 2)}\n`;
+const target = relative(projectDir, outputFile);
+
+if (existsSync(outputFile) && readFileSync(outputFile, 'utf8') === output) {
+  log(`${target} unchanged.`);
+} else {
+  mkdirSync(dirname(outputFile), {recursive: true});
+  writeFileSync(outputFile, output);
+  log(`wrote ${target}.`);
+}

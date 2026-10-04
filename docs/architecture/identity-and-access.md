@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Identity and Access
@@ -27,26 +27,10 @@ own API.
 
 ## Organisation and user model
 
-Each deployment holds exactly one organisation record. A customer's Administrator invites the rest of their
-users into it.
+Each deployment holds exactly one organisation record. A customer's Administrator creates accounts for the
+rest of their users.
 
-```
-   ONE DEPLOYMENT - self-hosted per customer: its own API,
-   its own PostgreSQL, its own identity-provider instance.
-
-   IDENTITY PROVIDER (this customer only)
-   │
-   └── Users:  a.silva · j.fernando · n.perera · …
-         Role assignments: Administrator · Inventory Officer · Auditor · Staff
-
-   COREGRID DATABASE
-   Organization  (exactly one row - this customer)
-        │
-        ├──1:N── Departments ──1:N── Locations
-        └──1:N── Users   (mirrors the identity provider's user)
-                   │
-                   └── Role  (Administrator · Inventory Officer · Auditor · Staff)
-```
+[![CoreGrid organisation and user model: one self-hosted deployment per customer with its own ThunderID and database. ThunderID holds accounts and credentials; the CoreGrid database holds one Organization with Departments, Locations and mirrored Users. The API resolves the token subject to the Users row on every request, and the Administrator creates accounts in ThunderID through SCIM.](./img/org-user-model.png)](./img/org-user-model.png)
 
 A second customer is a second, independent deployment of this same diagram - not a second row inside this
 one.
@@ -54,7 +38,7 @@ one.
 | Concept | Owned by | Reason |
 |---|---|---|
 | User identity and credentials | Identity provider exclusively | Credentials never enter the application boundary. |
-| Role assignment | Identity provider, mirrored into CoreGrid at sign-in | Roles must be consistent across web and mobile and available at token-validation time. |
+| Role assignment | CoreGrid `Users` table (seeded from the token on first sign-in) | The middleware replaces the token's `roles` claim with the mirrored role on every request, so a role change by the Administrator applies immediately on web and mobile. |
 | Department and location | CoreGrid database | Business structure, frequently reconfigured, referenced by business rules. |
 | Effective permission for an operation | CoreGrid's own policy layer | Depends on domain state (asset status, workflow position) the identity provider doesn't hold. |
 
@@ -68,12 +52,16 @@ record from March must still show who acted even if that person has since left t
 
 | Scenario | Behaviour |
 |---|---|
-| First sign-in of a new user | The API creates the mirror record from the token claims on the first authenticated request, assigns the default department if one is configured, and records a `UserProvisioned` audit event. |
-| Subsequent sign-in | Email, display name and roles are refreshed from the token if they differ. A role change is recorded as a `RoleChanged` audit event. |
-| Administrator invites a user | The API calls ThunderID's management API using a confidential service credential to create the user and assign the requested role; ThunderID sends the invitation. The mirror record is created immediately in a Pending state. |
-| Administrator deactivates a user | The local mirror is marked inactive and the corresponding record is disabled. Deactivation takes effect at the API on the next request regardless of token validity. |
-| User is deleted in ThunderID | The mirror record is retained and marked inactive. It is never hard-deleted, because audit and lifecycle history reference it. |
-| Department assignment | Held only in CoreGrid and changed by an Administrator; never sourced from the identity provider. |
+| First-run Setup | `POST /api/setup/complete` creates the deployment's single organisation and its first Administrator (account in ThunderID, mirror in CoreGrid). |
+| Administrator creates a user | The API calls ThunderID through SCIM to create the account with the chosen initial password and role, then creates the active mirror record with the returned subject id. |
+| First sign-in without a mirror | If the token carries email, given name, family name and a valid role, the API creates the mirror in the deployment's organisation on the first request. Otherwise the request is refused with 401. |
+| Subsequent requests | Email and names are refreshed from the token when they differ. The role is **not** - it is held in CoreGrid. |
+| Administrator changes role or department | Updated in the CoreGrid mirror only and effective on the next request. The last active Administrator cannot be demoted. |
+| Administrator deactivates a user | The mirror is marked inactive and the next request is refused with 401, even while the token is still valid. The account in ThunderID is left as it is. The last active Administrator cannot be deactivated, and nobody can deactivate themselves. |
+| Administrator resets a password | The new password is forwarded to ThunderID and never stored or logged. |
+| User leaves | The mirror is retained (inactive), never hard-deleted, because audit and lifecycle history reference it. |
+
+Every change to a mirror record is captured by the generic audit interceptor like any other entity change.
 
 ## Token validation
 
@@ -83,11 +71,11 @@ Every authenticated request runs through the same sequence:
   1  Extract the bearer token from the Authorization header.
   2  Verify its signature against the identity provider's published keys.
   3  Validate issuer, expiry and not-before.
-  4  Resolve the token subject to the local user record; create or refresh
-     it on first request of a session.
-     → user deactivated locally  ⇒  403 Forbidden.
+  4  Resolve the token subject (sub) to the local user record - once per
+     request, in RoleEnrichmentMiddleware; create the mirror if missing.
+     → no active local user  ⇒  401 Unauthorized.
   5  Read OrganizationId from that local user record.
-  6  Project the roles claim into permission checks.
+  6  Replace the token's roles claim with the role held on the local record.
   7  Evaluate the endpoint's authorisation policy.
   8  Every database query is scoped to OrganizationId automatically -
      isolation is enforced by the data layer, not left to each query.
@@ -107,14 +95,15 @@ requires, and a role either holds that permission or doesn't.
 | View assets (own department) | Yes | Yes | Yes | Yes |
 | View assets (organisation-wide) | No | Yes | Yes | Yes |
 | Create / update assets | No | Yes | No | Yes |
-| Verify assets | No | Yes | Yes | No |
+| Verify assets | No | Yes | Yes | Yes |
 | Request maintenance | Yes | Yes | No | Yes |
 | Manage maintenance | No | Yes | No | Yes |
 | Request transfer | No | Yes | No | Yes |
 | Approve transfer | No | No | No | Yes |
-| Confirm transfer receipt | No | Yes | No | No |
+| Confirm transfer receipt | No | Yes (own department) | No | Yes |
 | Request disposal | No | Yes | No | Yes |
 | Approve disposal | No | No | No | Yes |
+| View audit campaigns | No | Yes | Yes | Yes |
 | Manage audit campaigns | No | No | Yes | Yes |
 | Resolve discrepancies | No | No | Yes | Yes |
 | Read audit log | No | No | Yes | Yes |
@@ -125,10 +114,14 @@ requires, and a role either holds that permission or doesn't.
 | Generate reports | No | Yes | Yes | Yes |
 
 Three properties of this table are load-bearing: an Auditor cannot create or amend an asset, which is what
-makes an audit finding independent evidence; an Administrator cannot confirm physical receipt of a transfer,
-because that's an assertion about the physical world only the receiving officer can truthfully make; and the
-agent service principal holds three read-only tool permissions and nothing else — no create, no update, no
-approve — which is the enforcement point behind the architectural rule that agents advise but never decide.
+makes an audit finding independent evidence; an Inventory Officer can only confirm receipt of a transfer into
+their own department, because that is an assertion about the physical world the receiving side has to make;
+and the agent service principal can only read - asset reads, workflow reads and the agent-tool routes, with
+every write policy denying it - which is the enforcement point behind the rule that agents advise but never
+decide.
+
+Staff are the only role restricted to their own department's data; every other role sees the whole
+organisation.
 
 See [Roles and Permissions](../user-manual/roles-permissions.md) in the User Manual for what each role
 experiences day to day.
@@ -153,10 +146,10 @@ experiences day to day.
 ## Password handling
 
 CoreGrid handles no passwords. Credential storage, hashing, recovery and session termination are delegated
-to ThunderID. This removes an entire class of vulnerability from the CoreGrid codebase. The Administrator
-password reset (`POST /api/users/{id}/reset-password`) and Setup's creation of the first Administrator are
-the only places where a password crosses the CoreGrid API. Both forward it directly to ThunderID and never
-persist or log it.
+to ThunderID. This removes an entire class of vulnerability from the CoreGrid codebase. Setup's creation of
+the first Administrator, an Administrator creating a user (`POST /api/users`) and the Administrator password
+reset (`POST /api/users/{id}/reset-password`) are the only places where a password crosses the CoreGrid API.
+All three forward it directly to ThunderID and never persist or log it.
 
 ## Security requirements
 

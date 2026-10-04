@@ -56,7 +56,8 @@ Small population, high privilege, typically desk-based.
 | View assets in their own department | Yes | Yes | Yes | Yes |
 | View assets across the organisation | No | Yes | Yes | Yes |
 | Register / amend assets | No | Yes | No | Yes |
-| Verify assets in the field | No | Yes | Yes | No |
+| Verify assets in the field | No | Yes | Yes | Yes |
+| Confirm transfer receipt | No | Yes (own department) | No | Yes |
 | Report a fault | Yes | Yes | No | Yes |
 | Manage maintenance | No | Yes | No | Yes |
 | Request a transfer or disposal | No | Yes | No | Yes |
