@@ -33,14 +33,15 @@ function NavbarBrand(): ReactNode {
   const logo = useBaseUrl('/img/coregrid-logo.png');
 
   return (
-    <Link to="/" className={styles.brand}>
+    <Link to="/" className={styles.brand} aria-label="CoreGrid home">
       <img
         src={logo}
         className={styles.logo}
-        alt="CoreGrid Sri Lanka"
+        alt=""
         decoding="async"
         fetchPriority="high"
       />
+      <span className={styles.wordmark}>CoreGrid</span>
     </Link>
   );
 }

@@ -193,8 +193,8 @@ export default function AIDecisionSupport(): React.ReactElement {
         title="Four AI agents. One human decision."
         lead="CoreGrid evaluates repair, replace, transfer and disposal decisions for a single asset or a whole fleet, then leaves every high-impact call to an accountable Administrator.">
         <div className={styles.actions}>
-          <Link className="cg-btn cg-btn--primary" to="/contact">
-            Request a live demo
+          <Link className="cg-btn cg-btn--primary" to="/demo">
+            Try the live demo
           </Link>
           <Link className="cg-btn cg-btn--ghost" to="/docs/user-manual/features/ai-decision-support">
             Read the documentation

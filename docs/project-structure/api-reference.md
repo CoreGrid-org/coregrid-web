@@ -4,7 +4,12 @@ sidebar_position: 3
 
 # API Reference
 
-The authoritative, generated contract is published as OpenAPI/Swagger by the running API at `/swagger`. This page provides a comprehensive summary of all API endpoints across the system, organised by component area with their required authorisation policies and access controls. All list endpoints accept standard paging, sorting, search, and filter parameters.
+The authoritative, generated contract is published as OpenAPI/Swagger by the running API at `/swagger`.
+
+:::tip Live API reference
+Browse the demo API's Swagger UI at **[coregrid-v7jn.onrender.com/swagger](https://coregrid-v7jn.onrender.com/swagger)**; the raw OpenAPI document is at [`/swagger/v1/swagger.json`](https://coregrid-v7jn.onrender.com/swagger/v1/swagger.json). Reading it needs no account. To try an operation, select **Authorize** and paste a ThunderID access token from a signed-in [live demo](/demo) session. The demo runs on free hosting, so the first request can take up to a minute while it wakes.
+:::
+ This page provides a comprehensive summary of all API endpoints across the system, organised by component area with their required authorisation policies and access controls. All list endpoints accept standard paging, sorting, search, and filter parameters.
 
 ## 1. Identity, Setup, Configuration and Users
 
