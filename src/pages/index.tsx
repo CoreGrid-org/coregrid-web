@@ -174,6 +174,9 @@ export default function Home(): React.ReactElement {
                 <Link className="cg-btn cg-btn--primary" to="/docs/intro">
                   Get started
                 </Link>
+                <Link className="cg-btn cg-btn--ghost" to="/demo">
+                  Try the live demo
+                </Link>
                 <a className="cg-btn cg-btn--ghost" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
                   <GithubIcon />
                   View on GitHub

@@ -1,270 +1,260 @@
 /* =========================================================
    NAVBAR MAIN LAYOUT
+   brand | links (centred) | actions
 ========================================================= */
 
 .navbarInner {
   width: 100%;
-  max-width: 100%;
+  max-width: 1280px;
 
   /* Keep in sync with --ifm-navbar-height in src/css/custom.css -
      Docusaurus positions the doc sidebar, TOC and mobile drawer off
      that variable, so a mismatch here makes the docs pages misalign. */
   height: var(--ifm-navbar-height);
 
-  margin: 0;
-
-  padding-left: 24px;
-  padding-right: 24px;
+  margin: 0 auto;
+  padding: 0 32px;
 
   display: grid;
-
-  grid-template-columns:
-    minmax(160px, 1fr)
-    auto
-    minmax(160px, 1fr);
-
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-
   gap: 24px;
 }
 
 
 /* =========================================================
-   BRAND AREA
+   BRAND
 ========================================================= */
 
 .brandArea {
   display: flex;
-
   align-items: center;
   justify-content: flex-start;
-
   min-width: 0;
-
   padding: 0 !important;
 }
 
 .brandWrapper {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 }
 
 .brand {
   display: flex;
-
   align-items: center;
-
+  gap: 10px;
   flex-shrink: 0;
-
-  padding: 0;
-
-  margin: 0;
-
+  color: var(--cg-text);
   text-decoration: none;
 }
 
-
-/* =========================================================
-   LOGO
-========================================================= */
+.brand:hover {
+  color: var(--cg-text);
+  text-decoration: none;
+}
 
 .logo {
   display: block;
-
   width: auto;
-
-  height: 34px;
-
+  height: 32px;
   object-fit: contain;
+}
+
+.wordmark {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
 }
 
 
 /* =========================================================
-   CENTER NAVIGATION
+   CENTRE LINKS
 ========================================================= */
 
 .navLinks {
   display: flex;
-
   align-items: center;
   justify-content: center;
-
-  gap: 4px;
-
+  gap: 2px;
   white-space: nowrap;
 }
-
-
-/* Remove default Docusaurus spacing */
-
-.navLinks :global(.navbar__items) {
-  display: flex;
-
-  align-items: center;
-
-  gap: 4px;
-
-  margin: 0;
-}
-
-
-/* Individual navbar items */
 
 .navLinks :global(.navbar__item) {
   display: flex;
-
   align-items: center;
-
   padding: 0;
 }
 
-
-/* =========================================================
-   NORMAL NAVIGATION LINKS
-========================================================= */
-
 .navLinks :global(.navbar__link) {
+  position: relative;
   display: inline-flex;
-
   align-items: center;
-  justify-content: center;
-
-  padding: 0.5rem 0.85rem;
-
-  border-radius: 999px;
-
-  color: #334155;
-
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--cg-radius-sm);
+  color: var(--cg-text-muted);
   font-size: 0.92rem;
-  font-weight: 600;
-
+  font-weight: 500;
   line-height: 1.2;
-
-  white-space: nowrap;
-
   text-decoration: none;
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-
-
-/* =========================================================
-   NAV LINK HOVER
-========================================================= */
 
 .navLinks :global(.navbar__link:hover) {
-  color: var(--cg-accent);
-
-  background: var(--cg-accent-soft);
-
+  color: var(--cg-text);
+  background: var(--cg-bg-alt);
   text-decoration: none;
 }
 
-
-/* =========================================================
-   ACTIVE NAV LINK
-========================================================= */
-
+/* Active page: accent text with a short underline, no filled pill. */
 .navLinks :global(.navbar__link--active) {
-  color: #ffffff !important;
+  color: var(--cg-accent);
+  font-weight: 600;
+}
 
+.navLinks :global(.navbar__link--active::after) {
+  content: '';
+  position: absolute;
+  left: 0.8rem;
+  right: 0.8rem;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 2px;
   background: var(--cg-accent);
-
-  box-shadow:
-    0 4px 12px rgba(232, 96, 28, 0.2);
 }
 
 .navLinks :global(.navbar__link--active:hover) {
-  color: #ffffff !important;
-
-  background: var(--cg-accent);
+  color: var(--cg-accent);
 }
 
 
 /* =========================================================
-   RIGHT SIDE
+   COMPANY DROPDOWN
+========================================================= */
+
+.navLinks :global(.dropdown > .navbar__link::after) {
+  /* chevron instead of Infima's triangle */
+  content: '';
+  position: static;
+  width: 6px;
+  height: 6px;
+  margin-left: 0.45rem;
+  border: solid currentColor;
+  border-width: 0 1.5px 1.5px 0;
+  border-radius: 0;
+  background: none;
+  transform: translateY(-2px) rotate(45deg);
+  top: auto;
+}
+
+.navLinks :global(.dropdown__menu) {
+  min-width: 180px;
+  padding: 0.4rem;
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius-lg);
+  box-shadow: 0 12px 32px rgba(17, 17, 17, 0.1);
+}
+
+.navLinks :global(.dropdown__link) {
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--cg-radius-sm);
+  color: var(--cg-text);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.navLinks :global(.dropdown__link:hover) {
+  background: var(--cg-bg-alt);
+  color: var(--cg-text);
+}
+
+.navLinks :global(.dropdown__link--active) {
+  background: var(--cg-accent-soft);
+  color: var(--cg-accent);
+}
+
+
+/* =========================================================
+   RIGHT ACTIONS
 ========================================================= */
 
 .rightArea {
   display: flex;
-
   align-items: center;
   justify-content: flex-end;
-
-  gap: 10px;
-
+  gap: 8px;
   min-width: 0;
-
   padding: 0 !important;
-}
-
-.rightArea :global(.navbar__items) {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  margin: 0;
 }
 
 .rightArea :global(.navbar__item) {
   display: flex;
-
   align-items: center;
-
   padding: 0;
 }
 
-
-/* =========================================================
-   CONTACT CTA BUTTON
-
-   Add: className: 'navbar-cta-button'
-========================================================= */
-
-.rightArea :global(.navbar-cta-button) {
+/* GitHub icon link — className: 'navbar-github-link' */
+.rightArea :global(.navbar-github-link) {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: var(--cg-radius-sm);
+  color: var(--cg-text-muted);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
 
-  padding: 0.55rem 1.15rem;
+.rightArea :global(.navbar-github-link:hover) {
+  background: var(--cg-bg-alt);
+  color: var(--cg-text);
+}
 
-  border-radius: 999px;
+.rightArea :global(.navbar-github-link svg) {
+  display: none; /* Infima's external-link arrow */
+}
 
+.rightArea :global(.navbar-github-link::before) {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  -webkit-mask: var(--cg-github-icon) center / contain no-repeat;
+  mask: var(--cg-github-icon) center / contain no-repeat;
+}
+
+/* Primary CTA — className: 'navbar-cta-button' */
+.rightArea :global(.navbar-cta-button) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.05rem;
+  border-radius: var(--cg-radius-btn);
   background: var(--cg-accent);
-
   color: #ffffff !important;
-
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
-
   line-height: 1.2;
-
   white-space: nowrap;
-
   text-decoration: none !important;
-
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.15s ease;
 }
 
-.rightArea :global(.navbar-cta-button:hover) {
-  background: var(--cg-accent-dark);
-
-  color: #ffffff !important;
+.rightArea :global(.navbar-cta-button::before) {
+  /* "live" indicator dot */
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
+.rightArea :global(.navbar-cta-button:hover),
 .rightArea :global(.navbar-cta-button.navbar__link--active) {
-  background: var(--cg-accent);
-
+  background: var(--cg-accent-dark);
   color: #ffffff !important;
 }
 
@@ -279,13 +269,31 @@
 
 
 /* =========================================================
-   TABLET / DESKTOP
+   NARROW DESKTOP (997–1180px): tighten so nothing overflows
 ========================================================= */
 
-@media (min-width: 1024px) {
+@media (min-width: 997px) and (max-width: 1180px) {
   .navbarInner {
-    padding-left: 32px;
-    padding-right: 32px;
+    padding: 0 20px;
+    gap: 12px;
+  }
+
+  .wordmark {
+    display: none;
+  }
+
+  .navLinks :global(.navbar__link) {
+    padding: 0.5rem 0.55rem;
+    font-size: 0.88rem;
+  }
+
+  .navLinks :global(.navbar__link--active::after) {
+    left: 0.55rem;
+    right: 0.55rem;
+  }
+
+  .rightArea :global(.navbar-github-link) {
+    display: none;
   }
 }
 
@@ -297,26 +305,13 @@
 @media (max-width: 996px) {
   .navbarInner {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 0 20px;
   }
 
   .brandArea {
     flex: 1;
-  }
-
-  .brandWrapper {
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
   }
 
   .logo {
@@ -325,15 +320,11 @@
 
   .mobileToggle {
     display: flex;
-
     align-items: center;
     justify-content: center;
   }
 
-  .navLinks {
-    display: none;
-  }
-
+  .navLinks,
   .rightArea {
     display: none;
   }
